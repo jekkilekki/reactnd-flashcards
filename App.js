@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { StyleSheet, Text, View, Image, Platform, StatusBar } from 'react-native'
+import firebase from 'firebase'
 import { createStore } from 'redux'
 import { Provider } from 'react-redux'
 import { Constants } from 'expo'
@@ -17,6 +18,17 @@ function FlashStatusBar ({ backgroundColor, ...props }) {
 }
 
 export default class App extends Component {
+  componentWillMount() {
+    firebase.initializeApp({
+      apiKey: "AIzaSyAQCcCzM1EfWGePzS4o4RhOjfPcZ8CmBGE",
+      authDomain: "k2kflashcards.firebaseapp.com",
+      databaseURL: "https://k2kflashcards.firebaseio.com",
+      projectId: "k2kflashcards",
+      storageBucket: "k2kflashcards.appspot.com",
+      messagingSenderId: "175054501148"
+    })
+  }
+
   componentDidMount() {
     // setLocalNotification()
   }

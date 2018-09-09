@@ -20,6 +20,7 @@
   },
   "dependencies": {
     "expo": "^27.0.1",
+    "firebase": "^5.4.2",
     "native-base": "^2.8.0",
     "react": "16.3.1",
     "react-native": "~0.55.2",
