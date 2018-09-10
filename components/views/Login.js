@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { View, Text, StyleSheet } from 'react-native'
 import { Container, Header, Content, Form, Item, Input, Label, Button } from 'native-base'
+import Nav from '../shared/Nav'
 
 class Login extends Component {
   state = {
@@ -11,8 +12,8 @@ class Login extends Component {
   render() {
     return (
       <Container>
-        <Header />
-        <Content>
+        <Nav headerTitle='Login'/>
+        <Content padder>
           <Form>
             <Item floatingLabel>
               <Label>Email</Label>

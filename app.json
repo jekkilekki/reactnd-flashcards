@@ -1,5 +1,10 @@
 {
   "expo": {
-    "sdkVersion": "27.0.0"
+    "sdkVersion": "27.0.0",
+    "splash": {
+      "image": "./assets/img/k2k-logo-gold.png",
+      "backgroundColor": "#009688",
+      "resizeMode": "cover"
+    }
   }
 }
