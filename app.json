@@ -1,10 +1,30 @@
 {
   "expo": {
+    "name": "K2K Flashcards",
+    "description": "Korean language vocabulary and grammar flashcards for quick study from KeyToKorean.com",
+    "slug": "k2k-flashcards",
+    "privacy": "public",
     "sdkVersion": "27.0.0",
+    "platforms": ["ios", "android"],
+    "githubUrl": "https://github.com/jekkilekki/reactnd-flashcards",
+    "orientation": "default",
+    "primaryColor": "#009688",
+    "icon": "./assets/img/k2k-logo-gold.png",
     "splash": {
       "image": "./assets/img/k2k-logo-gold.png",
       "backgroundColor": "#009688",
-      "resizeMode": "cover"
+      "resizeMode": "contain"
+    },
+    "notification": {
+      "icon": "./assets/img/k2k-logo-gold.png",
+      "color": "#004d40",
+      "androidMode": "collapse",
+      "androidCollapsedTitle": "#{unread_notifications} new interactions"
+    },
+    "updates": {
+      "enabled": true,
+      "checkAutomatically": "ON_LOAD",
+      "fallbackToCacheTimeout": 30000
     }
   }
 }

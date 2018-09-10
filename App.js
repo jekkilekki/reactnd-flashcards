@@ -9,6 +9,8 @@ import reducer from './reducers'
 import { teal500, teal900, teal200 } from './utils/colors'
 import { AppLoading, Asset, Font, LinearGradient } from 'expo'
 import Login from './components/views/Login'
+import Login2 from './components/views/Login2'
+import DeckList from './components/views/DeckList'
 
 /**
  * Work on Async font / asset loading + AppLoading
@@ -77,8 +79,9 @@ export default class App extends Component {
   }
 
   render() {
+    // const store = this.configureStore()
     return (
-      <Provider store={this.configureStore}>
+      // <Provider store={createStore(reducer)}>
         <View style={{flex: 1}}>
           <FlashStatusBar backgroundColor={teal500} barStyle='light-content' />
           {/* <LinearGradient
@@ -95,7 +98,8 @@ export default class App extends Component {
           <Text style={[styles.container, {textAlign: 'center'}]}>Splash Screen Logo</Text> */}
           {
             this.state.assetsLoaded
-              ? <Login />
+              // ? <Login />
+              ? <Login2 />
               : <AppLoading 
                   startAsync={this._loadAssetsAsync}
                   onFinish={() => this.setState({ assetsLoaded: true })}
@@ -104,7 +108,7 @@ export default class App extends Component {
           }
           
         </View>
-      </Provider>
+      // </Provider>
     );
   }
 
@@ -115,7 +119,7 @@ export default class App extends Component {
     ])
     // const imgAssets = cacheImages([])
 
-    await Promise.all([...fontAssets, ...imgAssets])
+    await Promise.all([...fontAssets])
   }
 
 }
