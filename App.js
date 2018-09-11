@@ -8,6 +8,7 @@ import reducer from './reducers'
 // import { setLocalNotification } from './utils/helpers'
 import { teal500, teal900, teal200 } from './utils/colors'
 import { AppLoading, Asset, Font, LinearGradient } from 'expo'
+import Loader from './components/views/Loader'
 import Login from './components/views/Login'
 import Login2 from './components/views/Login2'
 import DeckList from './components/views/DeckList'
@@ -48,7 +49,7 @@ function cacheImages(images) {
 
 export default class App extends Component {
   state = {
-    assetsLoaded: false,
+    assetsLoaded: true,
   }
 
   componentWillMount() {
@@ -82,7 +83,7 @@ export default class App extends Component {
     // const store = this.configureStore()
     return (
       // <Provider store={createStore(reducer)}>
-        <View style={{flex: 1}}>
+        <View style={styles.container}>
           <FlashStatusBar backgroundColor={teal500} barStyle='light-content' />
           {/* <LinearGradient
             colors={[teal500, teal900]}

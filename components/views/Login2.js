@@ -3,43 +3,87 @@ import { View, Text, Image, StyleSheet } from 'react-native'
 import { Container, Header, Content, Form, Item, Input, Icon, Label, Button } from 'native-base'
 import Nav from '../shared/Nav'
 import { white, teal500 } from '../../utils/colors'
+import firebase from 'firebase'
 
-class Login extends Component {
+// CRM
+import { MKTextField, MKColor, MKButton } from 'react-native-material-kit'
+
+// const LoginButton = MKButton.coloredButton()
+//   .withText('Login')
+//   .build()
+
+class Login2 extends Component {
   state = {
     email: '',
-    password: ''
+    password: '',
+    error: '',
+    loading: false
+  }
+
+  onButtonPress = () => {
+    const { email, password } = this.state
+    this.setState({ error: '', loading: true })
+
+    firebase.auth().signInWithEmailAndPassword( email, password )
+      .then(this.onAuthSuccess.bind(this))
+      .catch(() => {
+        firebase.auth().createUserWithEmailAndPassword( email, password )
+          .then(this.onAuthSuccess.bind(this))
+          .catch(this.onAuthFailed.bind(this))
+      })
+  }
+
+  onAuthSuccess = () => {
+    this.setState({
+      email: '',
+      password: '',
+      error: '',
+      loading: false
+    })
+  }
+
+  onAuthFailed = () => {
+    this.setState({
+      error: 'Authentication failed. Please try again.',
+      loading: false
+    })
+  }
+
+  renderLoader = () => {
+    if ( ! this.state.assetsLoaded ) {
+      return <Loader />
+    }
   }
 
   render() {
+    // const { fieldStyles, loginButtonArea, errorMessage } = this.styles
+
     return (
       <Container>
-        <Nav headerTitle='Login'/>
+        {/* <Nav headerTitle='Login'/> */}
         <Content padder>
-          <Image source={{uri: '../../assets/img/k2k-gold-logo.png'}} />
-          <Form>
-            <Item floatingLabel>
-              <Label>Email</Label>
-              {/* <Icon active name='ios-log-in' /> */}
-              <Input 
-                value={this.state.email}
-                onChange={(e) => this.setState({ email: e })}
-              />
-            </Item>
-            <Item floatingLabel last>
-              <Label>Password</Label>
-              <Input 
-                value={this.state.email}
-                onChange={(e) => this.setState({ password: e })}
-              />
-              <Icon active name='eye' />
-            </Item>
-            <Button block style={styles.button}>
-              <Text style={styles.buttonText}>Get Started</Text>
-            </Button>
-            <Button block style={[styles.button, styles.buttonOutline]}>
-              <Text style={styles.buttonOutlineText}>Login</Text>
-            </Button>
-          </Form>
+          <Text>Welcome to the Flashcard App!</Text>
+          <Text style={styles.errorMessage}>{this.state.error}</Text>
+          <MKTextField
+            text={this.state.email}
+            onTextChange={email => this.setState({ email })}
+            // textInputStyle={styles.fieldStyles}
+            placeholder={'Email'}
+            tintColor={MKColor.Teal}
+          />
+          <MKTextField
+            text={this.state.password}
+            onTextChange={password => this.setState({ password })}
+            // textInputStyle={styles.fieldStyles}
+            placeholder={'Password'}
+            tintColor={MKColor.Teal}
+            password={true}
+          />
+          <Button block style={styles.button}>
+            <Text style={styles.buttonText} onPress={this.onButtonPress.bind(this)}>
+              Login
+            </Text>
+          </Button>
         </Content>
       </Container>
     )
@@ -47,6 +91,22 @@ class Login extends Component {
 }
 
 const styles = StyleSheet.create({
+  form: {
+    paddingBottom: 10,
+    width: 200,
+  },
+  fieldStyles: {
+    height: 40,
+    color: MKColor.purple,
+    width: 200,
+  },
+  loginButtonArea: {
+    marginTop: 20,
+  },
+  errorMessage: {
+    backgroundColor: '#55ffff',
+    alignSelf: 'center'
+  },
   button: {
     marginTop: 10,
     marginLeft: 10,
@@ -69,4 +129,4 @@ const styles = StyleSheet.create({
   }
 })
 
-export default Login
+export default Login2
