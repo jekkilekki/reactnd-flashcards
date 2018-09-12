@@ -6,6 +6,9 @@
 # dependencies
 /node_modules
 
+# firebase
+/utils/_config.js
+
 # misc
 .env.local
 .env.development.local

@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
+import { View } from 'react-native'
 import { Header, Title, Button, Left, Right, Body, Icon } from 'native-base'
 import { teal500 } from '../../utils/colors'
 
-export default class HeaderExample extends Component {
+class Nav extends Component {
   render() {
     const { headerTitle } = this.props
 
@@ -21,3 +22,5 @@ export default class HeaderExample extends Component {
     )
   }
 }
+
+export default Nav

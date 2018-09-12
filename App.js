@@ -1,142 +1,71 @@
 import React, { Component } from 'react'
-import { StyleSheet, Text, View, Image, Platform, StatusBar } from 'react-native'
+import { View, StatusBar } from 'react-native'
+import { Asset, AppLoading, SplashScreen } from 'expo'
 import firebase from 'firebase'
+import { apiKey, authDomain, databaseURL, projectId, storageBucket, messagingSenderId } from './utils/_config'
 import { createStore } from 'redux'
 import { Provider } from 'react-redux'
 import { Constants } from 'expo'
-import reducer from './reducers'
-// import { setLocalNotification } from './utils/helpers'
-import { teal500, teal900, teal200 } from './utils/colors'
-import { AppLoading, Asset, Font, LinearGradient } from 'expo'
-import Loader from './components/views/Loader'
+
+import Splash from './components/views/Splash'
+import Nav from './components/shared/Nav'
 import Login from './components/views/Login'
-import Login2 from './components/views/Login2'
-import DeckList from './components/views/DeckList'
+import reducer from './reducers'
+import { teal500 } from './utils/colors'
 
-/**
- * Work on Async font / asset loading + AppLoading
- * https: //github.com/GeekyAnts/NativeBase/issues/1466
- * https: //javascriptrambling.blogspot.com/2018/03/expo-icon-fonts-with-react-native-and.html
- * https: //docs.expo.io/versions/v29.0.0/guides/preloading-and-caching-assets
- * https: //docs.expo.io/versions/v29.0.0/guides/using-custom-fonts
- * https: //docs.expo.io/versions/v29.0.0/sdk/app-loading.html
- * 
- * Splash Screen
- * https: //docs.expo.io/versions/v29.0.0/guides/splash-screens
- */
-
-function FlashStatusBar ({ backgroundColor, ...props }) {
+function AppStatusBar ({ backgroundColor, ...props }) {
   return (
-    <View style={{backgroundColor, height: Constants.statusBarHeight }}>
+    <View style={{backgroundColor, height: Constants.statusBarHeight}}>
       <StatusBar translucent backgroundColor={backgroundColor} {...props} />
     </View>
   )
 }
 
-function cacheFonts(fonts) {
-  return fonts.map(font => Font.loadAsync(font))
-}
+const store = createStore(reducer)
 
-function cacheImages(images) {
-  return images.map(image => {
-    if (typeof image === 'string') {
-      return Image.prefetch(image)
-    } else {
-      return Asset.fromModule(image).downloadAsync()
-    }
-  })
-}
-
-export default class App extends Component {
+class App extends Component {
   state = {
-    assetsLoaded: true,
+    fontLoaded: false,
+    authedUser: null
   }
-
-  componentWillMount() {
+  
+  async componentWillMount() {
     firebase.initializeApp({
-      apiKey: "AIzaSyAQCcCzM1EfWGePzS4o4RhOjfPcZ8CmBGE",
-      authDomain: "k2kflashcards.firebaseapp.com",
-      databaseURL: "https://k2kflashcards.firebaseio.com",
-      projectId: "k2kflashcards",
-      storageBucket: "k2kflashcards.appspot.com",
-      messagingSenderId: "175054501148"
+      apiKey: apiKey,
+      authDomain: authDomain,
+      databaseURL: databaseURL,
+      projectId: projectId,
+      storageBucket: storageBucket,
+      messagingSenderId: messagingSenderId
     })
+
+    // SplashScreen.preventAutoHide();
+
+    await Expo.Font.loadAsync({
+      'Roboto': require('native-base/Fonts/Roboto.ttf'),
+      'Roboto_medium': require('native-base/Fonts/Roboto_medium.ttf'),
+    })
+    this.setState({ fontLoaded: true })
   }
 
   componentDidMount() {
     // setLocalNotification()
   }
 
-  configureStore = (initialState) => {
-    const store = createStore(reducer, initialState)
-    if (module.hot) {
-      // Enable Webpack hot module replacement for reducers
-      module.hot.accept('./reducers', () => {
-        const nextRootReducer = require('./reducers/index')
-        store.replaceReducer(nextRootReducer)
-      })
-    }
-    return store
-  }
-
   render() {
-    // const store = this.configureStore()
+    if ( ! this.state.fontLoaded ) {
+      return null;
+    }
+
     return (
-      // <Provider store={createStore(reducer)}>
-        <View style={styles.container}>
-          <FlashStatusBar backgroundColor={teal500} barStyle='light-content' />
-          {/* <LinearGradient
-            colors={[teal500, teal900]}
-            style={{
-              position: 'absolute',
-              left: 0,
-              right: 0,
-              top: 0,
-              height: 300,
-            }}
-          />
-          <Image style={[styles.logo]} source={require('./assets/img/k2k-logo-gold.png')} />
-          <Text style={[styles.container, {textAlign: 'center'}]}>Splash Screen Logo</Text> */}
-          {
-            this.state.assetsLoaded
-              // ? <Login />
-              ? <Login2 />
-              : <AppLoading 
-                  startAsync={this._loadAssetsAsync}
-                  onFinish={() => this.setState({ assetsLoaded: true })}
-                  onError={console.warn}
-                />
-          }
-          
+      <Provider store={store}>
+        <View style={{flex: 1}}>
+          <AppStatusBar backgroundColor={teal500} barStyle='light-content' />
+          <Splash />
         </View>
-      // </Provider>
-    );
+      </Provider>
+    )
   }
-
-  async _loadAssetsAsync() {
-    const fontAssets = cacheFonts([
-      require("native-base/Fonts/Roboto.ttf"),
-      require("native-base/Fonts/Roboto_medium.ttf")
-    ])
-    // const imgAssets = cacheImages([])
-
-    await Promise.all([...fontAssets])
-  }
-
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  logo: {
-    resizeMode: 'contain',
-    height: 100,
-    justifyContent: 'center',
-    margin: 0,
-    padding: 0,
-  }
-});
+export default App

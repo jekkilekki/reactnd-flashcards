@@ -11,9 +11,9 @@
     "primaryColor": "#009688",
     "icon": "./assets/img/k2k-logo-gold.png",
     "splash": {
-      "image": "./assets/img/k2k-logo-gold.png",
+      "image": "./assets/img/app-screen-medium.jpg",
       "backgroundColor": "#009688",
-      "resizeMode": "contain"
+      "resizeMode": "cover"
     },
     "notification": {
       "icon": "./assets/img/k2k-logo-gold.png",
