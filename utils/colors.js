@@ -12,6 +12,18 @@ export const black = '#000000'
 export const white = '#ffffff'
 
 /*--------------------------------------------------
+ # iOS Colors
+--------------------------------------------------*/
+export const iosRed = 'rgb(255,59,48)'
+export const iosOrange = 'rgb(255,149,0)'
+export const iosYellow = 'rgb(255,204,0)'
+export const iosGreen = 'rgb(76,217,100)'
+export const iosTeal = 'rgb(90,200,250)'
+export const iosBlue = 'rgb(0,122,255)'
+export const iosPurple = 'rgb(88,86,214)'
+export const iosPink = 'rgb(255,45,85)'
+
+/*--------------------------------------------------
  # Google MD Colors
 --------------------------------------------------*/
 export const primary = '#6200ee'

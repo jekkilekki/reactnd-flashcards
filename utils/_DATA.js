@@ -1,4 +1,29 @@
-let words = [{
+import { blue500, purple500, pink500 } from './colors'
+
+export const decks = [{
+    level: "A",
+    color: blue500,
+    icon: "walk",
+    name: "Beginner",
+    description: "Beginner level vocabulary."
+  },
+  {
+    level: "B",
+    color: purple500,
+    icon: "bus",
+    name: "Intermediate",
+    description: "Intermediate level vocabulary."
+  },
+  {
+    level: "C",
+    color: pink500,
+    icon: "jet",
+    name: "Advanced",
+    description: "Advanced level vocabulary."
+  }
+]
+
+export const cards = [{
     "ranking": 1195,
     "id": 1,
     "word": "가게",

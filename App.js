@@ -1,25 +1,17 @@
 import React, { Component } from 'react'
-import { View, StatusBar } from 'react-native'
+import { View } from 'react-native'
 import { Asset, AppLoading, SplashScreen } from 'expo'
 import firebase from 'firebase'
 import { apiKey, authDomain, databaseURL, projectId, storageBucket, messagingSenderId } from './utils/_config'
 import { createStore } from 'redux'
 import { Provider } from 'react-redux'
-import { Constants } from 'expo'
 
 import Splash from './components/views/Splash'
 import Nav from './components/shared/Nav'
 import Login from './components/views/Login'
+import DeckList from './components/views/DeckList'
 import reducer from './reducers'
 import { teal500 } from './utils/colors'
-
-function AppStatusBar ({ backgroundColor, ...props }) {
-  return (
-    <View style={{backgroundColor, height: Constants.statusBarHeight}}>
-      <StatusBar translucent backgroundColor={backgroundColor} {...props} />
-    </View>
-  )
-}
 
 const store = createStore(reducer)
 
@@ -60,8 +52,7 @@ class App extends Component {
     return (
       <Provider store={store}>
         <View style={{flex: 1}}>
-          <AppStatusBar backgroundColor={teal500} barStyle='light-content' />
-          <Splash />
+          <DeckList />
         </View>
       </Provider>
     )
