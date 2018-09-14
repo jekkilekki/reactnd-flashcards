@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { View, Text, Image, StyleSheet } from 'react-native'
 import { Container, Header, Content, Form, Item, Input, Icon, Label, Button } from 'native-base'
-import Nav from '../shared/Nav'
+import Nav from '../shared/TopBar'
 import { white, teal500, error } from '../../utils/colors'
 import firebase from 'firebase'
 

@@ -1,24 +1,30 @@
 import React, { Component } from 'react'
-import { View } from 'react-native'
+import { View, Platform } from 'react-native'
 import { Asset, AppLoading, SplashScreen } from 'expo'
 import firebase from 'firebase'
 import { apiKey, authDomain, databaseURL, projectId, storageBucket, messagingSenderId } from './utils/_config'
 import { createStore } from 'redux'
 import { Provider } from 'react-redux'
+import { createMaterialTopTabNavigator, createStackNavigator } from 'react-navigation'
 
+import { cards, decks } from './utils/_DATA'
 import Splash from './components/views/Splash'
-import Nav from './components/shared/Nav'
+import TopBar from './components/shared/TopBar'
 import Login from './components/views/Login'
 import DeckList from './components/views/DeckList'
+import CardList from './components/views/CardList'
 import reducer from './reducers'
-import { teal500 } from './utils/colors'
+import { tealA700, white } from './utils/colors'
 
 const store = createStore(reducer)
 
 class App extends Component {
   state = {
     fontLoaded: false,
-    authedUser: null
+    authedUser: null,
+    nightMode: false,
+    decks: decks,
+    cards: cards
   }
   
   async componentWillMount() {
@@ -52,7 +58,9 @@ class App extends Component {
     return (
       <Provider store={store}>
         <View style={{flex: 1}}>
-          <DeckList />
+          {/* <TopBar backgroundColor={tealA700} /> */}
+          {/* <MainNavigator /> */}
+          <DeckList decks={decks} cards={cards} />
         </View>
       </Provider>
     )

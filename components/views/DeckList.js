@@ -1,39 +1,22 @@
 import React, { Component } from 'react'
 import { View, Text, Image, StyleSheet } from 'react-native'
-import { Container, Header, Content, List, ListItem, Card, CardItem, Left, Body, Right, H1, H2, H3, Icon } from 'native-base'
-import { cards, decks } from '../../utils/_DATA'
-import { tealA700 } from '../../utils/colors'
-import Nav from '../shared/Nav'
+import { Container, Header, Content, List, ListItem, Card, CardItem, Left, Body, Right, H1, H2, H3, Button, Icon } from 'native-base'
+import { tealA700, teal900, teal800, background, primary, secondary } from '../../utils/colors'
+import TopBar from '../shared/TopBar'
+import DeckItem from '../shared/DeckItem'
 
 class DeckList extends Component {
   render() {
+    const { decks, cards } = this.props
+
     return (
-      <Container>
-        <Nav headerTitle={"Decks"} headerColor={tealA700}/>
-        <Content padder>
+      <Container style={{backgroundColor: 'white'}}>
+        <TopBar headerTitle={"Decks"} headerColor={tealA700}/>
+        <Content>
           <List
             dataArray={decks}
             renderRow={(deck) =>
-              // <ListItem>
-                <Card transparent>
-                  <CardItem
-                    button
-                    style={[{backgroundColor: deck.color}, styles.card]}
-                    onPress={() => alert("Pressed the card!")}
-                  >
-                    <Left>
-                      <Icon name={deck.icon} />
-                    </Left>
-                    <View>
-                      <H3>{deck.name}</H3>
-                      <Text>{deck.description}</Text>
-                    </View>
-                    <Right>
-                      <Icon name="arrow-forward" onPress={() => alert("Pressed the button!")} />
-                    </Right>
-                  </CardItem>
-                </Card>
-              // </ListItem>
+              <DeckItem deck={deck} />
             }
           >
           </List>
@@ -45,7 +28,7 @@ class DeckList extends Component {
 
 const styles = StyleSheet.create({
   card: {
-    padding: 20
+
   }
 })
 

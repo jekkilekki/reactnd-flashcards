@@ -1,10 +1,12 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Constants } from 'expo'
-import { View, Platform, StatusBar } from 'react-native'
-import { Header, Title, Button, Left, Right, Body, Icon } from 'native-base'
+import { View, Text, Platform, StatusBar } from 'react-native'
+import { Header, Title, Button, Left, Right, Body, Icon, Tabs, Tab, TabHeading } from 'native-base'
 import { teal500 } from '../../utils/colors'
 import UserNav from './UserNav'
+import DeckList from '../views/DeckList'
+import CardList from '../views/CardList'
 
 function AppStatusBar ({ backgroundColor, ...props }) {
   return (
@@ -14,7 +16,7 @@ function AppStatusBar ({ backgroundColor, ...props }) {
   )
 }
 
-class Nav extends Component {
+class TopBar extends Component {
   render() {
     const { headerTitle, headerColor } = this.props
     let hColor = headerColor === null ? 'teal500' : headerColor
@@ -22,7 +24,7 @@ class Nav extends Component {
     return (
       <View>
         <AppStatusBar backgroundColor={hColor} barStyle='light-content' /> 
-        <Header style={{backgroundColor: hColor}}>
+        <Header hasTabs style={{backgroundColor: hColor}}>
           <Left>
             <Button transparent>
               { Platform === 'ios'
@@ -38,9 +40,21 @@ class Nav extends Component {
             <UserNav />
           </Right>
         </Header>
+        {/* <Tabs>
+          <Tab heading={
+            <TabHeading><Text>Decks</Text></TabHeading>
+          }>
+            <DeckList />
+          </Tab>
+          <Tab heading={
+            <TabHeading><Text>Cards</Text></TabHeading>
+          }>
+            <CardList />
+          </Tab>
+        </Tabs> */}
       </View>
     )
   }
 }
 
-export default connect()(Nav)
+export default connect()(TopBar)

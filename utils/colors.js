@@ -26,11 +26,12 @@ export const iosPink = 'rgb(255,45,85)'
 /*--------------------------------------------------
  # Google MD Colors
 --------------------------------------------------*/
-export const primary = '#6200ee'
-export const primaryVariant = '#3700b3'
-export const secondary = '#03dac6'
-export const secondaryVariant = '#018786'
-export const background = '#ffffff'
+export const primary = '#287B81'
+export const primaryVariant = '#64A0A1'
+export const secondary = '#57C98D'
+export const secondaryVariant = '#77D3A4'
+export const background = '#2A2F35'
+
 export const surface = '#ffffff'
 export const error = '#c51162'
 export const alert = '#c51162'
