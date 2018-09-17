@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { View, Text, Image, StyleSheet } from 'react-native'
+import { connect } from 'react-redux'
 import { Container, Header, Content, List, ListItem, Card, CardItem, Left, Body, Right, H1, H2, H3, Button, Icon } from 'native-base'
 import { tealA700, teal900, teal800, background, primary, secondary } from '../../utils/colors'
 import TopBar from '../shared/TopBar'
@@ -32,4 +33,8 @@ const styles = StyleSheet.create({
   }
 })
 
-export default DeckList
+function mapStateToProps(state) {
+  return {decks: state.decks}
+}
+
+export default connect(mapStateToProps)(DeckList)

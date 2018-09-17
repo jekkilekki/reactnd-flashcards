@@ -22,6 +22,7 @@ class App extends Component {
   state = {
     fontLoaded: false,
     authedUser: null,
+    loggedIn: true,
     nightMode: false,
     decks: decks,
     cards: cards
@@ -50,6 +51,17 @@ class App extends Component {
     // setLocalNotification()
   }
 
+  renderInitialView() {
+    switch( this.state.loggedIn ) {
+      case true: 
+        return <DeckList />
+      case false: 
+        return <Login />
+      default: 
+        return <Loader />
+    }
+  }
+
   render() {
     if ( ! this.state.fontLoaded ) {
       return null;
@@ -58,9 +70,7 @@ class App extends Component {
     return (
       <Provider store={store}>
         <View style={{flex: 1}}>
-          {/* <TopBar backgroundColor={tealA700} /> */}
-          {/* <MainNavigator /> */}
-          <DeckList decks={decks} cards={cards} />
+          {this.renderInitialView()}
         </View>
       </Provider>
     )
