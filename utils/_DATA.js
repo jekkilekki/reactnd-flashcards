@@ -4,6 +4,7 @@ export const decks = [{
     level: "A",
     color: blue500,
     icon: "walk",
+    image: "https://i.ebayimg.com/images/g/7U0AAOSwqu9U0N2Q/s-l300.jpg",
     name: "Beginner",
     description: "Beginner level vocabulary."
   },
@@ -11,6 +12,7 @@ export const decks = [{
     level: "B",
     color: purple500,
     icon: "bus",
+    image: "https://i.ebayimg.com/images/g/uk0AAOSw-W5U0N-p/s-l300.jpg",
     name: "Intermediate",
     description: "Intermediate level vocabulary."
   },
@@ -18,6 +20,7 @@ export const decks = [{
     level: "C",
     color: pink500,
     icon: "jet",
+    image: "https://i.ebayimg.com/images/g/m-AAAOSw8d9U0OEC/s-l300.jpg",
     name: "Advanced",
     description: "Advanced level vocabulary."
   }

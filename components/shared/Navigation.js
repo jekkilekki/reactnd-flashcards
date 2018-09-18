@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Platform } from 'react-native'
-import { createStackNavigator, createMaterialTopTabNavigator } from 'react-navigation'
+import { createStackNavigator, createBottomTabNavigator, createMaterialTopTabNavigator } from 'react-navigation'
 import { Container, Tab, Tabs, Footer, FooterTab, Button, Icon, Text } from 'native-base'
 import DeckList from '../views/DeckList'
 import CardList from '../views/CardList'
@@ -9,13 +9,13 @@ import AddCard from '../views/AddCard'
 import Quiz from '../views/Quiz'
 import { tealA700, tealA400, white } from '../../utils/colors'
 
-export const TabbedNav = createMaterialTopTabNavigator({
+export const TabbedNav = createBottomTabNavigator({
   DeckList: {
     screen: DeckList,
     navigationOptions: {
       tabBarLabel: 'Decks',
       tabBarIcon: ({ tintColor }) =>
-        <Icon name='card' />
+        <Icon name='apps' />
     }
   },
   CardList: {
@@ -23,7 +23,7 @@ export const TabbedNav = createMaterialTopTabNavigator({
     navigationOptions: {
       tabBarLabel: 'Cards',
       tabBarIcon: ({ tintColor }) =>
-        <Icon name='card' />
+        <Icon name='albums' />
     }
   },
   Quiz: {
@@ -31,7 +31,7 @@ export const TabbedNav = createMaterialTopTabNavigator({
     navigationOptions: {
       tabBarLabel: 'Quiz',
       tabBarIcon: ({ tintColor }) => 
-        <Icon name='card' />
+        <Icon name='play' />
     }
   }
 }, {

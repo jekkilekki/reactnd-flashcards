@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Constants } from 'expo'
-import { View, Text, Platform, StatusBar } from 'react-native'
+import { View, Text, Platform, StatusBar, StyleSheet } from 'react-native'
 import { Header, Title, Button, Left, Right, Body, Icon, Tabs, Tab, TabHeading } from 'native-base'
 import { teal500 } from '../../utils/colors'
 import UserNav from './UserNav'
@@ -29,13 +29,13 @@ class TopBar extends Component {
           <Left>
             <Button transparent>
               { Platform === 'ios'
-                ? <Icon name='ios-menu' />
-                : <Icon name='menu' />
+                ? <Icon name='ios-menu' style={styles.menuIcon}/>
+                : <Icon name='menu' style={styles.menuIcon}/>
               }
             </Button>
           </Left>
           <Body>
-            <Title>{headerTitle}</Title>
+            <Title style={{color: 'white'}}>{headerTitle}</Title>
           </Body>
           <Right>
             <UserNav />
@@ -58,5 +58,12 @@ class TopBar extends Component {
     )
   }
 }
+
+const styles = StyleSheet.create({
+  menuIcon: {
+    color: 'white',
+    fontSize: 20
+  }
+})
 
 export default connect()(TopBar)

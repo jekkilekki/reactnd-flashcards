@@ -55,7 +55,7 @@ class App extends Component {
   renderInitialView() {
     switch( this.state.loggedIn ) {
       case true: 
-        return <DeckList />
+        return <TabbedNav />
       case false: 
         return <Login />
       default: 

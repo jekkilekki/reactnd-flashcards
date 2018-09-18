@@ -6,7 +6,7 @@ import { Container, Header, Content, List, ListItem, Card, CardItem, Left, Body,
 import { tealA700, teal900, teal800, background, primary, secondary } from '../../utils/colors'
 import TopBar from '../shared/TopBar'
 import DeckItem from '../shared/DeckItem'
-import FooterNavigation from '../shared/Navigation'
+import { TabbedNav } from '../shared/Navigation'
 
 class DeckList extends Component {
   render() {
@@ -25,7 +25,6 @@ class DeckList extends Component {
           >
           </List>
         </Content>
-        {/* <FooterNavigation /> */}
       </Container>
     )
   }

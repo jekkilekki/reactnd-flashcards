@@ -1,7 +1,8 @@
-import { decks } from '../utils/_DATA'
+import { decks, cards } from '../utils/_DATA'
 
 const initialState = {
-  decks
+  decks,
+  cards
 }
 
 export default (state = initialState, action) => {

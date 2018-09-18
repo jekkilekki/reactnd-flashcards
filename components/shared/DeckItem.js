@@ -18,11 +18,11 @@ const DeckItem = (props) => {
         > */}
           <Left>
             <Card style={styles.cardImage}>
-              <CardItem style={[styles.cardImage, {backgroundColor: deck.color}]}>
-                <ImageBackground source={{uri: '../../assets/img/app-screen-medium.jpg'}} style={{width: '100%', height: '100%'}}>
+              {/* <CardItem style={[styles.cardImage, {backgroundColor: deck.color}]}> */}
+                <ImageBackground source={{uri: deck.image}} style={[styles.cardImage, {width: '100%', height: '100%'}]}>
                   <Icon name="heart" style={styles.icon}/>
                 </ImageBackground>
-              </CardItem>
+              {/* </CardItem> */}
             </Card>
           </Left>
           <Body style={styles.deck}>
@@ -30,7 +30,7 @@ const DeckItem = (props) => {
             <Text style={styles.info}>{deck.description}</Text>
             <Text style={styles.info}><Icon name="copy" style={styles.icon}/> {deck.length} Cards</Text>
           </Body>
-          <Right style={styles.deck}>
+          <Right style={styles.deckArrow}>
             <Icon name="arrow-forward" onPress={() => alert("Pressed the button!")} />
           </Right>
         {/* </CardItem> */}
@@ -44,10 +44,14 @@ const styles = StyleSheet.create({
     height: 120,
     borderBottomWidth: 0
   },
+  deckArrow: {
+    height: 100,
+    borderBottomWidth: 0
+  },
   cardImage: {
     width: 70,
     height: 100,
-    borderRadius: 8
+    borderRadius: 8,
   },
   title: {
     fontSize: 16,
