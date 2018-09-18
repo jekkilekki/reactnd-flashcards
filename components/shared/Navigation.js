@@ -1,10 +1,59 @@
 import React, { Component } from 'react'
 import { Platform } from 'react-native'
+import { createStackNavigator, createMaterialTopTabNavigator } from 'react-navigation'
 import { Container, Tab, Tabs, Footer, FooterTab, Button, Icon, Text } from 'native-base'
 import DeckList from '../views/DeckList'
 import CardList from '../views/CardList'
+import AddDeck from '../views/AddDeck'
+import AddCard from '../views/AddCard'
+import Quiz from '../views/Quiz'
+import { tealA700, tealA400, white } from '../../utils/colors'
 
-class Navigation extends Component {
+export const TabbedNav = createMaterialTopTabNavigator({
+  DeckList: {
+    screen: DeckList,
+    navigationOptions: {
+      tabBarLabel: 'Decks',
+      tabBarIcon: ({ tintColor }) =>
+        <Icon name='card' />
+    }
+  },
+  CardList: {
+    screen: CardList,
+    navigationOptions: {
+      tabBarLabel: 'Cards',
+      tabBarIcon: ({ tintColor }) =>
+        <Icon name='card' />
+    }
+  },
+  Quiz: {
+    screen: Quiz,
+    navigationOptions: {
+      tabBarLabel: 'Quiz',
+      tabBarIcon: ({ tintColor }) => 
+        <Icon name='card' />
+    }
+  }
+}, {
+  tabBarOptions: {
+    activeTintColor: Platform.OS === 'ios' ? tealA700 : white,
+    inactiveTintColor: Platform.OS === 'ios' ? tealA400 : white,
+    swipeEnabled: true,
+    style: {
+      height: 56,
+      backgroundColor: Platform.OS === 'ios' ? white: tealA700,
+      shadowColor: 'rgba(0,0,0,0.24)',
+      shadowOffset: {
+        width: 0,
+        height: 2,
+      },
+      shadowRadius: 4,
+      shadowOpacity: 1
+    }
+  }
+})
+
+class FooterNavigation extends Component {
   render() {
     return (
       <Container>
@@ -39,9 +88,9 @@ class Navigation extends Component {
   }
 }
 
-export default Navigation
+export default FooterNavigation
 
-export const Tabs = createMaterialTopTabNavigator({
+export const TabsOriginal = createMaterialTopTabNavigator({
   DeckList: {
     screen: DeckList,
     navigationOptions: {

@@ -5,6 +5,7 @@ import { View, Text, Platform, StatusBar } from 'react-native'
 import { Header, Title, Button, Left, Right, Body, Icon, Tabs, Tab, TabHeading } from 'native-base'
 import { teal500 } from '../../utils/colors'
 import UserNav from './UserNav'
+import { TabbedNav } from './Navigation'
 import DeckList from '../views/DeckList'
 import CardList from '../views/CardList'
 
@@ -40,6 +41,7 @@ class TopBar extends Component {
             <UserNav />
           </Right>
         </Header>
+        {/* <TabbedNav /> */}
         {/* <Tabs>
           <Tab heading={
             <TabHeading><Text>Decks</Text></TabHeading>

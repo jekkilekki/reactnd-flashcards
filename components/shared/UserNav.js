@@ -7,8 +7,8 @@ class UserNav extends Component {
     return (
       <Button transparent>
         { Platform === 'ios'
-          ? <Icon name="ios-power" />
-          : <Icon name="md-power" />
+          ? <Icon name="ios-person" />
+          : <Icon name="md-person" />
         }
       </Button>
     )
