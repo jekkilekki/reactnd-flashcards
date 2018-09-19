@@ -6,16 +6,18 @@ import DeckList from '../views/DeckList'
 import CardList from '../views/CardList'
 import AddDeck from '../views/AddDeck'
 import AddCard from '../views/AddCard'
+import Login from '../views/Login'
 import Quiz from '../views/Quiz'
+import TopBar from './TopBar'
 import { tealA700, tealA400, white } from '../../utils/colors'
 
-export const TabbedNav = createBottomTabNavigator({
+const appTabs = {
   DeckList: {
     screen: DeckList,
     navigationOptions: {
       tabBarLabel: 'Decks',
       tabBarIcon: ({ tintColor }) =>
-        <Icon name='apps' />
+        <Icon name = 'apps' />
     }
   },
   CardList: {
@@ -23,25 +25,27 @@ export const TabbedNav = createBottomTabNavigator({
     navigationOptions: {
       tabBarLabel: 'Cards',
       tabBarIcon: ({ tintColor }) =>
-        <Icon name='albums' />
+        <Icon name = 'albums' />
     }
   },
   Quiz: {
     screen: Quiz,
     navigationOptions: {
       tabBarLabel: 'Quiz',
-      tabBarIcon: ({ tintColor }) => 
-        <Icon name='play' />
+      tabBarIcon: ({ tintColor }) =>
+        <Icon name = 'play' />
     }
   }
-}, {
+}
+
+const appTabsOptions = {
   tabBarOptions: {
     activeTintColor: Platform.OS === 'ios' ? tealA700 : white,
     inactiveTintColor: Platform.OS === 'ios' ? tealA400 : white,
     swipeEnabled: true,
     style: {
       height: 56,
-      backgroundColor: Platform.OS === 'ios' ? white: tealA700,
+      backgroundColor: Platform.OS === 'ios' ? white : tealA700,
       shadowColor: 'rgba(0,0,0,0.24)',
       shadowOffset: {
         width: 0,
@@ -51,44 +55,25 @@ export const TabbedNav = createBottomTabNavigator({
       shadowOpacity: 1
     }
   }
-})
-
-class FooterNavigation extends Component {
-  render() {
-    return (
-      <Container>
-      { Platform === 'ios' 
-        ? <Footer>
-            <FooterTab>
-              <Button vertical>
-                <Icon name='apps' />
-                <Text>Apps</Text>
-              </Button>
-              <Button vertical>
-                <Icon name="camera" />
-                <Text>Camera</Text>
-              </Button>
-              <Button vertical>
-                <Icon active name="navigate" />
-                <Text>Navigate</Text>
-              </Button>
-            </FooterTab>
-          </Footer>
-        : <Tabs>
-          <Tab heading="Decks">
-            <DeckList />
-          </Tab>
-          <Tab heading="Cards">
-            <CardList />
-          </Tab>
-        </Tabs>
-      }
-      </Container>
-    )
-  }
 }
 
-export default FooterNavigation
+export const TabbedNav = Platform.OS === 'ios'
+  ? createBottomTabNavigator(appTabs, appTabsOptions) 
+  : createMaterialTopTabNavigator(appTabs, appTabsOptions)
+
+export const MainNav = createStackNavigator({
+  Home: {
+    screen: TabbedNav,
+  },
+  // Login: {
+  //   screen: Login,
+  //   navigationOptions: {
+  //     title: 'Login/Signup',
+  //     // header: <TopBar headerTitle={'Login'} />,
+  //   }
+  // }
+})
+
 
 export const TabsOriginal = createMaterialTopTabNavigator({
   DeckList: {

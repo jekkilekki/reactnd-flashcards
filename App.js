@@ -10,7 +10,7 @@ import { createMaterialTopTabNavigator, createStackNavigator } from 'react-navig
 import { cards, decks } from './utils/_DATA'
 import Splash from './components/views/Splash'
 import TopBar from './components/shared/TopBar'
-import { TabbedNav } from './components/shared/Navigation'
+import { TabbedNav, MainNav } from './components/shared/Navigation'
 import Login from './components/views/Login'
 import DeckList from './components/views/DeckList'
 import CardList from './components/views/CardList'
@@ -55,7 +55,7 @@ class App extends Component {
   renderInitialView() {
     switch( this.state.loggedIn ) {
       case true: 
-        return <TabbedNav />
+        return <MainNav />
       case false: 
         return <Login />
       default: 

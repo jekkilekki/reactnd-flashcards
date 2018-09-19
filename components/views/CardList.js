@@ -8,7 +8,7 @@ import FlashcardItem from '../shared/FlashcardItem'
 
 class CardList extends Component {
   _keyExtractor( item, index ) {
-    return index
+    return index.toString()
   }
 
   render() {
