@@ -2,11 +2,12 @@ import React from 'react'
 import { Platform, View, Text, Image } from 'react-native'
 import { createStackNavigator, createBottomTabNavigator, createMaterialTopTabNavigator } from 'react-navigation'
 import { Tabs, Button, Icon } from 'native-base'
-import DeckList from '../views/DeckList'
-import CardList from '../views/CardList'
 import About from '../views/About'
-import AddDeck from '../views/AddDeck'
 import AddCard from '../views/AddCard'
+import AddDeck from '../views/AddDeck'
+import CardList from '../views/CardList'
+import DeckList from '../views/DeckList'
+import DeckSingle from '../views/DeckSingle'
 import Login from '../views/Login'
 import Quiz from '../views/Quiz'
 import { tealA700, tealA400, white } from '../../utils/colors'
@@ -63,23 +64,19 @@ export const TabbedNav = Platform.OS === 'ios'
 
 export const MainNav = createStackNavigator({
   Home: TabbedNav,
-  // Login: Login,
+  About: About,
+  Login: Login,
 }, {
   initialRouteName: 'Home',
   navigationOptions: {
     title: 'Korean by heart',
-    // headerTitle:
-    //   <View>
-    //   <Image source={require('../../assets/img/by-heart-no-bg.png')} />
-    //   <Text>Korean by heart</Text>
-    //   </View>,
     headerTintColor: 'white',
     headerStyle: {
       backgroundColor: tealA700
     }, 
     headerRight: (
       <Button transparent
-        onPress={() => alert('Logging you in')}
+        onPress={({navigate}) => navigate('Login')}
       >
         { Platform === 'ios'
           ? <Icon name="ios-person" style={{color: 'white'}}/>
