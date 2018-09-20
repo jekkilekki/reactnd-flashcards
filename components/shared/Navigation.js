@@ -1,7 +1,8 @@
 import React from 'react'
 import { Platform, View, Text, Image } from 'react-native'
-import { createStackNavigator, createBottomTabNavigator, createMaterialTopTabNavigator } from 'react-navigation'
+import { createSwitchNavigator, createStackNavigator, createBottomTabNavigator, createMaterialTopTabNavigator } from 'react-navigation'
 import { Tabs, Button, Icon } from 'native-base'
+import Loader from '../shared/Loader'
 import About from '../views/About'
 import AddCard from '../views/AddCard'
 import AddDeck from '../views/AddDeck'
@@ -47,25 +48,28 @@ const appTabsOptions = {
     style: {
       height: 56,
       backgroundColor: Platform.OS === 'ios' ? white : tealA700,
-      // shadowColor: 'rgba(0,0,0,0.24)',
-      // shadowOffset: {
-      //   width: 0,
-      //   height: 2,
-      // },
-      // shadowRadius: 4,
-      // shadowOpacity: 1
+      shadowColor: 'rgba(0,0,0,0.24)',
+      shadowOffset: {
+        width: 0,
+        height: 2,
+      },
+      shadowRadius: 4,
+      shadowOpacity: 1
     }
   }
 }
 
-export const TabbedNav = Platform.OS === 'ios'
+const TabbedNav = Platform.OS === 'ios'
   ? createBottomTabNavigator(appTabs, appTabsOptions) 
   : createMaterialTopTabNavigator(appTabs, appTabsOptions)
 
-export const MainNav = createStackNavigator({
+const AuthNav = createStackNavigator({ Login: Login })
+
+const MainNav = createStackNavigator({
   Home: TabbedNav,
   About: About,
   Login: Login,
+  DeckSingle: DeckSingle
 }, {
   initialRouteName: 'Home',
   navigationOptions: {
@@ -76,7 +80,7 @@ export const MainNav = createStackNavigator({
     }, 
     headerRight: (
       <Button transparent
-        onPress={({navigate}) => navigate('Login')}
+        onPress={({navigate}) => navigation.navigate('Login')}
       >
         { Platform === 'ios'
           ? <Icon name="ios-person" style={{color: 'white'}}/>
@@ -86,3 +90,11 @@ export const MainNav = createStackNavigator({
     )
   }
 })
+
+export const Navigation = createSwitchNavigator(
+  {
+    // AuthLoading: Loader,
+    App: MainNav,
+    Auth: AuthNav
+  }
+)

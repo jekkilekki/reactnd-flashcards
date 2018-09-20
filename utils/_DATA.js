@@ -1,28 +1,34 @@
 import { blue500, purple500, pink500 } from './colors'
 
 export const decks = [{
+    id: "beginner",
     level: "A",
     color: blue500,
     icon: "walk",
     image: "https://i.ebayimg.com/images/g/7U0AAOSwqu9U0N2Q/s-l300.jpg",
     name: "Beginner",
-    description: "Beginner level vocabulary."
+    description: "Beginner level vocabulary.",
+    cards: []
   },
   {
+    id: "intermediate",
     level: "B",
     color: purple500,
     icon: "bus",
     image: "https://i.ebayimg.com/images/g/uk0AAOSw-W5U0N-p/s-l300.jpg",
     name: "Intermediate",
-    description: "Intermediate level vocabulary."
+    description: "Intermediate level vocabulary.",
+    cards: []
   },
   {
+    id: "advanced",
     level: "C",
     color: pink500,
     icon: "jet",
     image: "https://i.ebayimg.com/images/g/m-AAAOSw8d9U0OEC/s-l300.jpg",
     name: "Advanced",
-    description: "Advanced level vocabulary."
+    description: "Advanced level vocabulary.",
+    cards: []
   }
 ]
 

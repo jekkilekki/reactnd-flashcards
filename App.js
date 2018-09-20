@@ -6,7 +6,7 @@ import { apiKey, authDomain, databaseURL, projectId, storageBucket, messagingSen
 import { createStore } from 'redux'
 import { Provider } from 'react-redux'
 
-import { MainNav } from './components/shared/Navigation'
+import { Navigation } from './components/shared/Navigation'
 import Loader from './components/shared/Loader'
 import Login from './components/views/Login'
 import Splash from './components/views/Splash'
@@ -48,7 +48,7 @@ class App extends Component {
   renderInitialView() {
     switch( this.state.loggedIn ) {
       case true: 
-        return <MainNav />
+        return <Navigation />
       case false: 
         return <Login />
       default: 

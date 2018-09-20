@@ -1,6 +1,7 @@
 import React from 'react'
 import { View, Text, ImageBackground, StyleSheet } from 'react-native'
 import { ListItem, Body, Left, Right, Button, Icon, H3, Card, CardItem } from 'native-base'
+import { selectDeck } from '../../actions'
 
 const DeckItem = (props) => {
   const { deck } = props
@@ -8,7 +9,7 @@ const DeckItem = (props) => {
     <ListItem 
       icon noIndent button
       style={[{backgroundColor: 'white'}, styles.deck]}
-      onPress={() => alert("Pressed the card!")}
+      onPress={() => props.selectDeck(deck)}
     >
       {/* <Card transparent> */}
         {/* <CardItem
@@ -28,7 +29,7 @@ const DeckItem = (props) => {
           <Body style={styles.deck}>
             <H3 style={styles.title}>{deck.name}</H3>
             <Text style={styles.info}>{deck.description}</Text>
-            <Text style={styles.info}><Icon name="copy" style={styles.icon}/> {deck.length} Cards</Text>
+            <Text style={styles.info}><Icon name="copy" style={styles.icon}/> {deck.cards.length} Cards</Text>
           </Body>
           <Right style={styles.deckArrow}>
             <Icon name="arrow-forward" onPress={() => alert("Pressed the button!")} />
