@@ -7,7 +7,7 @@ class UserNav extends Component {
   render() {
     return (
       <Button transparent
-        onPress={() => this.props.navigation.navigate('Login')}
+        onPress={() => alert('Logging you in')}
       >
         { Platform === 'ios'
           ? <Icon name="ios-person" style={styles.userIcon}/>
@@ -25,4 +25,4 @@ const styles = StyleSheet.create({
   }
 })
 
-export default withNavigation(UserNav)
+export default UserNav

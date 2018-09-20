@@ -4,22 +4,21 @@ import { ListItem, Body, Left, Right, Button, Icon, H3, Card, CardItem } from 'n
 
 const FlashcardItem = (props) => {
   const { card } = props
+
   return (
     <ListItem>
-      <Card transparent>
+      {/* <Card transparent>
         <CardItem
           button
           style={[{backgroundColor: 'white'}]}
           onPress={() => alert("Pressed the card!")}
-        >
-          <Left>
-            <Text>{card.word}</Text>
-          </Left>
+        > */}
           <View>
-            <Text>{card.definition}</Text>
+            <Text>{card.item.korean}</Text>
+            <Text>{card.item.english}</Text>
           </View>
-        </CardItem>
-      </Card>
+        {/* </CardItem>
+      </Card> */}
     </ListItem>
   )
 }

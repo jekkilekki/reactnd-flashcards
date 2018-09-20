@@ -5,17 +5,10 @@ import firebase from 'firebase'
 import { apiKey, authDomain, databaseURL, projectId, storageBucket, messagingSenderId } from './utils/_config'
 import { createStore } from 'redux'
 import { Provider } from 'react-redux'
-import { createMaterialTopTabNavigator, createStackNavigator } from 'react-navigation'
 
-import { cards, decks } from './utils/_DATA'
-import Splash from './components/views/Splash'
-import TopBar from './components/shared/TopBar'
-import { TabbedNav, MainNav } from './components/shared/Navigation'
+import { MainNav } from './components/shared/Navigation'
 import Login from './components/views/Login'
-import DeckList from './components/views/DeckList'
-import CardList from './components/views/CardList'
 import reducer from './reducers'
-import { tealA700, white } from './utils/colors'
 
 const store = createStore(reducer)
 
@@ -25,8 +18,6 @@ class App extends Component {
     authedUser: null,
     loggedIn: true,
     nightMode: false,
-    decks: decks,
-    cards: cards
   }
   
   async componentWillMount() {

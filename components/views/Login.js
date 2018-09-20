@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { View, Text, Image, StyleSheet } from 'react-native'
 import { Container, Header, Content, Form, Item, Input, Icon, Label, Button } from 'native-base'
-import Nav from '../shared/TopBar'
 import { white, teal500, error } from '../../utils/colors'
 import firebase from 'firebase'
 
@@ -12,7 +11,7 @@ import { MKTextField, MKColor, MKButton } from 'react-native-material-kit'
 //   .withText('Login')
 //   .build()
 
-class Login2 extends Component {
+class Login extends Component {
   state = {
     email: '',
     password: '',
@@ -144,4 +143,4 @@ const styles = StyleSheet.create({
   }
 })
 
-export default Login2
+export default Login

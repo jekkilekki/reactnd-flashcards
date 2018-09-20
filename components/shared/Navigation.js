@@ -1,14 +1,14 @@
-import React, { Component } from 'react'
-import { Platform } from 'react-native'
+import React from 'react'
+import { Platform, View, Text, Image } from 'react-native'
 import { createStackNavigator, createBottomTabNavigator, createMaterialTopTabNavigator } from 'react-navigation'
-import { Container, Tab, Tabs, Footer, FooterTab, Button, Icon, Text } from 'native-base'
+import { Tabs, Button, Icon } from 'native-base'
 import DeckList from '../views/DeckList'
 import CardList from '../views/CardList'
+import About from '../views/About'
 import AddDeck from '../views/AddDeck'
 import AddCard from '../views/AddCard'
 import Login from '../views/Login'
 import Quiz from '../views/Quiz'
-import TopBar from './TopBar'
 import { tealA700, tealA400, white } from '../../utils/colors'
 
 const appTabs = {
@@ -46,13 +46,13 @@ const appTabsOptions = {
     style: {
       height: 56,
       backgroundColor: Platform.OS === 'ios' ? white : tealA700,
-      shadowColor: 'rgba(0,0,0,0.24)',
-      shadowOffset: {
-        width: 0,
-        height: 2,
-      },
-      shadowRadius: 4,
-      shadowOpacity: 1
+      // shadowColor: 'rgba(0,0,0,0.24)',
+      // shadowOffset: {
+      //   width: 0,
+      //   height: 2,
+      // },
+      // shadowRadius: 4,
+      // shadowOpacity: 1
     }
   }
 }
@@ -62,62 +62,30 @@ export const TabbedNav = Platform.OS === 'ios'
   : createMaterialTopTabNavigator(appTabs, appTabsOptions)
 
 export const MainNav = createStackNavigator({
-  Home: {
-    screen: TabbedNav,
-  },
-  // Login: {
-  //   screen: Login,
-  //   navigationOptions: {
-  //     title: 'Login/Signup',
-  //     // header: <TopBar headerTitle={'Login'} />,
-  //   }
-  // }
-})
-
-
-export const TabsOriginal = createMaterialTopTabNavigator({
-  DeckList: {
-    screen: DeckList,
-    navigationOptions: {
-      tabBarLabel: 'Decks',
-      tabBarIcon: ({ tintColor }) => <Ionicons name='ios-bookmarks' size={30} color={tintColor} />
-    }
-  },
-  CardList: {
-    screen: CardList,
-    navigationOptions: {
-      tabBarLabel: 'Cards',
-      tabBarIcon: ({ tintColor }) => <FontAwesome name='plus-square' size={30} color={tintColor} />
-    }
-  },
+  Home: TabbedNav,
+  // Login: Login,
 }, {
-  tabBarOptions: {
-    activeTintColor: Platform.OS === 'ios' ? tealA700 : white,
-    style: {
-      height: 56,
-      backgroundColor: Platform.OS === 'ios' ? white : tealA700,
-      shadowColor: 'rgba(0,0,0,0.24)',
-      shadowOffset: {
-        width: 0,
-        height: 3,
-      },
-      shadowRadius: 6,
-      shadowOpacity: 1
-    }
+  initialRouteName: 'Home',
+  navigationOptions: {
+    title: 'Korean by heart',
+    // headerTitle:
+    //   <View>
+    //   <Image source={require('../../assets/img/by-heart-no-bg.png')} />
+    //   <Text>Korean by heart</Text>
+    //   </View>,
+    headerTintColor: 'white',
+    headerStyle: {
+      backgroundColor: tealA700
+    }, 
+    headerRight: (
+      <Button transparent
+        onPress={() => alert('Logging you in')}
+      >
+        { Platform === 'ios'
+          ? <Icon name="ios-person" style={{color: 'white'}}/>
+          : <Icon name="md-person" style={{color: 'white'}}/>
+        }
+      </Button>
+    )
   }
-})
-
-export const MainNavigator = createStackNavigator({
-  Home: {
-    screen: Tabs,
-  },
-  // EntryDetail: {
-  //   screen: EntryDetail,
-  //   navigationOptions: {
-  //     headerTintColor: white,
-  //     headerStyle: {
-  //       backgroundColor: tealA700,
-  //     }
-  //   }
-  // }
 })
