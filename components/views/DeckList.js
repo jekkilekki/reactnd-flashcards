@@ -12,7 +12,7 @@ class DeckList extends Component {
   }
 
   render() {
-    const { decks, cards } = this.props
+    const { decks, cards, navigation } = this.props
 
     let sortedDecks = decks.map((deck) => {
       return cards.filter((card) => {
@@ -39,10 +39,10 @@ class DeckList extends Component {
 
     // var sortedCards = sortCards(cards, 'level')
 
-    console.group()
-    console.log(sortedDecks)
-    console.log(decks)
-    console.groupEnd()
+    // console.group()
+    // console.log(sortedDecks)
+    // console.log(decks)
+    // console.groupEnd()
 
     return (
       <Container style={{backgroundColor: 'white'}}>
@@ -51,7 +51,7 @@ class DeckList extends Component {
           <List
             dataArray={decks}
             renderRow={(deck, id) =>
-              <DeckItem deck={deck} />
+              <DeckItem deck={deck} navigation={navigation} />
             }
           >
           </List>

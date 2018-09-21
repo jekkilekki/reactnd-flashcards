@@ -4,38 +4,36 @@ import { ListItem, Body, Left, Right, Button, Icon, H3, Card, CardItem } from 'n
 import { selectDeck } from '../../actions'
 
 const DeckItem = (props) => {
-  const { deck } = props
+  const { deck, navigation } = props
   return (
     <ListItem 
       icon noIndent button
       style={[{backgroundColor: 'white'}, styles.deck]}
-      onPress={() => props.selectDeck(deck)}
+      onPress={() => navigation.navigate( 'DeckSingle', { id: deck.id } )}
     >
-      {/* <Card transparent> */}
-        {/* <CardItem
-          button
-          style={[{backgroundColor: deck.color}, styles.card]}
-          onPress={() => alert("Pressed the card!")}
-        > */}
-          <Left>
-            <Card style={styles.cardImage}>
-              {/* <CardItem style={[styles.cardImage, {backgroundColor: deck.color}]}> */}
-                <ImageBackground source={{uri: deck.image}} style={[styles.cardImage, {width: '100%', height: '100%'}]}>
-                  <Icon name="heart" style={styles.icon}/>
-                </ImageBackground>
-              {/* </CardItem> */}
-            </Card>
-          </Left>
-          <Body style={styles.deck}>
-            <H3 style={styles.title}>{deck.name}</H3>
-            <Text style={styles.info}>{deck.description}</Text>
-            <Text style={styles.info}><Icon name="copy" style={styles.icon}/> {deck.cards.length} Cards</Text>
-          </Body>
-          <Right style={styles.deckArrow}>
-            <Icon name="arrow-forward" onPress={() => alert("Pressed the button!")} />
-          </Right>
-        {/* </CardItem> */}
-      {/* </Card> */}
+      <Left>
+        <Card style={styles.cardImage}>
+          <ImageBackground source={{uri: deck.image}} style={[styles.cardImage, {width: '100%', height: '100%'}]}>
+            <Icon name="heart" style={styles.icon}/>
+          </ImageBackground>
+        </Card>
+      </Left>
+      <Body style={styles.deck}>
+        <H3 style={styles.title}>{deck.name}</H3>
+        <Text style={styles.info}>{deck.description}</Text>
+        <Text style={styles.info}>
+          <Icon 
+            name="copy" 
+            style={styles.icon} 
+          /> {deck.cards.length} Cards | <Icon 
+            name="albums" 
+            style={styles.icon} 
+          /> {Math.ceil(deck.cards.length / 30)} Subsets
+        </Text>
+      </Body>
+      <Right style={styles.deckArrow}>
+        <Icon name="arrow-forward" onPress={() => navigation.navigate( 'DeckSingle', { id: deck.id } )} />
+      </Right>
     </ListItem>
   )
 }

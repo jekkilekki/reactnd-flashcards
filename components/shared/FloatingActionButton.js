@@ -11,10 +11,10 @@ class FloatingAddButton extends Component {
     return (
       <Fab
         active={this.state.active}
-        direction="up"
+        direction={this.props.direction || "up"}
         containerStyle={{ }}
         style={{ backgroundColor: pink500 }}
-        position="bottomRight"
+        position={this.props.position || "bottomRight"}
         onPress={() => this.setState({ active: !this.state.active })}>
         <Icon name="add" />
         <Button style={{ backgroundColor: '#34A34F' }}>
