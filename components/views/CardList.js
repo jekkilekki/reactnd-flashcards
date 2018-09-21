@@ -7,14 +7,14 @@ import FloatingActionButton from '../shared/FloatingActionButton'
 
 class CardList extends Component {
   render() {
-    const { decks, cards } = this.props
+    const { decks, cards, theCards } = this.props
 
     return (
       <Container>
         <Content padder>
           <FlatList
             keyExtractor={(item, i) => {return i.toString()}}
-            data={cards}
+            data={theCards ? theCards : cards}
             renderItem={(card) =>
               <FlashcardItem card={card} />
             }

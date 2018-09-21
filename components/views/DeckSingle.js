@@ -3,6 +3,8 @@ import { connect } from 'react-redux'
 import { View, Text, ImageBackground, StyleSheet } from 'react-native'
 import { Container, Content, Tabs, Tab, Fab, H3, Left, Right, ListItem, Body, Card, Icon } from 'native-base'
 import FloatingActionButton from '../shared/FloatingActionButton'
+import CardList from './CardList'
+import CardSets from '../shared/CardSets'
 import { tealA700, gray100 } from '../../utils/colors'
 import * as actions from '../../actions'
 
@@ -30,7 +32,7 @@ class DeckSingle extends Component {
     const splitSubsets = (givenArray, size) => {
       let results = []
       for (var i = 0; i < givenArray.length; i += size) {
-        results.push(givenArray.slice(i, i+size))
+        results.push(Object.assign({}, givenArray.slice(i, i+size)))
       }
       return results
     }
@@ -60,7 +62,10 @@ class DeckSingle extends Component {
                   <Icon 
                     name="copy" 
                     style={styles.icon} 
-                  /> {theDeck.cards.length} Cards | <Icon 
+                  /> {theDeck.cards.length} Cards
+                </Text>
+                <Text style={styles.info}>
+                  <Icon 
                     name="albums" 
                     style={styles.icon} 
                   /> {Math.ceil(theDeck.cards.length / 30)} Subsets
@@ -79,10 +84,10 @@ class DeckSingle extends Component {
           <View>
             <Tabs>
               <Tab heading="Sets">
-                {/* <Tab1 /> */}
+                <CardSets cardSets={subsets} />
               </Tab>
               <Tab heading="Cards">
-                {/* <Tab2 /> */}
+                <CardList theCards={theCards} />
               </Tab>
               <Tab heading="Quiz">
                 {/* <Tab3 /> */}
