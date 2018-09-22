@@ -9,6 +9,7 @@ import AddDeck from '../views/AddDeck'
 import CardList from '../views/CardList'
 import DeckList from '../views/DeckList'
 import DeckSingle from '../views/DeckSingle'
+import CardSingle from '../views/CardSingle'
 import Login from '../views/Login'
 import Quiz from '../views/Quiz'
 import { tealA700, tealA400, white } from '../../utils/colors'
@@ -19,7 +20,7 @@ const appTabs = {
     navigationOptions: {
       tabBarLabel: 'Decks',
       tabBarIcon: ({ tintColor }) =>
-        <Icon name = 'apps' />
+        <Icon name='apps' />
     }
   },
   CardList: {
@@ -27,15 +28,15 @@ const appTabs = {
     navigationOptions: {
       tabBarLabel: 'Cards',
       tabBarIcon: ({ tintColor }) =>
-        <Icon name = 'albums' />
+        <Icon name='albums' />
     }
   },
-  Quiz: {
-    screen: Quiz,
+  About: {
+    screen: About,
     navigationOptions: {
-      tabBarLabel: 'Quiz',
+      tabBarLabel: 'About',
       tabBarIcon: ({ tintColor }) =>
-        <Icon name = 'play' />
+        <Icon name='information-circle' />
     }
   }
 }
@@ -67,9 +68,10 @@ const AuthNav = createStackNavigator({ Login: Login })
 
 const MainNav = createStackNavigator({
   Home: TabbedNav,
-  About: About,
   Login: Login,
-  DeckSingle: DeckSingle
+  DeckSingle: DeckSingle,
+  CardSingle: CardSingle,
+  Quiz: Quiz
 }, {
   initialRouteName: 'Home',
   navigationOptions: {

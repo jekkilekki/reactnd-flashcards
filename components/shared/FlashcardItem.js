@@ -3,10 +3,14 @@ import { View, Text } from 'react-native'
 import { ListItem, Body, Left, Right, Button, Icon, H3, Card, CardItem } from 'native-base'
 
 const FlashcardItem = (props) => {
-  const { card } = props
+  const { card, navigation } = props
+
+  // console.log(card)
 
   return (
-    <ListItem>
+    <ListItem
+      onPress={() => navigation.navigate( 'CardSingle', { id: card.item.id } )}
+    >
       {/* <Card transparent>
         <CardItem
           button
