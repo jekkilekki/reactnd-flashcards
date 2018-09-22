@@ -17,6 +17,16 @@ class DeckSingle extends Component {
     }
   }
 
+  state = {
+    editing: false
+  }
+
+  toggleEditing = () => {
+    this.setState((prevState) => {
+      editing: !prevState.editing
+    })
+  }
+
   render() {
     const { navigation, deck, decks } = this.props
     const theDeck = deck[0]
@@ -83,14 +93,26 @@ class DeckSingle extends Component {
           </View>
           <View>
             <Tabs>
-              <Tab heading="Sets">
-                <CardSets cardSets={subsets} />
+              <Tab heading={`Sets (${subsets.length})`}>
+                <Text style={styles.padder}>Select a subset to study. (No score)</Text>
+                <CardSets 
+                  cardSets={subsets} 
+                  view={'sets'} 
+                  name={theDeck.name}
+                  navigation={navigation}
+                />
               </Tab>
-              <Tab heading="Cards">
+              <Tab heading={`Cards (${theCards.length})`}>
                 <CardList theCards={theCards} />
               </Tab>
               <Tab heading="Quiz">
-                {/* <Tab3 /> */}
+                <Text style={styles.padder}>Please select a subset to quiz. (Score recorded)</Text>
+                <CardSets 
+                  cardSets={subsets}
+                  view={'quiz'} 
+                  name={theDeck.name}
+                  navigation={navigation}
+                />
               </Tab>
             </Tabs>
           </View>

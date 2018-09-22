@@ -1,16 +1,21 @@
 import React, { Component } from 'react'
 import { StyleSheet, FlatList, ImageBackground, Text, View } from 'react-native'
-import { Container, Content, Card, H1 } from 'native-base'
+import { Container, Content, Card, CardItem, H1 } from 'native-base'
 import { gray300 } from '../../utils/colors'
 
 class CardSets extends Component {
   _renderItem = (set, i) => {
+    const { view, name, navigation } = this.props
     return (
     <Card style={styles.cardImage}>
-      <ImageBackground style={[styles.cardImage, {width: '100%', height: '100%'}]}>
-        <H1>{i+1}</H1>
-        <Text style={styles.info}>{Object.keys(set).length} Cards</Text>
-      </ImageBackground>
+      <CardItem button
+        onPress={() => navigation.navigate('Quiz', {cards: set, set: i+1, name: name})}
+      >
+        <ImageBackground style={[styles.cardImage, {width: '100%', height: '100%'}]}>
+          <H1>{i+1}</H1>
+          <Text style={styles.info}>{Object.keys(set).length} Cards</Text>
+        </ImageBackground>
+      </CardItem>
     </Card>
     )
   }

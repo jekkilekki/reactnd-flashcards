@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { View, Text, ImageBackground, StyleSheet } from 'react-native'
-import { Container, Content, Tabs, Tab, Fab, H3, Left, Right, ListItem, Body, Card, Icon } from 'native-base'
+import { View, Text, ImageBackground, StyleSheet, TextInput } from 'react-native'
+import { Container, Content, Tabs, Tab, Fab, H1, H2, H3, Input, Left, Right, ListItem, Body, Card, Icon } from 'native-base'
 import FloatingActionButton from '../shared/FloatingActionButton'
 import { tealA700, gray100 } from '../../utils/colors'
 import * as actions from '../../actions'
@@ -14,8 +14,19 @@ class CardSingle extends Component {
     }
   }
 
+  state = {
+    editing: false
+  }
+
+  toggleEditing = () => {
+    this.setState((prevState) => {
+      editing: !prevState.editing
+    })
+  }
+
   render() {
     const { navigation, card, cards } = this.props
+    const { editing } = this.state
     const theCard = card[0]
 
     console.log( theCard )
@@ -23,11 +34,34 @@ class CardSingle extends Component {
     return (
       <Container>
         <Content>
-          <View style={styles.padder}>
-            <H3>{theCard.korean}</H3>
-          </View>
+          { editing 
+            ? <View style={styles.padder}>
+                <TextInput
+                  value={theCard.korean}
+                />
+                <TextInput
+                  value={theCard.english}
+                />
+                <TextInput
+                  value={theCard.partOfSpeech}
+                />
+                <TextInput
+                  value={theCard.origin}
+                />
+                <TextInput
+                  value={theCard.level}
+                />
+              </View>
+            : <View style={styles.padder}>
+                <H1>{theCard.korean}</H1>
+                <H2>{theCard.english}</H2>
+                <Text>Part of Speech: {theCard.partOfSpeech}</Text>
+                <Text>Origin: {theCard.origin}</Text>
+                <Text>Level: {theCard.level}</Text>
+              </View>
+          }
         </Content>
-        <FloatingActionButton position={"topRight"} direction={"down"} />
+        <FloatingActionButton position={"topRight"} direction={"down"} onPress={() => this.toggleEditing}/>
       </Container>
     )
   }
