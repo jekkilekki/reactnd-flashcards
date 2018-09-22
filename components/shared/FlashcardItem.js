@@ -8,7 +8,7 @@ const FlashcardItem = (props) => {
   // console.log(card)
 
   return (
-    <ListItem
+    <ListItem noIndent
       onPress={() => navigation.navigate( 'CardSingle', { id: card.item.id } )}
     >
       {/* <Card transparent>
@@ -17,10 +17,15 @@ const FlashcardItem = (props) => {
           style={[{backgroundColor: 'white'}]}
           onPress={() => alert("Pressed the card!")}
         > */}
-          <View>
+          <Left style={{flex: 1}}>
             <Text>{card.item.korean}</Text>
+            </Left>
+            <Body style={{flex: 2}}>
             <Text>{card.item.english}</Text>
-          </View>
+          </Body>
+          <Right style={{flex: 1}}>
+        <Icon name="arrow-forward" onPress={() => navigation.navigate( 'CardSingle', { id: card.item.id } )} />
+      </Right>
         {/* </CardItem>
       </Card> */}
     </ListItem>

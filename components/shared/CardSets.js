@@ -8,8 +8,10 @@ class CardSets extends Component {
     const { view, name, navigation } = this.props
     return (
     <Card style={styles.cardImage}>
-      <CardItem button
-        onPress={() => navigation.navigate('Quiz', {cards: set, set: i+1, name: name})}
+      <CardItem 
+        button
+        style={styles.cardImage}
+        onPress={() => navigation.navigate('Quiz', {cards: set, set: i+1, name: name, view: view})}
       >
         <ImageBackground style={[styles.cardImage, {width: '100%', height: '100%'}]}>
           <H1>{i+1}</H1>
@@ -21,17 +23,16 @@ class CardSets extends Component {
   }
 
   render() {
-    const { cardSets } = this.props
+    const { cardSet } = this.props
 
-    // let setsObj = Object.assign({}, cardSets)
-    console.log(cardSets)
+    console.log(cardSet)
     return (
       <View style={{flex: 1, alignItems: 'center'}}>
       <FlatList 
         style={styles.setList}
         numColumns={4}
         keyExtractor={(item, i) => {return i.toString()}}
-        data={cardSets}
+        data={cardSet}
         renderItem={({item, index}) => this._renderItem(item, index)}
       />
       </View>
@@ -49,15 +50,19 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     backgroundColor: gray300,
     justifyContent: 'space-evenly',
-    alignItems: 'center'
+    alignItems: 'center',
+    paddingLeft: 0,
+    paddingRight: 0,
+    paddingBottom: 0
   },
   setList: {
-    paddingTop: 20,
+    paddingTop: 0,
     paddingBottom: 20
   },
   info: {
-    fontSize: 14,
-    color: '#555555'
+    fontSize: 13,
+    color: '#555555',
+    paddingTop: 10
   },
 })
 

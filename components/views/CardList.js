@@ -1,20 +1,34 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { StyleSheet, FlatList } from 'react-native'
+import { StyleSheet, FlatList, Text } from 'react-native'
 import { Container, Content } from 'native-base'
+import { SearchBar } from 'react-native-elements'
 import FlashcardItem from '../shared/FlashcardItem'
 import FloatingActionButton from '../shared/FloatingActionButton'
+import { white, gray50, gray100, gray200, gray300 } from '../../utils/colors'
 
 class CardList extends Component {
+  state = {
+    numResults: this.props.cardSet ? this.props.cardSet.length : cards.length
+  }
+
   render() {
-    const { decks, cards, theCards, navigation } = this.props
+    const { cards, cardSet, navigation } = this.props
+    console.log(navigation)
 
     return (
       <Container>
+        <SearchBar
+          lightTheme showLoading
+          placeholder='Search for card'
+          containerStyle={{backgroundColor: gray100, paddingRight: 100}}
+          inputStyle={{backgroundColor: gray200, fontSize: 14}}
+        />
+        <Text style={{position: 'absolute', right: 10, top: 15}}>{this.state.numResults} Results</Text>
         <Content padder>
           <FlatList
             keyExtractor={(item, i) => {return i.toString()}}
-            data={theCards ? theCards : cards}
+            data={cardSet ? cardSet : cards}
             renderItem={(card) =>
               <FlashcardItem card={card} navigation={navigation} />
             }

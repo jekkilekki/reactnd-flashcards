@@ -49,8 +49,6 @@ class DeckSingle extends Component {
 
     const subsets = splitSubsets( theCards, 30 )
 
-    console.log( subsets )
-
     return (
       <Container>
         <Content>
@@ -94,21 +92,24 @@ class DeckSingle extends Component {
           <View>
             <Tabs>
               <Tab heading={`Sets (${subsets.length})`}>
-                <Text style={styles.padder}>Select a subset to study. (No score)</Text>
+                <Text style={[{textAlign: 'center', paddingTop: 20}]}>Select a subset to study. (No score)</Text>
                 <CardSets 
-                  cardSets={subsets} 
+                  cardSet={subsets} 
                   view={'sets'} 
                   name={theDeck.name}
                   navigation={navigation}
                 />
               </Tab>
               <Tab heading={`Cards (${theCards.length})`}>
-                <CardList theCards={theCards} />
+                <CardList 
+                  cardSet={theCards} 
+                  navigation={navigation}
+                />
               </Tab>
-              <Tab heading="Quiz">
-                <Text style={styles.padder}>Please select a subset to quiz. (Score recorded)</Text>
+              <Tab heading={`Quiz ▶︎`}>
+                <Text style={[{textAlign: 'center', paddingTop: 20}]}>Please select a subset to quiz. (Score recorded)</Text>
                 <CardSets 
-                  cardSets={subsets}
+                  cardSet={subsets}
                   view={'quiz'} 
                   name={theDeck.name}
                   navigation={navigation}
