@@ -24,9 +24,9 @@ const FlashcardItem = (props) => {
         <Text>{card.item.english}</Text>
       </Body>
       <Right style={{flex: 1}}>
-        <Badge>
+        {/* <Badge>
           <Text>{card.item.partOfSpeech}</Text>
-        </Badge>
+        </Badge> */}
         <Icon name="arrow-forward" onPress={() => navigation.navigate( 'CardSingle', { id: card.item.id } )} />
       </Right>
       {/* </CardItem>

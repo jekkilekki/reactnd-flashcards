@@ -8,6 +8,8 @@ class FloatingAddButton extends Component {
   }
 
   render() {
+    const { navigation, destOne, destTwo } = this.props
+
     return (
       <Fab
         active={this.state.active}
@@ -17,12 +19,19 @@ class FloatingAddButton extends Component {
         position={this.props.position || "bottomRight"}
         onPress={() => this.setState({ active: !this.state.active })}>
         <Icon name="add" />
-        <Button style={{ backgroundColor: '#34A34F' }}>
-          <Icon name="create" />
-        </Button>
-        <Button disabled style={{ backgroundColor: '#DD5144' }}>
-          <Icon name="trash" />
-        </Button>
+        
+          <Button 
+            style={{ backgroundColor: '#34A34F' }}
+            onPress={() => navigation.navigate(destOne)}
+          >
+            <Icon name={this.props.iconOne} />
+          </Button>
+          <Button 
+            style={{ backgroundColor: '#DD5144' }}
+            onPress={() => navigation.navigate(destTwo)}  
+          >
+            <Icon name={this.props.iconTwo} />
+          </Button>
       </Fab>
     )
   }

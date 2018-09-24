@@ -2,13 +2,23 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import CalendarStrip from 'react-native-calendar-strip'
 import { StyleSheet } from 'react-native'
-import { Container, Content, List, ListItem } from 'native-base'
+import { Container, Content, List, ListItem, Icon, Fab } from 'native-base'
 import DeckItem from '../shared/DeckItem'
 import FloatingActionButton from '../shared/FloatingActionButton'
+import { pink500 } from '../../utils/colors'
 
 class DeckList extends Component {
+  _addDeck = (navigation) => {
+    navigation.navigate('AddDeck')
+  }
+
+  _addCard = (navigation) => {
+    navigation.navigate('AddCard')
+  }
+
   render() {
     const { decks, cards, navigation } = this.props
+    console.log(navigation)
 
     let sortedDecks = decks.map((deck) => {
       return cards.filter((card) => {
@@ -35,7 +45,20 @@ class DeckList extends Component {
           </List>
         </Content>
 
-        <FloatingActionButton />
+        <FloatingActionButton 
+          navigation={navigation}
+          iconOne={'apps'}
+          iconTwo={'albums'}
+          destOne={'AddDeck'}
+          destTwo={'AddCard'}
+        />
+        {/* <Fab
+          containerStyle={{ }}
+          style={{ backgroundColor: pink500 }}
+          position={"bottomRight"}
+          onPress={() => navigation.navigate('AddDeck')}>
+          <Icon name="add" />
+        </Fab> */}
       </Container>
     )
   }

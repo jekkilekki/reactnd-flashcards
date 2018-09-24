@@ -73,6 +73,8 @@ const MainNav = createStackNavigator({
   SignUp: SignUp,
   DeckSingle: DeckSingle,
   CardSingle: CardSingle,
+  AddDeck: AddDeck,
+  AddCard: AddCard,
   Quiz: Quiz
 }, {
   initialRouteName: 'Home',
@@ -83,6 +85,7 @@ const MainNav = createStackNavigator({
       headerStyle: {
         backgroundColor: tealA700
       }, 
+      headerBackTitle: 'Back',
       headerRight: (
         <Button transparent
           onPress={() => navigation.navigate('Login')}

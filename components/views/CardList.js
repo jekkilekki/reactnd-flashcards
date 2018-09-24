@@ -11,7 +11,7 @@ import { white, gray50, gray100, gray200, gray300 } from '../../utils/colors'
 
 class CardList extends Component {
   state = {
-    numResults: this.props.cardSet ? this.props.cardSet.length : cards.length
+    numResults: this.props.cardSet ? this.props.cardSet.length : this.props.cards.length
   }
 
   render() {
