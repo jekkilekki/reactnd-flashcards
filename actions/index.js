@@ -1,3 +1,5 @@
+import firebase from 'firebase'
+
 export const RECEIVE_CARDS = 'RECEIVE_CARDS'
 export const SELECT_CARD = 'SELECT_CARD'
 export const ADD_CARD = 'ADD_CARD'
@@ -10,6 +12,12 @@ export const ADD_DECK = 'ADD_DECK'
 export const EDIT_DECK = 'EDIT_DECK'
 export const DELETE_DECK = 'DELETE_DECK'
 
+export const FORM_UPDATE = 'FORM_UPDATE'
+export const NEW_DECK = 'NEW_DECK'
+export const NEW_CARD = 'NEW_CARD'
+export const ADD_DECK_FIRE = 'ADD_DECK_FIRE'
+export const ADD_CARD_FIRE = 'ADD_CARD_FIRE'
+
 export function selectDeck( deckId ) {
   return {
     type: SELECT_DECK,
@@ -20,6 +28,37 @@ export function selectDeck( deckId ) {
 export function noSelectedDeck() {
   return {
     type: NO_SELECTED_DECK
+  }
+}
+
+export function formUpdate({ prop, value }) {
+  return {
+    type: FORM_UPDATE,
+    payload: { prop, value }
+  }
+}
+
+/**
+ * FIREBASE ACTIONS
+ */
+export function addDeckFire({deckImg, deckName, deckDesc, deckCards}) {
+  const { currentUser } = firebase.auth()
+  return (dispatch) => {
+    firebase.database().ref(`/users/${currentUser.uid}/decks`)
+      .push({deckImg, deckName, deckDesc, deckCards})
+      .then(() => {
+        dispatch({ type: NEW_DECK })
+      })
+  }
+}
+
+export function loadInitialData() {
+  const { currentUser } = firebase.auth()
+  return (dispatch) => {
+    firebase.database().ref(`/users/${currentUser.uid}/decks`)
+      .on('value', snapshot => {
+        dispatch({ type: INITIAL_DATA, payload: snapshot.val() })
+      })
   }
 }
 

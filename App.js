@@ -3,8 +3,9 @@ import { View, Platform } from 'react-native'
 import { Asset, AppLoading, SplashScreen } from 'expo'
 import firebase from 'firebase'
 import { apiKey, authDomain, databaseURL, projectId, storageBucket, messagingSenderId } from './utils/_config'
-import { createStore } from 'redux'
+import { createStore, applyMiddleware } from 'redux'
 import { Provider } from 'react-redux'
+import Thunk from 'redux-thunk'
 
 import { Navigation } from './components/shared/Navigation'
 import Loader from './components/shared/Loader'
@@ -12,7 +13,11 @@ import Login from './components/views/Login'
 import Splash from './components/views/Splash'
 import reducer from './reducers'
 
-const store = createStore(reducer, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__())
+const store = createStore(
+  reducer, 
+  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(), 
+  applyMiddleware(Thunk)
+)
 // const store = createStore(reducer)
 
 class App extends Component {
