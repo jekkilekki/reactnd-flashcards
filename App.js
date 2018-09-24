@@ -12,9 +12,8 @@ import Login from './components/views/Login'
 import Splash from './components/views/Splash'
 import reducer from './reducers'
 
-// const store = createStore(reducer, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__())
-const store = createStore(reducer)
-
+const store = createStore(reducer, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__())
+// const store = createStore(reducer)
 
 class App extends Component {
   state = {
@@ -32,6 +31,20 @@ class App extends Component {
       projectId: projectId,
       storageBucket: storageBucket,
       messagingSenderId: messagingSenderId
+    })
+
+    firebase.auth().onAuthStateChanged((user) => {
+      if ( user ) {
+        this.setState({
+          loggedIn: true,
+          authedUser: user
+        })
+      } else {
+        this.setState({
+          loggedIn: false,
+          authedUser: null
+        })
+      }
     })
 
     // SplashScreen.preventAutoHide();

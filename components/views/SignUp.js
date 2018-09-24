@@ -11,7 +11,7 @@ import { MKTextField, MKColor, MKButton } from 'react-native-material-kit'
 //   .withText('Login')
 //   .build()
 
-class Login extends Component {
+class SignUp extends Component {
   state = {
     email: '',
     password: '',
@@ -19,17 +19,17 @@ class Login extends Component {
     loading: false
   }
 
-  _onLogin = () => {
+  _onSignUp = () => {
     const { email, password } = this.state
     this.setState({ error: '', loading: true })
 
-    firebase.auth().signInWithEmailAndPassword( email, password )
+    firebase.auth().createUserWithEmailAndPassword( email, password )
       .then(this._onAuthSuccess)
       .catch(this._onAuthFailed)
   }
 
   _onAuthSuccess = () => {
-    console.log( 'Authentication succeeded.' )
+    console.log( 'Authentication success.' )
     this.setState({
       email: '',
       password: '',
@@ -85,21 +85,20 @@ class Login extends Component {
             tintColor={tealA700}
             password={true}
           />
-          <Button block 
-            style={styles.button}
-            onPress={this._onLogin}
-            disabled={this.state.email === '' && this.state.password === ''}
-          >
-            <Text style={styles.buttonText}>
-              Login
-            </Text>
-          </Button>
-          <Button block 
+          {/* <Button block 
             style={[styles.button, styles.buttonOutline]}
-            onPress={() => navigation.navigate('SignUp')}  
+            onPress={() => navigation.navigate('Login')}
           >
             <Text style={styles.buttonOutlineText}>
-              Sign Up ☞
+              Login
+            </Text>
+          </Button> */}
+          <Button block 
+            style={[styles.button]}
+            onPress={this._onSignUp}
+          >
+            <Text style={styles.buttonText}>
+              Sign Up
             </Text>
           </Button>
         </Content>
@@ -153,4 +152,4 @@ const styles = StyleSheet.create({
   }
 })
 
-export default Login
+export default SignUp

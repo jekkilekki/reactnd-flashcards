@@ -11,6 +11,7 @@ import DeckList from '../views/DeckList'
 import DeckSingle from '../views/DeckSingle'
 import CardSingle from '../views/CardSingle'
 import Login from '../views/Login'
+import SignUp from '../views/SignUp'
 import Quiz from '../views/Quiz'
 import { tealA700, tealA400, white } from '../../utils/colors'
 
@@ -69,27 +70,30 @@ const AuthNav = createStackNavigator({ Login: Login })
 const MainNav = createStackNavigator({
   Home: TabbedNav,
   Login: Login,
+  SignUp: SignUp,
   DeckSingle: DeckSingle,
   CardSingle: CardSingle,
   Quiz: Quiz
 }, {
   initialRouteName: 'Home',
-  navigationOptions: {
-    title: 'Korean by heart',
-    headerTintColor: 'white',
-    headerStyle: {
-      backgroundColor: tealA700
-    }, 
-    headerRight: (
-      <Button transparent
-        onPress={({navigate}) => navigation.navigate('Login')}
-      >
-        { Platform === 'ios'
-          ? <Icon name="ios-person" style={{color: 'white'}}/>
-          : <Icon name="md-person" style={{color: 'white'}}/>
-        }
-      </Button>
-    )
+  navigationOptions: ({navigation}) => {
+    return ({
+      title: 'Korean by heart',
+      headerTintColor: 'white',
+      headerStyle: {
+        backgroundColor: tealA700
+      }, 
+      headerRight: (
+        <Button transparent
+          onPress={() => navigation.navigate('Login')}
+        >
+          { Platform === 'ios'
+            ? <Icon name="ios-person" style={{color: 'white'}}/>
+            : <Icon name="md-person" style={{color: 'white'}}/>
+          }
+        </Button>
+      )
+    })
   }
 })
 
@@ -98,5 +102,8 @@ export const Navigation = createSwitchNavigator(
     // AuthLoading: Loader,
     App: MainNav,
     Auth: AuthNav
+  }, 
+  {
+    initialRouteName: 'App'
   }
 )
