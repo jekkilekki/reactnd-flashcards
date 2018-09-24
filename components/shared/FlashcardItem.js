@@ -1,6 +1,6 @@
 import React from 'react'
 import { View, Text } from 'react-native'
-import { ListItem, Body, Left, Right, Button, Icon, H3, Card, CardItem } from 'native-base'
+import { ListItem, Body, Left, Right, Button, Badge, Icon, H3, Card, CardItem } from 'native-base'
 
 const FlashcardItem = (props) => {
   const { card, navigation } = props
@@ -12,21 +12,24 @@ const FlashcardItem = (props) => {
       onPress={() => navigation.navigate( 'CardSingle', { id: card.item.id } )}
     >
       {/* <Card transparent>
-        <CardItem
-          button
-          style={[{backgroundColor: 'white'}]}
-          onPress={() => alert("Pressed the card!")}
-        > */}
-          <Left style={{flex: 1}}>
-            <Text>{card.item.korean}</Text>
-            </Left>
-            <Body style={{flex: 2}}>
-            <Text>{card.item.english}</Text>
-          </Body>
-          <Right style={{flex: 1}}>
+      <CardItem
+        button
+        style={[{backgroundColor: 'white'}]}
+        onPress={() => alert("Pressed the card!")}
+      > */}
+      <Left style={{flex: 1}}>
+        <Text>{card.item.korean}</Text>
+      </Left>
+      <Body style={{flex: 2}}>
+        <Text>{card.item.english}</Text>
+      </Body>
+      <Right style={{flex: 1}}>
+        <Badge>
+          <Text>{card.item.partOfSpeech}</Text>
+        </Badge>
         <Icon name="arrow-forward" onPress={() => navigation.navigate( 'CardSingle', { id: card.item.id } )} />
       </Right>
-        {/* </CardItem>
+      {/* </CardItem>
       </Card> */}
     </ListItem>
   )

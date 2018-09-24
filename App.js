@@ -12,7 +12,9 @@ import Login from './components/views/Login'
 import Splash from './components/views/Splash'
 import reducer from './reducers'
 
-const store = createStore(reducer, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__())
+// const store = createStore(reducer, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__())
+const store = createStore(reducer)
+
 
 class App extends Component {
   state = {

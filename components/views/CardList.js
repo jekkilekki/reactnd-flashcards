@@ -6,6 +6,8 @@ import { SearchBar } from 'react-native-elements'
 import FlashcardItem from '../shared/FlashcardItem'
 import FloatingActionButton from '../shared/FloatingActionButton'
 import { white, gray50, gray100, gray200, gray300 } from '../../utils/colors'
+/* Hack for Samsung laptop - Redux store not importing 'cards'? Delete on iMac */
+// import { cards } from '../../utils/_DATA'
 
 class CardList extends Component {
   state = {

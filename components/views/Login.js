@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, Text, Image, StyleSheet } from 'react-native'
+import { View, Text, Image, ImageBackground, StyleSheet } from 'react-native'
 import { Container, Header, Content, Form, Item, Input, Icon, Label, Button } from 'native-base'
 import { white, teal500, error } from '../../utils/colors'
 import firebase from 'firebase'
@@ -59,6 +59,10 @@ class Login extends Component {
 
     return (
       <Container style={styles.container}>
+        <ImageBackground
+          source={require('../../assets/img/app-screen-medium.jpg')}
+          style={{flex: 1, width: '100%', height: '100%'}}
+        >
         <Content padder>
           <Image 
             source={require('../../assets/img/k2k-logo-gold.png')} 
@@ -92,6 +96,7 @@ class Login extends Component {
             </Text>
           </Button>
         </Content>
+        </ImageBackground>
       </Container>
     )
   }
