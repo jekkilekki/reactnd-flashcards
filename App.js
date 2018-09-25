@@ -70,7 +70,8 @@ class App extends Component {
       case true: 
         return <Navigation />
       case false: 
-        return <Login />
+        // return <Login />
+        return <Navigation />
       default: 
         return <Loader />
     }

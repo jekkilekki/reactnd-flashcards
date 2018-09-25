@@ -3,7 +3,7 @@ import { View, Text } from 'react-native'
 import { ListItem, Body, Left, Right, Button, Badge, Icon, H3, Card, CardItem } from 'native-base'
 
 const FlashcardItem = (props) => {
-  const { card, navigation } = props
+  const { card, navigation, view } = props
 
   // console.log(card)
 
@@ -27,7 +27,11 @@ const FlashcardItem = (props) => {
         {/* <Badge>
           <Text>{card.item.partOfSpeech}</Text>
         </Badge> */}
-        <Icon name="arrow-forward" onPress={() => navigation.navigate( 'CardSingle', { id: card.item.id } )} />
+        {
+          view === 'addCards'
+            ? <Icon name="plus" onPress={() => alert('adding card to this deck!')} />
+            : <Icon name="arrow-forward" onPress={() => navigation.navigate( 'CardSingle', { id: card.item.id } )} />
+        }
       </Right>
       {/* </CardItem>
       </Card> */}

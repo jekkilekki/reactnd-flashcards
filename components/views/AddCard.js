@@ -6,7 +6,11 @@ import { tealA700, purple700, pink300, white } from '../../utils/colors'
 
 class AddCard extends Component {
   state = {
-    selected: null
+    cardImg: '',
+    cardKor: '',
+    cardEng: '',
+    cardDeck: null,
+    cardSent: ''
   }
 
   _onValueChange = () => {
@@ -22,15 +26,21 @@ class AddCard extends Component {
           <Form>
             <Item floatingLabel>
               <Label>Image</Label>
-              <Input />
+              <Input 
+                onChange={(text) => this.setState({cardImg: text})}
+              />
             </Item>
             <Item floatingLabel>
               <Label>Front (Korean)</Label>
-              <Input />
+              <Input 
+                onChange={(text) => this.setState({cardKor: text})}
+              />
             </Item>
             <Item floatingLabel>
               <Label>Back (English)</Label>
-              <Input />
+              <Input 
+                onChange={(text) => this.setState({cardEng: text})}
+              />
             </Item>
             <Item picker style={{flex: 1}}>
               <Picker
@@ -40,7 +50,7 @@ class AddCard extends Component {
                 placeholder="Add to Deck"
                 placeholderStyle={{ color: "#bfc6ea" }}
                 placeholderIconColor="#007aff"
-                selectedValue={this.state.selected}
+                selectedValue={this.state.cardDeck}
                 onValueChange={this._onValueChange}
               >
                 {/* {decks.map((deck) => {
@@ -52,12 +62,19 @@ class AddCard extends Component {
               </Picker>
             </Item>
             <Item>
-              <Textarea style={{flex: 1}} rowSpan={5} bordered placeholder="Example Sentence" />
+              <Textarea style={{flex: 1}} rowSpan={5} bordered 
+                placeholder="Example Sentence" 
+                onChange={(text) => this.setState({cardSent: text})}  
+              />
             </Item>
 
             <Button block 
               style={[styles.button]}
-              onPress={() => alert('Adding your card')}
+              onPress={() => {
+                console.log(this.state)
+                alert('Adding your card:\n' + this.state.cardImg.toString() + '\n' + this.state.cardKor + '\n' + this.state.cardEng + '\n' + this.state.cardDeck + '\n' + this.state.cardSent)
+                console.log('Adding your card:\n' + this.state.cardImg.toString() + '\n' + this.state.cardKor + '\n' + this.state.cardEng + '\n' + this.state.cardDeck + '\n' + this.state.cardSent)
+              }}
             >
               <Text style={styles.buttonText}>
                 Add Card

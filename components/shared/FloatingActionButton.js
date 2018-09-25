@@ -4,7 +4,8 @@ import { pink500 } from '../../utils/colors'
 
 class FloatingAddButton extends Component {
   state = {
-    active: false
+    active: false,
+    loggedIn: false
   }
 
   render() {
@@ -17,21 +18,32 @@ class FloatingAddButton extends Component {
         containerStyle={{ }}
         style={{ backgroundColor: pink500 }}
         position={this.props.position || "bottomRight"}
-        onPress={() => this.setState({ active: !this.state.active })}>
+        onPress={() => {
+          if ( this.state.loggedIn ) {
+            this.setState({ active: !this.state.active })
+          } else {
+            alert('Please login before editing the app.')
+          } 
+        }}
+      >
         <Icon name="add" />
         
+        { this.state.loggedIn && 
+          <View>
           <Button 
             style={{ backgroundColor: '#34A34F' }}
-            onPress={() => navigation.navigate(destOne)}
+            onPress={() => navigation.navigate(destOne || 'AddDeck')}
           >
-            <Icon name={this.props.iconOne} />
+            <Icon name={this.props.iconOne || 'apps'} />
           </Button>
           <Button 
             style={{ backgroundColor: '#DD5144' }}
-            onPress={() => navigation.navigate(destTwo)}  
+            onPress={() => navigation.navigate(destTwo || 'AddCard')}  
           >
-            <Icon name={this.props.iconTwo} />
+            <Icon name={this.props.iconTwo || 'albums'} />
           </Button>
+          </View>
+        }
       </Fab>
     )
   }

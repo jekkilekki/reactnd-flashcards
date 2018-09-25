@@ -13,7 +13,7 @@ import { pink500 } from '../../utils/colors'
 
 class DeckList extends Component {
   componentWillMount() {
-    this.props.loadInitialData()
+    // this.props.loadInitialData()
   }
 
   _addDeck = (navigation) => {
@@ -80,9 +80,9 @@ const styles = StyleSheet.create({
 
 function mapStateToProps(state) {
   // Lodash supposed to be used to convert Firebase's Objects to an Array for <List />
-  const decks = _.map(state.decks, (val, uid) => {
-    return { ...val, uid }
-  })
+  // const decks = _.map(state.decks, (val, uid) => {
+  //   return { ...val, uid }
+  // })
   return {
     // decks, // after Lodash - remove line beneath this one 
     decks: state.decks,

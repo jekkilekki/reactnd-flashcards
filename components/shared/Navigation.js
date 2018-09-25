@@ -6,6 +6,7 @@ import Loader from '../shared/Loader'
 import About from '../views/About'
 import AddCard from '../views/AddCard'
 import AddDeck from '../views/AddDeck'
+import AddCardsToDeck from '../views/AddCardsToDeck'
 import CardList from '../views/CardList'
 import DeckList from '../views/DeckList'
 import DeckSingle from '../views/DeckSingle'
@@ -74,6 +75,7 @@ const MainNav = createStackNavigator({
   DeckSingle: DeckSingle,
   CardSingle: CardSingle,
   AddDeck: AddDeck,
+  AddCardsToDeck: AddCardsToDeck,
   AddCard: AddCard,
   Quiz: Quiz
 }, {

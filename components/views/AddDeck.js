@@ -38,7 +38,7 @@ class AddDeck extends Component {
             <Item noIndent floatingLabel>
               <Label>Image</Label>
               <Input 
-                value={this.state.deckImg}
+                // value={this.state.deckImg}
                 onChangeText={(text) => this.setState({deckImg: text})}
               />
             </Item>

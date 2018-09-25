@@ -6,17 +6,30 @@ import { SearchBar } from 'react-native-elements'
 import FlashcardItem from '../shared/FlashcardItem'
 import FloatingActionButton from '../shared/FloatingActionButton'
 import { white, gray50, gray100, gray200, gray300 } from '../../utils/colors'
-/* Hack for Samsung laptop - Redux store not importing 'cards'? Delete on iMac */
-// import { cards } from '../../utils/_DATA'
 
 class CardList extends Component {
   state = {
-    numResults: this.props.cardSet ? this.props.cardSet.length : this.props.cards.length
+    numResults: this.props.cardSet ? this.props.cardSet.length : this.props.cards.length,
+    cardResults: this.props.cardSet ? this.props.cardSet : this.props.cards,
+    searchValue: ''
+  }
+
+  _filterCards = (text) => {
+    const newResults = this.state.cardResults.filter((card) => {
+      const cardData = `${card.english.toString().toLowerCase()}
+      ${card.korean.toString().toLowerCase()}`
+
+      const searchData = text.toLowerCase()
+
+      return cardData.indexOf(searchData) > -1
+    })
+    this.setState({
+      cardResults: newResults
+    })
   }
 
   render() {
-    const { cards, cardSet, navigation } = this.props
-    console.log(navigation)
+    const { navigation } = this.props
 
     return (
       <Container>
@@ -25,12 +38,15 @@ class CardList extends Component {
           placeholder='Search for card'
           containerStyle={{backgroundColor: gray100, paddingRight: 100}}
           inputStyle={{backgroundColor: gray200, fontSize: 14}}
+          onChangeText={(text) => this._filterCards(text)}
+          autoCorrect={false}
+          autoCapitalize='none'
         />
         <Text style={{position: 'absolute', right: 10, top: 15}}>{this.state.numResults} Results</Text>
         <Content padder>
           <FlatList
             keyExtractor={(item, i) => {return i.toString()}}
-            data={cardSet ? cardSet : cards}
+            data={this.state.cardResults}
             renderItem={(card) =>
               <FlashcardItem card={card} navigation={navigation} />
             }
