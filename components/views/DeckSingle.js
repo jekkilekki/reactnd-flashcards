@@ -10,10 +10,10 @@ import * as actions from '../../actions'
 
 class DeckSingle extends Component {
   static navigationOptions = ({ navigation }) => {
-    const { id } = navigation.state.params
-    let deckId = id.charAt(0).toUpperCase() + id.substr(1);
+    const { name } = navigation.state.params
+    // let deckId = id.charAt(0).toUpperCase() + id.substr(1);
     return {
-      title: `${deckId} Deck`
+      title: `${name} Deck`
     }
   }
 

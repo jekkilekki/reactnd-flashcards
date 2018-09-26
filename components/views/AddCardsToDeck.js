@@ -8,10 +8,22 @@ import * as actions from '../../actions'
 
 class AddCardsToDeck extends Component {
   static navigationOptions = ({ navigation }) => {
-    const { id } = navigation.state.params
-    let deckId = id.charAt(0).toUpperCase() + id.substr(1);
+    const { name } = navigation.state.params
+    // let deckId = id.charAt(0).toUpperCase() + id.substr(1);
     return {
-      title: `Add Cards to ${deckId} Deck`
+      title: `Add Cards to ${name}`,
+      // header: ({ state, setParams }) => ({
+      //   left: (
+      //     <HeaderBackArrow
+      //       onPress={() => {
+      //         if (state.params && state.params.onBackPress) {
+      //           state.params.onBackPress()
+      //         }
+      //       }}
+      //       title={'Back'}
+      //     />
+      //   )
+      // })
     }
   }
 
@@ -19,16 +31,26 @@ class AddCardsToDeck extends Component {
     editing: false
   }
 
-  toggleEditing = () => {
-    this.setState((prevState) => {
-      editing: !prevState.editing
-    })
-  }
+  // componentWillMount() {
+  //   this.props.navigation.setParams({
+  //     onBackPress: this._handleBackPress
+  //   })
+  // }
+
+  // _handleBackPress = () => {
+  //   this.props.navigation.navigate('DeckList')
+  // }
+
+  // toggleEditing = () => {
+  //   this.setState((prevState) => {
+  //     editing: !prevState.editing
+  //   })
+  // }
 
   render() {
-    const { navigation, deck, decks } = this.props
+    const { navigation, deck, decks, cards } = this.props
     const theDeck = deck[0]
-    const theCards = theDeck.cards
+    const theCards = theDeck.cards || cards
 
     return (
       <Container>
@@ -63,7 +85,6 @@ class AddCardsToDeck extends Component {
             </ListItem>
           </View>
           <CardList 
-            cardSet={theCards} 
             navigation={navigation}
             view={'addCards'}
           />
@@ -127,14 +148,15 @@ const styles = StyleSheet.create({
 
 function mapStateToProps(state, { navigation }) {
   const { id } = navigation.state.params
-  const deck = state.decks.filter((deck) => {
+  const deck = state.decks.decks.filter((deck) => {
     if ( deck.id === id ) {
       return deck
     }
   })
   return {
     deck: deck,
-    decks: state.decks
+    decks: state.decks.decks,
+    cards: state.cards.cards
   }
 }
 
@@ -146,7 +168,7 @@ function mapDispatchToProps(dispatch, { navigation }) {
         ? getDailyReminderValue()
         : null
     })),
-    goBack: () => navigation.goBack(),
+    goBack: () => navigation.navigate('DeckList'),
   }
 }
 

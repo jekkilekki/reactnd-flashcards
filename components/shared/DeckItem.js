@@ -9,7 +9,7 @@ const DeckItem = (props) => {
     <ListItem 
       icon noIndent button
       style={[{backgroundColor: 'white'}, styles.deck]}
-      onPress={() => navigation.navigate( 'DeckSingle', { id: deck.id } )}
+      onPress={() => navigation.navigate( 'DeckSingle', { id: deck.id, name: deck.name } )}
     >
       <Left>
         <Card style={styles.cardImage}>

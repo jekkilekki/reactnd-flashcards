@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { Text, View, StyleSheet, Image } from 'react-native'
 import { Container, Content, H1, H2, H3, Form, Item, Icon, Button, Label, Input, Picker, Textarea } from 'native-base'
 import CardList from './CardList'
+import { handleNewCard } from '../../actions/cards'
 import { tealA700, purple700, pink300, white } from '../../utils/colors'
 
 class AddCard extends Component {
@@ -19,10 +20,30 @@ class AddCard extends Component {
   }
 
   state = {
-    cardImg: '',
     cardKor: '',
     cardEng: '',
-    cardSent: ''
+    cardImg: '',
+    cardPOS: '',
+    cardSents: []
+  }
+
+  _submitForm = () => {
+    const { navigation, dispatch } = this.props
+    const { cardKor, cardEng, cardImg, cardPOS, cardSents } = this.state
+
+    try {
+      dispatch( handleNewCard( cardKor, cardEng, cardImg, cardPOS ))
+      this.setState({
+        cardKor: '',
+        cardEng: '',
+        cardImg: '',
+        cardPOS: '',
+        cardSents: []
+      })
+      navigation.navigate('CardList')
+    } catch (e) {
+      console.log('Error adding Card.', e.message)
+    }
   }
 
   render() {
@@ -38,34 +59,38 @@ class AddCard extends Component {
             {/* <Item floatingLabel>
               <Label>Image</Label>
               <Input 
+                value={this.state.cardImg}
                 onChange={(text) => this.setState({cardImg: text})}
               />
             </Item> */}
-            <Item floatingLabel>
+            <Item noIndent floatingLabel>
               <Label>Front (Korean)</Label>
               <Input 
-                onChange={(text) => this.setState({cardKor: text})}
+                value={this.state.cardKor}
+                onChangeText={(text) => this.setState({cardKor: text})}
               />
             </Item>
-            <Item floatingLabel>
+            <Item noIndent floatingLabel>
               <Label>Back (English)</Label>
               <Input 
-                onChange={(text) => this.setState({cardEng: text})}
+                value={this.state.cardEng}
+                onChangeText={(text) => this.setState({cardEng: text})}
               />
             </Item>
-            <Item>
+            <Item noIndent>
               <Textarea style={{flex: 1}} rowSpan={5} bordered 
                 placeholder="Example Sentence" 
-                onChange={(text) => this.setState({cardSent: text})}  
+                value={this.state.cardSent}
+                onChangeText={(text) => this.setState({cardSent: text})}  
               />
             </Item>
 
             <Button block 
               style={[styles.button]}
               onPress={() => {
-                console.log(this.state)
-                alert('Adding your card:\n' + this.state.cardImg.toString() + '\n' + this.state.cardKor + '\n' + this.state.cardEng + '\n' + this.state.cardDeck + '\n' + this.state.cardSent)
-                console.log('Adding your card:\n' + this.state.cardImg.toString() + '\n' + this.state.cardKor + '\n' + this.state.cardEng + '\n' + this.state.cardDeck + '\n' + this.state.cardSent)
+                this._submitForm()
+                // alert('Adding your card:\n' + this.state.cardImg.toString() + '\n' + this.state.cardKor + '\n' + this.state.cardEng + '\n' + this.state.cardDeck + '\n' + this.state.cardSent)
+                // console.log('Adding your card:\n' + this.state.cardImg.toString() + '\n' + this.state.cardKor + '\n' + this.state.cardEng + '\n' + this.state.cardDeck + '\n' + this.state.cardSent)
               }}
             >
               <Text style={styles.buttonText}>

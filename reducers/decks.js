@@ -3,48 +3,14 @@ import { FETCH_DECKS, NEW_DECK, ADD_CARD_TO_DECK, EDIT_DECK, DELETE_DECK } from 
 
 const initialState = {
   decks,
-  // deckView: false,
-  // deckSelected: null,
-  // deckImg: '',
-  // deckName: '',
-  // deckDesc: '',
-  // deckCards: [],
-  // loadingDecks: false 
 }
 
 export default (state = initialState, action) => {
   switch ( action.type ) {
-    // case INITIAL_DATA:
-    //   return {
-    //     ...state,
-    //     decks: action.payload,
-    //     // cards: action.payload
-    //   }
-
-    // case SELECT_DECK:
-    //   return {
-    //     ...state,
-    //     deckView: true,
-    //     deckSelected: action.payload
-    //   }
-
-    // case NO_SELECTED_DECK:
-    //   return {
-    //     ...state,
-    //     deckView: false,
-    //     deckSelected: null
-    //   }
-
-    // case FORM_UPDATE: 
-    //   return {
-    //     ...state,
-    //     [action.payload.prop]: action.payload.value
-    //   }
-
     case NEW_DECK:
       return {
         ...state,
-        [action.deck.id]: action.deck
+        decks: [...state.decks, action.deck]
       }
 
     // case ADD_DECK_FIRE:

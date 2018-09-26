@@ -1,3 +1,4 @@
+import { generateUID } from '../utils/helpers'
 import { cards } from '../utils/_DATA'
 
 export const FETCH_CARDS = 'FETCH_CARDS'
@@ -14,14 +15,28 @@ export function fetchCards() {
 }
 
 // Add card
-export function newCard( korean, english, image, partOfSpeech, sentences ) {
+function newCard( card ) {
   return {
     type: NEW_CARD,
+    card
+  }
+}
+
+export function handleNewCard( korean, english, image, partOfSpeech, sentences ) {
+  return (dispatch, getState) => {
+    const formattedCard = formatCard({ korean, english, image, partOfSpeech, sentences })
+    dispatch( newCard( formattedCard ))
+  }
+}
+
+function formatCard({ korean, english, image, partOfSpeech, sentences }) {
+  return {
+    id: generateUID(),
     korean,
     english,
     image,
     partOfSpeech,
-    sentences
+    sentences: []
   }
 }
 

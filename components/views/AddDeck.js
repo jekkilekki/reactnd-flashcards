@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { Text, View, StyleSheet, Image } from 'react-native'
 import { Container, Content, H1, H2, H3, Form, Item, Label, Input, Textarea, Button } from 'native-base'
 import { handleNewDeck } from '../../actions/decks'
+import { generateUID } from '../../utils/helpers'
 import { tealA700, purple700, pink300, white } from '../../utils/colors'
 
 class AddDeck extends Component {
@@ -11,7 +12,8 @@ class AddDeck extends Component {
   }
 
   state = {
-    deckImg: '',
+    deckId: generateUID(),
+    deckImg: 'https://i.pinimg.com/236x/c8/cd/6d/c8cd6dd4d7212c33a79f0ad4c33b02ee.jpg',
     deckName: '',
     deckDesc: '',
     deckCards: []
@@ -19,19 +21,20 @@ class AddDeck extends Component {
 
   _submitForm = () => {
     const { navigation, dispatch } = this.props
-    const { deckImg, deckName, deckDesc, deckCards } = this.state
+    const { deckId, deckImg, deckName, deckDesc, deckCards } = this.state
     
     try {
-      dispatch( handleNewDeck( deckName, deckDesc, deckImg ))
+      dispatch( handleNewDeck( deckId, deckName, deckDesc, deckImg ))
       this.setState({
+        deckId: '',
         deckImg: '',
         deckName: '',
         deckDesc: '',
         deckCards: []
       })
-      navigation.navigate('DeckList')
+      navigation.navigate('AddCardsToDeck', { id: deckId, name: deckName })
     } catch (e) {
-      console.log('Error adding deck.', e.message)
+      console.log('Error adding Deck.', e.message)
     }
   }
 
@@ -40,13 +43,13 @@ class AddDeck extends Component {
       <Container>
         <Content>
           <Form style={styles.form}>
-            {/* <Item noIndent floatingLabel>
-              <Label>Image</Label>
+            <Item noIndent floatingLabel>
+              <Label>Image (Optional)</Label>
               <Input 
                 value={this.state.deckImg}
                 onChangeText={(text) => this.setState({deckImg: text})}
               />
-            </Item> */}
+            </Item>
             <Item noIndent floatingLabel>
               <Label>Deck Name</Label>
               <Input 

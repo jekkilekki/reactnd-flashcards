@@ -23,38 +23,16 @@ function newDeck( deck ) {
   }
 }
 
-export function handleNewDeck( name, description, image ) {
-  return ( dispatch, getState ) => {
-    // const { authedUser } = getState()
-
-    const formattedDeck = formatDeck({ name, description, image })
-
-    // return saveNewDeck({
-    //   name,
-    //   description,
-    //   image,
-    //   // author: authedUser
-    // }).then((deck) => {
+export function handleNewDeck( id, name, description, image ) {
+  return ( dispatch ) => {
+    const formattedDeck = formatDeck({ id, name, description, image })
       dispatch( newDeck( formattedDeck ))
-    // }).catch((e) => {
-    //   console.warn('Error in saving Deck: ', e)
-    //   alert('Error saving your deck. Please try again.')
-    // })
   }
 }
 
-function saveNewDeck( deck ) {
-  // const { decks } = this.getState()
-  const formattedDeck = formatDeck(deck)
-
+function formatDeck({ id, name, description, image }) {
   return {
-    formattedDeck
-  }
-}
-
-function formatDeck({ name, description, image }) {
-  return {
-    id: generateUID(),
+    id,
     name,
     description,
     image,
