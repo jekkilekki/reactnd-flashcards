@@ -29,7 +29,8 @@ class CardList extends Component {
   }
 
   render() {
-    const { navigation } = this.props
+    const { navigation, cards } = this.props
+    // console.log(cards)
 
     return (
       <Container>
@@ -79,7 +80,10 @@ const styles = StyleSheet.create({
 })
 
 function mapStateToProps(state) {
-  return { cards: state.cards.cards }
+  return { 
+    cards: state.cards.cards 
+      // .sort((a,b) => state.cards.cards[b].korean - state.cards.cards[a].korean)
+  }
 }
 
 export default connect(mapStateToProps)(CardList)

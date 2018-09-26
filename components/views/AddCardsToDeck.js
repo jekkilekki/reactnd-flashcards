@@ -89,6 +89,15 @@ class AddCardsToDeck extends Component {
             view={'addCards'}
           />
         </Content>
+        <Fab
+          style={{ backgroundColor: pink500 }}
+          position={'topRight'}
+          onPress={() => {
+            navigation.navigate('AddCard', {deckName: theDeck.name})
+          }}
+        >
+          <Icon name="add" />
+        </Fab>
       </Container>
     )
   }

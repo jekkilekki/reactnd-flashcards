@@ -4,7 +4,7 @@ import { Text, View, StyleSheet, Image } from 'react-native'
 import { Container, Content, H1, H2, H3, Form, Item, Icon, Button, Label, Input, Picker, Textarea } from 'native-base'
 import CardList from './CardList'
 import { handleNewCard } from '../../actions/cards'
-import { generateUID } from '../utils/helpers'
+import { generateUID } from '../../utils/helpers'
 import { tealA700, purple700, pink300, white } from '../../utils/colors'
 
 class AddCard extends Component {
