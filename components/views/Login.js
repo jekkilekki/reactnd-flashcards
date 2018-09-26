@@ -1,4 +1,6 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import { setAuthedUser } from '../../actions/authedUser'
 import { View, Text, Image, ImageBackground, StyleSheet } from 'react-native'
 import { Container, Header, Content, Form, Item, Input, Icon, Label, Button } from 'native-base'
 import { white, teal500, tealA700, pink300, purple700, error } from '../../utils/colors'
@@ -13,6 +15,7 @@ import { MKTextField, MKColor, MKButton } from 'react-native-material-kit'
 
 class Login extends Component {
   state = {
+    uid: '',
     email: '',
     password: '',
     error: '',
@@ -29,14 +32,22 @@ class Login extends Component {
   }
 
   _onAuthSuccess = () => {
-    console.log( 'Authentication succeeded.' )
+    const { currentUser } = firebase.auth()
+    const uid = currentUser.uid
     this.setState({
       email: '',
       password: '',
       error: '',
       loading: false
     })
-    this.props.navigation.navigate('Home')
+    try {
+      this.props.dispatch(setAuthedUser(currentUser.uid))
+      console.log( 'Authentication succeeded.' )
+      this.props.navigation.navigate('Home')
+    } catch (e) {
+      alert("Error logging you in.")
+      console.log("Error logging you in.", e)
+    }
   }
 
   _onAuthFailed = (e) => {
@@ -153,4 +164,10 @@ const styles = StyleSheet.create({
   }
 })
 
-export default Login
+function mapStateToProps(state) {
+  return {
+    authedUser: state.authedUser
+  }
+}
+
+export default connect(mapStateToProps)(Login)

@@ -1,13 +1,18 @@
 import firebase from 'firebase'
+// import { SET_AUTHED_USER } from './authedUser';
 
+export const SET_AUTHED_USER = 'SET_AUTHED_USER'
+
+export const RECEIVE_DECKS = 'RECEIVE_DECKS'
 export const RECEIVE_CARDS = 'RECEIVE_CARDS'
-export const SELECT_CARD = 'SELECT_CARD'
+
+// export const SELECT_CARD = 'SELECT_CARD'
 export const ADD_CARD = 'ADD_CARD'
 export const EDIT_CARD = 'EDIT_CARD'
 export const DELETE_CARD = 'DELETE_CARD'
 
-export const SELECT_DECK = 'SELECT_DECK'
-export const NO_SELECTED_DECK = 'NO_SELECTED_DECK'
+// export const SELECT_DECK = 'SELECT_DECK'
+// export const NO_SELECTED_DECK = 'NO_SELECTED_DECK'
 export const ADD_DECK = 'ADD_DECK'
 export const EDIT_DECK = 'EDIT_DECK'
 export const DELETE_DECK = 'DELETE_DECK'
@@ -18,23 +23,36 @@ export const NEW_CARD = 'NEW_CARD'
 export const ADD_DECK_FIRE = 'ADD_DECK_FIRE'
 export const ADD_CARD_FIRE = 'ADD_CARD_FIRE'
 
-export function selectDeck( deckId ) {
+export function setAuthedUser( uid ) {
   return {
-    type: SELECT_DECK,
-    payload: deckId,
+    type: SET_AUTHED_USER,
+    uid
   }
 }
 
-export function noSelectedDeck() {
-  return {
-    type: NO_SELECTED_DECK
-  }
-}
+// export function selectDeck( deckId ) {
+//   return {
+//     type: SELECT_DECK,
+//     payload: deckId,
+//   }
+// }
+
+// export function noSelectedDeck() {
+//   return {
+//     type: NO_SELECTED_DECK
+//   }
+// }
 
 export function formUpdate({ prop, value }) {
   return {
     type: FORM_UPDATE,
     payload: { prop, value }
+  }
+}
+
+export function loginUser({uid}) {
+  return (dispatch) => {
+    dispatch({type: SET_AUTHED_USER})
   }
 }
 

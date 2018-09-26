@@ -5,7 +5,7 @@ import { Container, Content, Tabs, Tab, Fab, H3, Left, Right, ListItem, Body, Ca
 import FloatingActionButton from '../shared/FloatingActionButton'
 import CardList from './CardList'
 import CardSets from '../shared/CardSets'
-import { tealA700, gray100 } from '../../utils/colors'
+import { tealA700, gray100, pink500 } from '../../utils/colors'
 import * as actions from '../../actions'
 
 class DeckSingle extends Component {
@@ -118,7 +118,20 @@ class DeckSingle extends Component {
             </Tabs>
           </View>
           </Content>
-        <FloatingActionButton position={"topRight"} direction={"down"} />
+        {/* <FloatingActionButton position={"topRight"} direction={"down"} /> */}
+
+        <Fab
+          // active={this.state.active}
+          // direction={this.props.direction || "up"}
+          // containerStyle={{ }}
+          style={{ backgroundColor: pink500 }}
+          position={'topRight'}
+          onPress={() => {
+            navigation.navigate('AddCard', {deckName: theDeck.name})
+          }}
+        >
+          <Icon name="add" />
+        </Fab>
       </Container>
     )
   }

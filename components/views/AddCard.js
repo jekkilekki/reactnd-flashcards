@@ -2,19 +2,21 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Text, View, StyleSheet, Image } from 'react-native'
 import { Container, Content, H1, H2, H3, Form, Item, Icon, Button, Label, Input, Picker, Textarea } from 'native-base'
+import CardList from './CardList'
 import { tealA700, purple700, pink300, white } from '../../utils/colors'
 
 class AddCard extends Component {
+  static navigationOptions = ({ navigation }) => {
+    return {
+      title: `Add Card to ${navigation.state.params.deckName} Deck`
+    }
+  }
+
   state = {
     cardImg: '',
     cardKor: '',
     cardEng: '',
-    cardDeck: null,
     cardSent: ''
-  }
-
-  _onValueChange = () => {
-    console.log('Selecting a deck now')
   }
 
   render() {
@@ -22,14 +24,14 @@ class AddCard extends Component {
 
     return (
       <Container>
-        <Content padder>
-          <Form>
-            <Item floatingLabel>
+        <Content>
+          <Form style={styles.form}>
+            {/* <Item floatingLabel>
               <Label>Image</Label>
               <Input 
                 onChange={(text) => this.setState({cardImg: text})}
               />
-            </Item>
+            </Item> */}
             <Item floatingLabel>
               <Label>Front (Korean)</Label>
               <Input 
@@ -41,25 +43,6 @@ class AddCard extends Component {
               <Input 
                 onChange={(text) => this.setState({cardEng: text})}
               />
-            </Item>
-            <Item picker style={{flex: 1}}>
-              <Picker
-                mode="dropdown"
-                iosIcon={<Icon name="ios-arrow-down-outline" />}
-                style={{ width: '84%' }}
-                placeholder="Add to Deck"
-                placeholderStyle={{ color: "#bfc6ea" }}
-                placeholderIconColor="#007aff"
-                selectedValue={this.state.cardDeck}
-                onValueChange={this._onValueChange}
-              >
-                {/* {decks.map((deck) => {
-                  <Picker.Item label={deck.id} value={deck.id} />
-                })} */}
-                <Picker.Item label="Beginner" value="key0" />
-                <Picker.Item label="Intermediate" value="key1" />
-                <Picker.Item label="Advanced" value="key2" />
-              </Picker>
             </Item>
             <Item>
               <Textarea style={{flex: 1}} rowSpan={5} bordered 
@@ -77,10 +60,11 @@ class AddCard extends Component {
               }}
             >
               <Text style={styles.buttonText}>
-                Add Card
+                Add New Card
               </Text>
             </Button>
           </Form>
+          <CardList addCards={true} deck={this.props.navigation.state.params.deckName}/>
         </Content>
       </Container>
     )
@@ -88,47 +72,20 @@ class AddCard extends Component {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    backgroundColor: 'rgba(0,0,0,0)',
-  },
-  logo: {
-    width: 200,
-    alignSelf: 'center'
-  },
   form: {
-    paddingBottom: 10,
-    width: 200,
-  },
-  fieldStyles: {
-    height: 40,
-    color: purple700,
-    width: 200,
-  },
-  loginButtonArea: {
-    marginTop: 20,
-  },
-  errorMessage: {
-    backgroundColor: pink300,
-    alignSelf: 'center'
+    marginRight: 10,
   },
   button: {
     marginTop: 10,
+    marginBottom: 10,
+    marginLeft: 10,
     borderRadius: 8,
     backgroundColor: tealA700,
-  },
-  buttonOutline: {
-    backgroundColor: white,
-    borderColor: tealA700,
-    borderWidth: 2
   },
   buttonText: {
     color: white,
     fontSize: 18,
   },
-  buttonOutlineText: {
-    color: tealA700,
-    fontSize: 18
-  }
 })
 
 function mapStateToProps(state) {

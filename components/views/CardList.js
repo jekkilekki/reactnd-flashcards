@@ -48,7 +48,7 @@ class CardList extends Component {
             keyExtractor={(item, i) => {return i.toString()}}
             data={this.state.cardResults}
             renderItem={(card) =>
-              <FlashcardItem card={card} navigation={navigation} />
+              <FlashcardItem card={card} navigation={navigation} addCards={true} deck={this.props.deck} />
             }
           >
           </FlatList>

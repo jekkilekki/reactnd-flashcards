@@ -19,17 +19,17 @@ class FloatingAddButton extends Component {
         style={{ backgroundColor: pink500 }}
         position={this.props.position || "bottomRight"}
         onPress={() => {
-          if ( this.state.loggedIn ) {
+          // if ( this.state.loggedIn ) {
             this.setState({ active: !this.state.active })
-          } else {
-            alert('Please login before editing the app.')
-          } 
+          // } else {
+          //   alert('Please login before editing the app.')
+          // } 
         }}
       >
         <Icon name="add" />
         
-        { this.state.loggedIn && 
-          <View>
+        {/* { this.state.loggedIn && 
+          <View> */}
           <Button 
             style={{ backgroundColor: '#34A34F' }}
             onPress={() => navigation.navigate(destOne || 'AddDeck')}
@@ -42,8 +42,8 @@ class FloatingAddButton extends Component {
           >
             <Icon name={this.props.iconTwo || 'albums'} />
           </Button>
-          </View>
-        }
+          {/* </View>
+        } */}
       </Fab>
     )
   }
