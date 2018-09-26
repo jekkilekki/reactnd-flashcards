@@ -1,4 +1,3 @@
-import { generateUID } from '../utils/helpers'
 import { decks } from '../utils/_DATA'
 
 export const FETCH_DECKS = 'FETCH_DECKS'
@@ -26,7 +25,7 @@ function newDeck( deck ) {
 export function handleNewDeck( id, name, description, image ) {
   return ( dispatch ) => {
     const formattedDeck = formatDeck({ id, name, description, image })
-      dispatch( newDeck( formattedDeck ))
+    dispatch( newDeck( formattedDeck ))
   }
 }
 

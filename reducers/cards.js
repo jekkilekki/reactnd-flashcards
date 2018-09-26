@@ -15,7 +15,10 @@ export default (state = initialState, action) => {
     //   }
     
     case NEW_CARD:
-      return initialState
+      return {
+        ...state,
+        cards: [...state.cards, action.card]
+      }
 
     // case ADD_CARD_FIRE:
     //   return {

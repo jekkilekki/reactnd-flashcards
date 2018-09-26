@@ -4,6 +4,7 @@ import { Text, View, StyleSheet, Image } from 'react-native'
 import { Container, Content, H1, H2, H3, Form, Item, Icon, Button, Label, Input, Picker, Textarea } from 'native-base'
 import CardList from './CardList'
 import { handleNewCard } from '../../actions/cards'
+import { generateUID } from '../utils/helpers'
 import { tealA700, purple700, pink300, white } from '../../utils/colors'
 
 class AddCard extends Component {
@@ -20,6 +21,7 @@ class AddCard extends Component {
   }
 
   state = {
+    cardId: generateUID(),
     cardKor: '',
     cardEng: '',
     cardImg: '',
@@ -29,11 +31,12 @@ class AddCard extends Component {
 
   _submitForm = () => {
     const { navigation, dispatch } = this.props
-    const { cardKor, cardEng, cardImg, cardPOS, cardSents } = this.state
+    const { cardId, cardKor, cardEng, cardImg, cardPOS, cardSents } = this.state
 
     try {
-      dispatch( handleNewCard( cardKor, cardEng, cardImg, cardPOS ))
+      dispatch( handleNewCard( cardId, cardKor, cardEng, cardImg, cardPOS ))
       this.setState({
+        cardId: '',
         cardKor: '',
         cardEng: '',
         cardImg: '',
@@ -56,13 +59,13 @@ class AddCard extends Component {
       <Container>
         <Content>
           <Form style={styles.form}>
-            {/* <Item floatingLabel>
+            <Item floatingLabel>
               <Label>Image</Label>
               <Input 
                 value={this.state.cardImg}
-                onChange={(text) => this.setState({cardImg: text})}
+                onChangeText={(text) => this.setState({cardImg: text})}
               />
-            </Item> */}
+            </Item>
             <Item noIndent floatingLabel>
               <Label>Front (Korean)</Label>
               <Input 

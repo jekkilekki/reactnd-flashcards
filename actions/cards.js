@@ -22,16 +22,16 @@ function newCard( card ) {
   }
 }
 
-export function handleNewCard( korean, english, image, partOfSpeech, sentences ) {
-  return (dispatch, getState) => {
-    const formattedCard = formatCard({ korean, english, image, partOfSpeech, sentences })
+export function handleNewCard( id, korean, english, image, partOfSpeech, sentences ) {
+  return ( dispatch ) => {
+    const formattedCard = formatCard({ id, korean, english, image, partOfSpeech, sentences })
     dispatch( newCard( formattedCard ))
   }
 }
 
-function formatCard({ korean, english, image, partOfSpeech, sentences }) {
+function formatCard({ id, korean, english, image, partOfSpeech, sentences }) {
   return {
-    id: generateUID(),
+    id,
     korean,
     english,
     image,
