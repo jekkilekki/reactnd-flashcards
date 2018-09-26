@@ -1,6 +1,7 @@
 import { blue500, purple500, pink500 } from './colors'
 
-export const decks = [{
+export const decks = [
+  {
     id: "beginner",
     level: "A",
     color: blue500,

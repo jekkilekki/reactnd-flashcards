@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Text, View, StyleSheet, Image } from 'react-native'
 import { Container, Content, H1, H2, H3, Form, Item, Label, Input, Textarea, Button } from 'native-base'
-import * as actions from '../../actions'
+import { handleNewDeck } from '../../actions/decks'
 import { tealA700, purple700, pink300, white } from '../../utils/colors'
 
 class AddDeck extends Component {
@@ -18,30 +18,35 @@ class AddDeck extends Component {
   }
 
   _submitForm = () => {
-    const { navigation } = this.props
+    const { navigation, dispatch } = this.props
     const { deckImg, deckName, deckDesc, deckCards } = this.state
-    this.props.addDeckFire({ deckImg, deckName, deckDesc, deckCards })
-    this.setState({
-      deckImg: '',
-      deckName: '',
-      deckDesc: '',
-      deckCards: []
-    })
-    navigation.navigate('DeckList')
+    
+    try {
+      dispatch( handleNewDeck( deckName, deckDesc, deckImg ))
+      this.setState({
+        deckImg: '',
+        deckName: '',
+        deckDesc: '',
+        deckCards: []
+      })
+      navigation.navigate('DeckList')
+    } catch (e) {
+      console.log('Error adding deck.', e.message)
+    }
   }
 
   render() {
     return (
       <Container>
         <Content>
-          <Form>
-            <Item noIndent floatingLabel>
+          <Form style={styles.form}>
+            {/* <Item noIndent floatingLabel>
               <Label>Image</Label>
               <Input 
                 value={this.state.deckImg}
                 onChangeText={(text) => this.setState({deckImg: text})}
               />
-            </Item>
+            </Item> */}
             <Item noIndent floatingLabel>
               <Label>Deck Name</Label>
               <Input 
@@ -60,8 +65,8 @@ class AddDeck extends Component {
             <Button block 
               style={[styles.button]}
               onPress={() => {
-                alert('Adding your deck')
-                // this._submitForm()
+                // alert('Adding your deck')
+                this._submitForm()
               }}
             >
               <Text style={styles.buttonText}>
@@ -79,7 +84,6 @@ const styles = StyleSheet.create({
   form: {
     paddingBottom: 10,
     marginRight: 10,
-    width: 200,
   },
   button: {
     marginTop: 10,
@@ -106,4 +110,4 @@ function mapStateToProps(state) {
   }
 }
 
-export default connect(mapStateToProps, actions)(AddDeck)
+export default connect(mapStateToProps)(AddDeck)

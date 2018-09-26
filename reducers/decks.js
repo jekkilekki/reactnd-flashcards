@@ -44,10 +44,7 @@ export default (state = initialState, action) => {
     case NEW_DECK:
       return {
         ...state,
-        deckImg: '',
-        deckName: '',
-        deckDesc: '',
-        deckCards: []
+        [action.deck.id]: action.deck
       }
 
     // case ADD_DECK_FIRE:

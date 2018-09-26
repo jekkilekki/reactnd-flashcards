@@ -5,7 +5,7 @@ import { StyleSheet } from 'react-native'
 import { Container, Content, List, ListItem, Icon, Fab } from 'native-base'
 import DeckItem from '../shared/DeckItem'
 import FloatingActionButton from '../shared/FloatingActionButton'
-import { loadInitialData } from '../../actions'
+import { handleInitialData } from '../../actions/shared'
 import { pink500 } from '../../utils/colors'
 
 // Lodash business? (npm install, rebuild)
@@ -13,7 +13,7 @@ import { pink500 } from '../../utils/colors'
 
 class DeckList extends Component {
   componentWillMount() {
-    // this.props.loadInitialData()
+    // this.props.dispatch(handleInitialData())
   }
 
   _addDeck = (navigation) => {
@@ -90,5 +90,5 @@ function mapStateToProps(state) {
   }
 }
 
-export default connect(mapStateToProps)(DeckList)
-// export default connect(mapStateToProps, {loadInitialData})(DeckList)
+// export default connect(mapStateToProps)(DeckList)
+export default connect(mapStateToProps, {handleInitialData})(DeckList)

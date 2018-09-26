@@ -1,10 +1,12 @@
+import { cards } from '../utils/_DATA'
+
 export const FETCH_CARDS = 'FETCH_CARDS'
 export const NEW_CARD = 'NEW_CARD'
 export const EDIT_CARD = 'EDIT_CARD'
 export const DELETE_CARD = 'DELETE_CARD'
 
 // Fetch cards
-export function fetchCards( cards ) {
+export function fetchCards() {
   return {
     type: FETCH_CARDS,
     cards

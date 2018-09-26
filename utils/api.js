@@ -1,8 +1,15 @@
 /* UdaciFitness API */
 import { AsyncStorage } from 'react-native'
-import { formatCalendarResults, CALENDAR_STORAGE_KEY } from './_calendar'
+// import { formatCalendarResults, CALENDAR_STORAGE_KEY } from './_calendar'
 /* Chirper Redux example */
-import { _getDecks, _getCards, _saveDeck, _saveToDeck } from './_DATA.js'
+import { decks, cards, _getDecks, _getCards, _saveDeck, _saveToDeck } from './_DATA.js'
+
+export function getInitialData() {
+  return {
+    decks,
+    cards
+  }
+}
 
 /* UdaciFitness API */
 export function fetchCalendarResults () {
