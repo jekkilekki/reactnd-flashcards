@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { StyleSheet, FlatList, Text } from 'react-native'
-import { Container, Content } from 'native-base'
+import { Container, Content, Fab, Icon } from 'native-base'
 import { SearchBar } from 'react-native-elements'
 import FlashcardItem from '../shared/FlashcardItem'
 import FloatingActionButton from '../shared/FloatingActionButton'
-import { white, gray50, gray100, gray200, gray300 } from '../../utils/colors'
+import { white, pink500, gray50, gray100, gray200, gray300 } from '../../utils/colors'
 
 class CardList extends Component {
   state = {
@@ -54,7 +54,19 @@ class CardList extends Component {
           </FlatList>
         </Content>
 
-        <FloatingActionButton />
+        {/* <FloatingActionButton /> */}
+        <Fab
+          // active={this.state.active}
+          // direction={this.props.direction || "up"}
+          // containerStyle={{ }}
+          style={{ backgroundColor: pink500 }}
+          position={'bottomRight'}
+          onPress={() => {
+            navigation.navigate('AddCard')
+          }}
+        >
+          <Icon name="add" />
+        </Fab>
       </Container>
     )
   }
@@ -67,7 +79,7 @@ const styles = StyleSheet.create({
 })
 
 function mapStateToProps(state) {
-  return { cards: state.cards }
+  return { cards: state.cards.cards }
 }
 
 export default connect(mapStateToProps)(CardList)

@@ -12,7 +12,7 @@ const initialState = {
   // loadingDecks: false 
 }
 
-export default decks = (state = initialState, action) => {
+export default (state = initialState, action) => {
   switch ( action.type ) {
     // case INITIAL_DATA:
     //   return {
@@ -21,25 +21,25 @@ export default decks = (state = initialState, action) => {
     //     // cards: action.payload
     //   }
 
-    case SELECT_DECK:
-      return {
-        ...state,
-        deckView: true,
-        deckSelected: action.payload
-      }
+    // case SELECT_DECK:
+    //   return {
+    //     ...state,
+    //     deckView: true,
+    //     deckSelected: action.payload
+    //   }
 
-    case NO_SELECTED_DECK:
-      return {
-        ...state,
-        deckView: false,
-        deckSelected: null
-      }
+    // case NO_SELECTED_DECK:
+    //   return {
+    //     ...state,
+    //     deckView: false,
+    //     deckSelected: null
+    //   }
 
-    case FORM_UPDATE: 
-      return {
-        ...state,
-        [action.payload.prop]: action.payload.value
-      }
+    // case FORM_UPDATE: 
+    //   return {
+    //     ...state,
+    //     [action.payload.prop]: action.payload.value
+    //   }
 
     case NEW_DECK:
       return {
@@ -50,11 +50,11 @@ export default decks = (state = initialState, action) => {
         deckCards: []
       }
 
-    case ADD_DECK_FIRE:
-      return {
-        ...state,
-        ...action.newDeck
-      }
+    // case ADD_DECK_FIRE:
+    //   return {
+    //     ...state,
+    //     ...action.newDeck
+    //   }
 
     default: 
       return state

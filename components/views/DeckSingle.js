@@ -191,14 +191,14 @@ const styles = StyleSheet.create({
 
 function mapStateToProps(state, { navigation }) {
   const { id } = navigation.state.params
-  const deck = state.decks.filter((deck) => {
+  const deck = state.decks.decks.filter((deck) => {
     if ( deck.id === id ) {
       return deck
     }
   })
   return {
     deck: deck,
-    decks: state.decks
+    decks: state.decks.decks
   }
 }
 

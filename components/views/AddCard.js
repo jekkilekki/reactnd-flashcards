@@ -7,8 +7,14 @@ import { tealA700, purple700, pink300, white } from '../../utils/colors'
 
 class AddCard extends Component {
   static navigationOptions = ({ navigation }) => {
+    // const deckName = navigation.state.params.deckName
+    //   ? navigation.state.params.deckName + ' Deck'
+    //   : 'Dictionary'
+    // return {
+    //   title: `Add Card to ${deckName}`
+    // }
     return {
-      title: `Add Card to ${navigation.state.params.deckName} Deck`
+      title: 'Add New Card'
     }
   }
 
@@ -20,7 +26,10 @@ class AddCard extends Component {
   }
 
   render() {
-    const { decks } = this.props
+    // const { decks, navigation } = this.props
+    // const deckName = navigation.state.params.deckName
+    //   ? navigation.state.params.deckName
+    //   : ''
 
     return (
       <Container>
@@ -64,7 +73,7 @@ class AddCard extends Component {
               </Text>
             </Button>
           </Form>
-          <CardList addCards={true} deck={this.props.navigation.state.params.deckName}/>
+          {/* <CardList addCards={true} deck={deckName}/> */}
         </Content>
       </Container>
     )
@@ -90,7 +99,7 @@ const styles = StyleSheet.create({
 
 function mapStateToProps(state) {
   return {
-    decks: state.decks
+    decks: state.decks.decks
   }
 }
 

@@ -11,7 +11,7 @@ import { Navigation } from './components/shared/Navigation'
 import Loader from './components/shared/Loader'
 import Login from './components/views/Login'
 import Splash from './components/views/Splash'
-import reducer from './reducers/index.old'
+import reducer from './reducers'
 
 const store = createStore(
   reducer, 

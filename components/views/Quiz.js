@@ -4,6 +4,14 @@ import { Container, Content, H1, H2, H3, DeckSwiper, Card, CardItem, Thumbnail, 
 import { white, pink300, red300, amber300, green300, teal300 } from '../../utils/colors'
 
 class Quiz extends Component {
+  static navigationOptions = ({ navigation }) => {
+    const { view } = navigation.state.params
+    const title = view === 'quiz' ? 'Quizzing' : 'Learning'
+    return {
+      title: title
+    }
+  }
+
   state = {
     toReview: [],
     score: 0,
@@ -76,7 +84,7 @@ class Quiz extends Component {
     return (
       <Container style={{backgroundColor: 'white'}}>
         <Content padder>
-          <H3>{`${title} ${name} Deck: Set #${set}`}</H3>
+          <H3>{`${name} Deck: Set #${set}`}</H3>
           <Text>Card {this.state.index} of {theCards.length}</Text>
           <View>
             <DeckSwiper

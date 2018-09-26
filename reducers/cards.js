@@ -5,7 +5,7 @@ const initialState = {
   cards,
 }
 
-export default cards = (state = initialState, action) => {
+export default (state = initialState, action) => {
   switch ( action.type ) {
     // case INITIAL_DATA:
     //   return {
@@ -17,11 +17,11 @@ export default cards = (state = initialState, action) => {
     case NEW_CARD:
       return initialState
 
-    case ADD_CARD_FIRE:
-      return {
-        ...state,
-        ...action.newCard
-      }
+    // case ADD_CARD_FIRE:
+    //   return {
+    //     ...state,
+    //     ...action.newCard
+    //   }
 
     default: 
       return state

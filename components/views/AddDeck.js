@@ -7,7 +7,7 @@ import { tealA700, purple700, pink300, white } from '../../utils/colors'
 
 class AddDeck extends Component {
   static navigationOptions = {
-    title: 'Add a Deck'
+    title: 'Add New Deck'
   }
 
   state = {
@@ -33,12 +33,12 @@ class AddDeck extends Component {
   render() {
     return (
       <Container>
-        <Content padder>
+        <Content>
           <Form>
             <Item noIndent floatingLabel>
               <Label>Image</Label>
               <Input 
-                // value={this.state.deckImg}
+                value={this.state.deckImg}
                 onChangeText={(text) => this.setState({deckImg: text})}
               />
             </Item>
@@ -65,7 +65,7 @@ class AddDeck extends Component {
               }}
             >
               <Text style={styles.buttonText}>
-                Add Deck
+                Add New Deck
               </Text>
             </Button>
           </Form>
@@ -76,57 +76,33 @@ class AddDeck extends Component {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    backgroundColor: 'rgba(0,0,0,0)',
-  },
-  logo: {
-    width: 200,
-    alignSelf: 'center'
-  },
   form: {
     paddingBottom: 10,
+    marginRight: 10,
     width: 200,
-  },
-  fieldStyles: {
-    height: 40,
-    color: purple700,
-    width: 200,
-  },
-  loginButtonArea: {
-    marginTop: 20,
-  },
-  errorMessage: {
-    backgroundColor: pink300,
-    alignSelf: 'center'
   },
   button: {
     marginTop: 10,
+    marginLeft: 10,
+    marginBottom: 10,
     borderRadius: 8,
     backgroundColor: tealA700,
-  },
-  buttonOutline: {
-    backgroundColor: white,
-    borderColor: tealA700,
-    borderWidth: 2
   },
   buttonText: {
     color: white,
     fontSize: 18,
   },
-  buttonOutlineText: {
-    color: tealA700,
-    fontSize: 18
-  }
 })
 
 function mapStateToProps(state) {
   // Maybe can map this to props this way? Instead of state in this Component?
-  const { deckImg, deckName, deckDesc, deckCards } = this.props
+  // const { deckImg, deckName, deckDesc, deckCards } = this.props
   return {
-    deckImg,
-    deckName,
-    deckDesc,
-    deckCards
+    // deckImg,
+    // deckName,
+    // deckDesc,
+    // deckCards
+    decks: state.decks.decks
   }
 }
 

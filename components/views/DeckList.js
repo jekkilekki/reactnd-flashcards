@@ -26,7 +26,7 @@ class DeckList extends Component {
 
   render() {
     const { decks, cards, navigation } = this.props
-    console.log(navigation)
+    console.log("State of decks now:", decks)
 
     let sortedDecks = decks.map((deck) => {
       return cards.filter((card) => {
@@ -53,20 +53,20 @@ class DeckList extends Component {
           </List>
         </Content>
 
-        <FloatingActionButton 
+        {/* <FloatingActionButton 
           navigation={navigation}
           iconOne={'apps'}
           iconTwo={'albums'}
           destOne={'AddDeck'}
           destTwo={'AddCard'}
-        />
-        {/* <Fab
+        /> */}
+        <Fab
           containerStyle={{ }}
           style={{ backgroundColor: pink500 }}
           position={"bottomRight"}
           onPress={() => navigation.navigate('AddDeck')}>
           <Icon name="add" />
-        </Fab> */}
+        </Fab>
       </Container>
     )
   }
@@ -85,8 +85,8 @@ function mapStateToProps(state) {
   // })
   return {
     // decks, // after Lodash - remove line beneath this one 
-    decks: state.decks,
-    cards: state.cards 
+    decks: state.decks.decks,
+    cards: state.cards.cards
   }
 }
 
