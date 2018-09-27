@@ -4,6 +4,7 @@ import { Text, View, StyleSheet, Image } from 'react-native'
 import { Container, Content, H1, H2, H3, Form, Item, Label, Input, Textarea, Button } from 'native-base'
 import { handleNewDeck } from '../../actions/decks'
 import { generateUID } from '../../utils/helpers'
+import { addDeckToStorage, removeDeckFromStorage } from '../../utils/api'
 import { tealA700, purple700, pink300, white } from '../../utils/colors'
 
 class AddDeck extends Component {
@@ -22,8 +23,10 @@ class AddDeck extends Component {
   _submitForm = () => {
     const { navigation, dispatch } = this.props
     const { deckId, deckImg, deckName, deckDesc, deckCards } = this.state
+    const key = timeToString()
     
     try {
+      // Update Redux
       dispatch( handleNewDeck( deckId, deckName, deckDesc, deckImg ))
       this.setState({
         deckId: '',
@@ -32,7 +35,10 @@ class AddDeck extends Component {
         deckDesc: '',
         deckCards: []
       })
+      // Navigate to Next screen
       navigation.navigate('AddCardsToDeck', { id: deckId, name: deckName })
+      // Save to 'DB'
+      // addDeckToStorage({ key, deck }) -> refactor like AddEntry in Udacifitness
     } catch (e) {
       console.log('Error adding Deck.', e.message)
     }

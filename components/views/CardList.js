@@ -4,7 +4,6 @@ import { StyleSheet, FlatList, Text } from 'react-native'
 import { Container, Content, Fab, Icon } from 'native-base'
 import { SearchBar } from 'react-native-elements'
 import FlashcardItem from '../shared/FlashcardItem'
-import FloatingActionButton from '../shared/FloatingActionButton'
 import { white, pink500, gray50, gray100, gray200, gray300 } from '../../utils/colors'
 
 class CardList extends Component {
@@ -48,7 +47,8 @@ class CardList extends Component {
     return (
       <Container>
         <SearchBar
-          lightTheme showLoading
+          lightTheme 
+          // showLoading
           placeholder='Search for card'
           containerStyle={{backgroundColor: gray100, paddingRight: 100}}
           inputStyle={{backgroundColor: gray200, fontSize: 14}}

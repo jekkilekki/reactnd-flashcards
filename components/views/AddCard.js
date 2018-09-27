@@ -5,6 +5,7 @@ import { Container, Content, H1, H2, H3, Form, Item, Icon, Button, Label, Input,
 import CardList from './CardList'
 import { handleNewCard } from '../../actions/cards'
 import { generateUID } from '../../utils/helpers'
+import { addCardToStorage, removeCardFromStorage } from '../../utils/api'
 import { tealA700, purple700, pink300, white } from '../../utils/colors'
 
 class AddCard extends Component {
@@ -32,8 +33,10 @@ class AddCard extends Component {
   _submitForm = () => {
     const { navigation, dispatch } = this.props
     const { cardId, cardKor, cardEng, cardImg, cardPOS, cardSents } = this.state
+    // const key = timeToString()
 
     try {
+      // Update Redux
       dispatch( handleNewCard( cardId, cardKor, cardEng, cardImg, cardPOS ))
       this.setState({
         cardId: '',
@@ -43,7 +46,10 @@ class AddCard extends Component {
         cardPOS: '',
         cardSents: []
       })
+      // Navigate back to CardList
       navigation.navigate('CardList')
+      // Update 'DB'
+      // addCardToStorage({ key, card }) -> refactor as AddEntry in Udacifitness
     } catch (e) {
       console.log('Error adding Card.', e.message)
     }

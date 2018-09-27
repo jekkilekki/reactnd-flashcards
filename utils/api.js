@@ -51,3 +51,38 @@ export function removeEntry (key) {
 // export function saveToDeck(info) {
 //   return _saveToDeck(info)
 // }
+
+/* Async Flashcards */
+/* Decks */
+export function newDeckToStorage({ deck, key }) {
+  return AsyncStorage.mergeItem(DECK_STORAGE_KEY, JSON.stringify({
+    [key]: deck,
+  }))
+}
+
+export function removeDeckFromStorage(key) {
+  return AsyncStorage.getItem(DECK_STORAGE_KEY)
+    .then((results) => {
+      const data = JSON.parse(results)
+      data[key] = undefined
+      delete data[key]
+      AsyncStorage.setItem(DECK_STORAGE_KEY, JSON.stringify(data))
+    })
+}
+
+/* Cards */
+export function newCardToStorage({ card, key }) {
+  return AsyncStorage.mergeItem(CARD_STORAGE_KEY, JSON.stringify({
+    [key]: card,
+  }))
+}
+
+export function removeCardFromStorage(key) {
+  return AsyncStorage.getItem(CARD_STORAGE_KEY)
+    .then((results) => {
+      const data = JSON.parse(results)
+      data[key] = undefined
+      delete data[key]
+      AsyncStorage.setItem(CARD_STORAGE_KEY, JSON.stringify(data))
+    })
+}
