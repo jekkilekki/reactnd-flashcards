@@ -42,6 +42,7 @@ class Quiz extends Component {
   }
 
   _renderItem = (item) => {
+    console.log("Item: ", item)
     return (
       <View>
         <Card style={[{elevation: 3}, styles.card]}>
@@ -74,7 +75,7 @@ class Quiz extends Component {
     const { cards, set, name, view } = navigation.state.params
     const { index } = this.state
 
-    console.log('View', view)
+    console.log('Cards', cards)
     console.log('Props', this.props)
     console.log('Nav Params', navigation.state.params)
 
@@ -83,7 +84,9 @@ class Quiz extends Component {
 
     return (
       <Container style={{backgroundColor: 'white'}}>
-        <Content padder>
+        <Content padder
+          contentContainerStyle={{ flex: 1 }}
+        >
           <H3>{`${name} Deck: Set #${set}`}</H3>
           <Text>Card {this.state.index} of {theCards.length}</Text>
           <View>

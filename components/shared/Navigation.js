@@ -85,7 +85,7 @@ const MainNav = createStackNavigator({
       title: 'Korean by heart',
       headerTintColor: 'white',
       headerStyle: {
-        backgroundColor: tealA700
+        backgroundColor: tealA700,
       }, 
       headerBackTitle: 'Back',
       headerRight: (
@@ -94,7 +94,7 @@ const MainNav = createStackNavigator({
         >
           { Platform === 'ios'
             ? <Icon name="ios-person" style={{color: 'white'}}/>
-            : <Icon name="md-person" style={{color: 'white'}}/>
+            : <Icon name="md-person" style={{color: 'white', marginTop: 10}}/>
           }
         </Button>
       )

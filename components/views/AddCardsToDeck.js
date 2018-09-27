@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { View, Text, ImageBackground, StyleSheet } from 'react-native'
 import { Container, Content, Tabs, Tab, Fab, H3, Left, Right, ListItem, Body, Card, Icon } from 'native-base'
 import CardList from './CardList'
-import { tealA700, gray100 } from '../../utils/colors'
+import { tealA700, gray100, pink500 } from '../../utils/colors'
 import * as actions from '../../actions'
 
 class AddCardsToDeck extends Component {
@@ -50,7 +50,7 @@ class AddCardsToDeck extends Component {
   render() {
     const { navigation, deck, decks, cards } = this.props
     const theDeck = deck[0]
-    const theCards = theDeck.cards || cards
+    const theCards = cards
 
     return (
       <Container>
@@ -86,6 +86,7 @@ class AddCardsToDeck extends Component {
           </View>
           <CardList 
             navigation={navigation}
+            deck={theDeck}
             view={'addCards'}
           />
         </Content>

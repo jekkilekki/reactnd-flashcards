@@ -14,6 +14,11 @@ import { MKTextField, MKColor, MKButton } from 'react-native-material-kit'
 //   .build()
 
 class Login extends Component {
+  static navigationOptions = {
+    title: 'Login',
+    headerRight: null
+  }
+
   state = {
     uid: '',
     email: '',

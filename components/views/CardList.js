@@ -29,8 +29,9 @@ class CardList extends Component {
   }
 
   render() {
-    const { navigation, cards } = this.props
+    const { navigation, cards, view, deck } = this.props
     // console.log(cards)
+    const addCards = view === 'addCards' ? true : false
 
     return (
       <Container>
@@ -49,7 +50,7 @@ class CardList extends Component {
             keyExtractor={(item, i) => {return i.toString()}}
             data={this.state.cardResults}
             renderItem={(card) =>
-              <FlashcardItem card={card} navigation={navigation} addCards={true} deck={this.props.deck} />
+              <FlashcardItem card={card} navigation={navigation} addCards={addCards} deck={deck} />
             }
           >
           </FlatList>

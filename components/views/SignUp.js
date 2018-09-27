@@ -12,6 +12,11 @@ import { MKTextField, MKColor, MKButton } from 'react-native-material-kit'
 //   .build()
 
 class SignUp extends Component {
+  static navigationOptions = {
+    title: 'Sign up',
+    headerRight: null
+  }
+
   state = {
     email: '',
     password: '',

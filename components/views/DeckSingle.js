@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { View, Text, ImageBackground, StyleSheet } from 'react-native'
+import { View, Text, ImageBackground, StyleSheet, Keyboar } from 'react-native'
 import { Container, Content, Tabs, Tab, Fab, H3, Left, Right, ListItem, Body, Card, Icon } from 'native-base'
 import FloatingActionButton from '../shared/FloatingActionButton'
 import CardList from './CardList'
 import CardSets from '../shared/CardSets'
-import { tealA700, gray100, pink500 } from '../../utils/colors'
+import { tealA700, gray100, gray900, pink500 } from '../../utils/colors'
 import * as actions from '../../actions'
 
 class DeckSingle extends Component {
@@ -90,8 +90,14 @@ class DeckSingle extends Component {
             <Icon name="cube" style={styles.boxIcon}/>
           </View>
           <View>
-            <Tabs>
-              <Tab heading={`Sets (${subsets.length})`}>
+            <Tabs tabBarUnderlineStyle={{backgroundColor: tealA700}}>
+              <Tab 
+                heading={`Sets (${subsets.length})`}
+                tabStyle={{backgroundColor: gray100}} 
+                textStyle={{color: gray900}} 
+                activeTabStyle={{backgroundColor: gray100}} 
+                activeTextStyle={{color: gray900, fontWeight: 'bold'}}  
+              >
                 <Text style={[{textAlign: 'center', paddingTop: 20}]}>Select a subset to study. (No score)</Text>
                 <CardSets 
                   cardSet={subsets} 
@@ -100,13 +106,25 @@ class DeckSingle extends Component {
                   navigation={navigation}
                 />
               </Tab>
-              <Tab heading={`Cards (${theCards.length})`}>
+              <Tab 
+                heading={`Cards (${theCards.length})`}
+                tabStyle={{backgroundColor: gray100}} 
+                textStyle={{color: gray900}} 
+                activeTabStyle={{backgroundColor: gray100}}
+                activeTextStyle={{color: gray900, fontWeight: 'bold'}}   
+              >
                 <CardList 
                   cardSet={theCards} 
                   navigation={navigation}
                 />
               </Tab>
-              <Tab heading={`Quiz ▶︎`}>
+              <Tab 
+                heading={`Quiz ▶︎`}
+                tabStyle={{backgroundColor: gray100}} 
+                textStyle={{color: gray900}} 
+                activeTabStyle={{backgroundColor: gray100}}  
+                activeTextStyle={{color: gray900, fontWeight: 'bold'}}   
+              >
                 <Text style={[{textAlign: 'center', paddingTop: 20}]}>Please select a subset to quiz. (Score recorded)</Text>
                 <CardSets 
                   cardSet={subsets}
@@ -127,7 +145,7 @@ class DeckSingle extends Component {
           style={{ backgroundColor: pink500 }}
           position={'topRight'}
           onPress={() => {
-            navigation.navigate('AddCard', {deckName: theDeck.name})
+            navigation.navigate('AddCardsToDeck', {id: theDeck.id, name: theDeck.name})
           }}
         >
           <Icon name="add" />
