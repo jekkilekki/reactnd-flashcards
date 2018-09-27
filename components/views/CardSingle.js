@@ -4,6 +4,7 @@ import { View, Text, ImageBackground, StyleSheet, TextInput } from 'react-native
 import { Container, Content, H1, H2, H3, Card, CardItem, Button, Fab, Icon, Textarea } from 'native-base'
 import FloatingActionButton from '../shared/FloatingActionButton'
 import { tealA700, teal500, pink300, gray100 } from '../../utils/colors'
+import { getPartOfSpeech } from '../../utils/helpers'
 import * as actions from '../../actions'
 
 class CardSingle extends Component {
@@ -52,7 +53,7 @@ class CardSingle extends Component {
               {/* <Icon style={{fontSize: 14}} name="help-circle"/> */}
               { editing
                 ? <View><Text>Part of Speech: </Text><TextInput value={theCard.partOfSpeech} /></View>
-                : <Button transparent><Text>Part of Speech: {theCard.partOfSpeech}</Text></Button>
+                : <Button transparent><Text>Part of Speech: </Text>{getPartOfSpeech(theCard.partOfSpeech)}</Button>
               }
               { editing
                 ? <View><Text>Level: </Text><TextInput value={theCard.level} /></View>

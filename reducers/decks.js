@@ -1,5 +1,15 @@
 import { decks } from '../utils/_DATA'
 import { FETCH_DECKS, NEW_DECK, ADD_CARD_TO_DECK, EDIT_DECK, DELETE_DECK } from '../actions/decks'
+import { AsyncStorage } from 'react-native'
+
+// const getDecks = async() => {
+//   try { 
+//     const theseDecks = await AsyncStorage.getItem('decks') || decks
+//   } catch (e) {
+//     console.log( 'Error retrieving decks.', e.message )
+//   }
+//   return theseDecks
+// }
 
 const initialState = {
   decks,
@@ -8,6 +18,10 @@ const initialState = {
 export default (state = initialState, action) => {
   switch ( action.type ) {
     case NEW_DECK:
+      // save new deck in AsyncStorage
+      // if ( action.deck ) {
+      //   AsyncStorage.setItem('decks', [...state.decks, action.deck])
+      // }
       return {
         ...state,
         decks: [...state.decks, action.deck]

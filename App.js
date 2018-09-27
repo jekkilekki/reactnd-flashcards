@@ -4,6 +4,7 @@ import { Asset, AppLoading, SplashScreen } from 'expo'
 import firebase from 'firebase'
 import { apiKey, authDomain, databaseURL, projectId, storageBucket, messagingSenderId } from './utils/_config'
 import { createStore, applyMiddleware } from 'redux'
+import { composeWithDevTools } from 'remote-redux-devtools'
 import { Provider } from 'react-redux'
 import Thunk from 'redux-thunk'
 
@@ -17,7 +18,7 @@ import reducer from './reducers'
 const store = createStore(
   reducer, 
   window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(), 
-  middleware
+  composeWithDevTools( middleware )
 )
 // const store = createStore(reducer)
 

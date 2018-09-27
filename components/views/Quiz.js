@@ -75,12 +75,10 @@ class Quiz extends Component {
     const { cards, set, name, view } = navigation.state.params
     const { index } = this.state
 
-    console.log('Cards', cards)
-    console.log('Props', this.props)
-    console.log('Nav Params', navigation.state.params)
+    console.log('Index:', index)
 
     const theCards = Object.values(cards)
-    const title = view === 'quiz' ? 'Quizzing' : 'Learning'
+    // const title = view === 'quiz' ? 'Quizzing' : 'Learning'
 
     return (
       <Container style={{backgroundColor: 'white'}}>
@@ -88,7 +86,7 @@ class Quiz extends Component {
           contentContainerStyle={{ flex: 1 }}
         >
           <H3>{`${name} Deck: Set #${set}`}</H3>
-          <Text>Card {this.state.index} of {theCards.length}</Text>
+          <Text>Card {index} of {theCards.length}</Text>
           <View>
             <DeckSwiper
               ref={(c) => this._deckSwiper = c}
@@ -105,7 +103,7 @@ class Quiz extends Component {
             <Button vertical 
               style={{backgroundColor: pink300}}
               onPress={() => {
-                this._nextCard()
+                this.setState((prev) => { index: prev.index+1 })
                 this._deckSwiper._root.swipeLeft()
                 this._rewindBox()
               }}
@@ -116,7 +114,7 @@ class Quiz extends Component {
             <Button vertical
               style={{backgroundColor: amber300}}
               onPress={() => {
-                this._nextCard()
+                this.setState((prev) => { index: prev.index+1 })
                 this._markForReview()
               }}
             >
@@ -126,7 +124,7 @@ class Quiz extends Component {
             <Button vertical 
               style={{backgroundColor: teal300}}
               onPress={() => {
-                this._nextCard()
+                this.setState((prev) => { index: prev.index+1 })
                 this._deckSwiper._root.swipeRight()
                 this._advanceBox()
               }}

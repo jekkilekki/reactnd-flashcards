@@ -49,7 +49,7 @@ const appTabsOptions = {
     inactiveTintColor: Platform.OS === 'ios' ? tealA400 : white,
     swipeEnabled: true,
     style: {
-      height: 56,
+      height: Platform.OS === 'ios' ? 56 : 48,
       backgroundColor: Platform.OS === 'ios' ? white : tealA700,
       shadowColor: 'rgba(0,0,0,0.24)',
       shadowOffset: {

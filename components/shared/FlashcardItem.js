@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
-import { View, Text } from 'react-native'
+import { View, Text, StyleSheet } from 'react-native'
 import { connect } from 'react-redux'
 import { ListItem, Body, Left, Right, Button, Badge, Icon, H3, Card, CardItem } from 'native-base'
-import { teal500, tealA700 } from '../../utils/colors'
+import { getPartOfSpeech } from '../../utils/helpers'
 
 class FlashcardItem extends Component {
   state = {
@@ -19,14 +19,13 @@ class FlashcardItem extends Component {
   }
 
   render() {
-    const { allCards, foundCard, card, navigation, addCards, deck } = this.props
+    const { allCards, cardsInDeck, card, navigation, addCards, deck } = this.props
 
-    
-    if ( this.state.once ) {
-      console.log("This one card: ", card)
-      console.log( "Found card: ", Object.keys(foundCard[0]) )
-      this.setState({ once: false })
-    }
+    // if ( this.state.once ) {
+    //   console.log("This one card: ", card)
+    //   console.log( "Found card: ", foundCard[0] )
+    //   this.setState({ once: false })
+    // }
     // console.log( "All cards: ", Object.keys(allCards[0]) )
     // const foundCard = allCards
     //   .filter((card) => Object.keys(card).id === card.item.id)
@@ -41,7 +40,8 @@ class FlashcardItem extends Component {
           style={[{backgroundColor: 'white'}]}
           onPress={() => alert("Pressed the card!")}
         > */}
-        <Left style={{flex: 1}}>
+        <Left style={{flex: 1, marginLeft: -5}}>
+          {getPartOfSpeech(card.item.partOfSpeech)}
           <Text>{card.item.korean}</Text>
         </Left>
         <Body style={{flex: 2}}>
@@ -63,10 +63,10 @@ class FlashcardItem extends Component {
   }
 }
 
-function mapStateToProps(state, {navigation}) {
+function mapStateToProps(state, {card}) {
   return {
-    foundCard: state.cards.cards
-      // .filter((card) => Object.values(card).id === navigation.state.params.id)
+    cardsInDeck: state.decks.decks.cards,
+    allCards: state.cards.cards
   }
 }
 

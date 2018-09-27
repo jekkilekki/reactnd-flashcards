@@ -25,7 +25,6 @@ class CardSets extends Component {
   render() {
     const { cardSet } = this.props
 
-    console.log(cardSet)
     return (
       <View style={{flex: 1, alignItems: 'center'}}>
       <FlatList 
