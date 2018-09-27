@@ -9,8 +9,8 @@ import { white, pink500, gray50, gray100, gray200, gray300 } from '../../utils/c
 
 class CardList extends Component {
   state = {
-    numResults: this.props.cardSet ? this.props.cardSet.length : this.props.cards.length,
-    cardResults: this.props.cardSet ? this.props.cardSet : this.props.cards,
+    numResults: '',
+    cardResults: '',
     searchValue: ''
   }
 
@@ -28,10 +28,22 @@ class CardList extends Component {
     })
   }
 
+  _renderCardItem = (card, deck) => {
+    const { navigation, addCards } = this.props
+    // console.log( "Found in deck: ", deck.cards.find((c) => c.id === card.item.id))
+    // console.log( "Deckie: " + deck + " Cardie: " + card)
+    return (
+      <FlashcardItem card={card} navigation={navigation} addCards={addCards} deck={deck} />
+    )
+  }
+
   render() {
-    const { navigation, cards, view, deck } = this.props
+    const { navigation, cards, view, deck, cardSet } = this.props
     // console.log(cards)
     const addCards = view === 'addCards' ? true : false
+    // console.log("State of cards now:", cards)
+
+    const theCards = cardSet ? cardSet : cards
 
     return (
       <Container>
@@ -44,14 +56,12 @@ class CardList extends Component {
           autoCorrect={false}
           autoCapitalize='none'
         />
-        <Text style={{position: 'absolute', right: 10, top: 15}}>{this.state.numResults} Results</Text>
+        <Text style={{position: 'absolute', right: 10, top: 15}}>{theCards.length} Results</Text>
         <Content padder>
           <FlatList
             keyExtractor={(item, i) => {return i.toString()}}
-            data={this.state.cardResults}
-            renderItem={(card) =>
-              <FlashcardItem card={card} navigation={navigation} addCards={addCards} deck={deck} />
-            }
+            data={theCards}
+            renderItem={(card) => this._renderCardItem(card, deck)}
           >
           </FlatList>
         </Content>
@@ -80,10 +90,12 @@ const styles = StyleSheet.create({
   }
 })
 
-function mapStateToProps(state) {
+function mapStateToProps(state, {deck}) {
   return { 
-    cards: state.cards.cards 
-      // .sort((a,b) => state.cards.cards[b].korean - state.cards.cards[a].korean)
+    cards: state.cards.cards
+      .sort((a,b) => {
+        return (a.korean < b.korean) ? -1 : (a.korean > b.korean) ? 1 : 0
+      })
   }
 }
 

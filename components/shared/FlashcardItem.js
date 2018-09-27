@@ -3,6 +3,7 @@ import { View, Text, StyleSheet } from 'react-native'
 import { connect } from 'react-redux'
 import { ListItem, Body, Left, Right, Button, Badge, Icon, H3, Card, CardItem } from 'native-base'
 import { getPartOfSpeech } from '../../utils/helpers'
+import { teal500, pink300 } from '../../utils/colors'
 
 class FlashcardItem extends Component {
   state = {
@@ -19,7 +20,7 @@ class FlashcardItem extends Component {
   }
 
   render() {
-    const { allCards, cardsInDeck, card, navigation, addCards, deck } = this.props
+    const { allCards, cardsInDeck, card, navigation, cardInDeck, addCards, deck } = this.props
 
     // if ( this.state.once ) {
     //   console.log("This one card: ", card)
@@ -51,7 +52,7 @@ class FlashcardItem extends Component {
           {/* <Badge>
             <Text>{card.item.partOfSpeech}</Text>
           </Badge> */}
-          { addCards
+          { cardInDeck
             ? <Icon name="checkmark-circle" style={{color: teal500}} onPress={() => this._handleCardPress()} />
             : <Icon name="arrow-forward" onPress={() => this._handleCardPress()} />
           }

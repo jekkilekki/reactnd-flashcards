@@ -52,6 +52,8 @@ class AddCardsToDeck extends Component {
     const theDeck = deck[0]
     const theCards = cards
 
+    console.log("Deck that we found: ", deck)
+
     return (
       <Container>
         <Content>
