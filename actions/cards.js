@@ -1,5 +1,5 @@
 import { generateUID } from '../utils/helpers'
-import { cards } from '../utils/_DATA'
+// import { cards } from '../utils/_DATA'
 
 export const FETCH_CARDS = 'FETCH_CARDS'
 export const NEW_CARD = 'NEW_CARD'
@@ -7,7 +7,7 @@ export const EDIT_CARD = 'EDIT_CARD'
 export const DELETE_CARD = 'DELETE_CARD'
 
 // Fetch cards
-export function fetchCards() {
+export function fetchCards( cards ) {
   return {
     type: FETCH_CARDS,
     cards

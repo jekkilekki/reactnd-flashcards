@@ -1,7 +1,19 @@
 import { blue500, purple500, pink500 } from './colors'
 
-export const decks = [
-  {
+export function _getDecks() {
+  return new Promise((res, rej) => {
+    res({...decks})
+  })
+}
+
+export function _getCards() {
+  return new Promise((res, rej) => {
+    res({...cards})
+  })
+}
+
+let decks = {
+  "beginner": {
     id: "beginner",
     level: "A",
     color: blue500,
@@ -11,7 +23,7 @@ export const decks = [
     description: "Beginner level vocabulary.",
     cards: []
   },
-  {
+  "intermediate": {
     id: "intermediate",
     level: "B",
     color: purple500,
@@ -21,7 +33,7 @@ export const decks = [
     description: "Intermediate level vocabulary.",
     cards: []
   },
-  {
+  "advanced": {
     id: "advanced",
     level: "C",
     color: pink500,
@@ -31,7 +43,7 @@ export const decks = [
     description: "Advanced level vocabulary.",
     cards: []
   }
-]
+}
 
 export const cards = [{
     "ranking": 1195,

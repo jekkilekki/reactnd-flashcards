@@ -4,7 +4,7 @@ import { Text, View, StyleSheet, Image } from 'react-native'
 import { Container, Content, H1, H2, H3, Form, Item, Icon, Button, Label, Input, Picker, Textarea } from 'native-base'
 import CardList from './CardList'
 import { handleNewCard } from '../../actions/cards'
-import { generateUID } from '../../utils/helpers'
+import { generateUID, timeToString } from '../../utils/helpers'
 import { addCardToStorage, removeCardFromStorage } from '../../utils/api'
 import { tealA700, purple700, pink300, white } from '../../utils/colors'
 
@@ -33,7 +33,7 @@ class AddCard extends Component {
   _submitForm = () => {
     const { navigation, dispatch } = this.props
     const { cardId, cardKor, cardEng, cardImg, cardPOS, cardSents } = this.state
-    // const key = timeToString()
+    const key = timeToString()
 
     try {
       // Update Redux

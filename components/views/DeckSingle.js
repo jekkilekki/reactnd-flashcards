@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { View, Text, ImageBackground, StyleSheet, Keyboar } from 'react-native'
 import { Container, Content, Tabs, Tab, Fab, H3, Left, Right, ListItem, Body, Card, Icon } from 'native-base'
-import FloatingActionButton from '../shared/FloatingActionButton'
 import CardList from './CardList'
 import CardSets from '../shared/CardSets'
 import { tealA700, gray100, gray900, pink500 } from '../../utils/colors'
@@ -29,8 +28,9 @@ class DeckSingle extends Component {
 
   render() {
     const { navigation, deck, decks } = this.props
-    const theDeck = deck[0]
+    const theDeck = deck
     const theCards = theDeck.cards
+    console.log( "Hi deck!", deck )
     // const splitSubsets = (givenArray, size) => 
     //   givenArray.reduce((acc, val, index, array) => {
     //     ! ( index % size ) 
@@ -209,13 +209,13 @@ const styles = StyleSheet.create({
 
 function mapStateToProps(state, { navigation }) {
   const { id } = navigation.state.params
-  const deck = state.decks.decks.filter((deck) => {
-    if ( deck.id === id ) {
-      return deck
+  const deck = Object.keys(state.decks.decks).filter((d) => {
+    if ( d === id ) {
+      return d
     }
   })
   return {
-    deck: deck,
+    deck: state.decks.decks[deck],
     decks: state.decks.decks
   }
 }

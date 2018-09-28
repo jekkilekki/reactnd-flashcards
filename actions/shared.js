@@ -1,19 +1,19 @@
 import { getInitialData } from '../utils/api'
-import { fetchDecks } from '../actions/decks'
+import { fetchDecks, sortCards } from '../actions/decks'
 import { fetchCards } from '../actions/cards'
 import { setAuthUser } from '../actions/authedUser'
 // import { showLoading, hideLoading } from 'react-redux-loading'
 
-const AUTHED_ID = 'jekkilekki'
+const AUTHED_ID = null
 
 export function handleInitialData() {
   return dispatch => {
-    // dispatch(showLoading())
-    return getInitialData().then(({ decks, cards }) => {
-      dispatch(fetchDecks(decks))
-      dispatch(fetchCards(cards))
-      dispatch(setAuthUser(AUTHED_ID))
-      // dispatch(hideLoading())
-    })
+    return getInitialData()
+      .then(({ decks, cards }) => {
+        dispatch( fetchDecks(decks) )
+        dispatch( fetchCards(cards) )
+        // dispatch( sortCards(cards, decks) )
+        dispatch( setAuthUser(AUTHED_ID) )
+      })
   }
 }

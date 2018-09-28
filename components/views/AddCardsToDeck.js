@@ -49,7 +49,7 @@ class AddCardsToDeck extends Component {
 
   render() {
     const { navigation, deck, decks, cards } = this.props
-    const theDeck = deck[0]
+    const theDeck = deck
     const theCards = cards
 
     console.log("Deck that we found: ", deck)
@@ -160,15 +160,14 @@ const styles = StyleSheet.create({
 
 function mapStateToProps(state, { navigation }) {
   const { id } = navigation.state.params
-  const deck = state.decks.decks.filter((deck) => {
-    if ( deck.id === id ) {
-      return deck
+  const deck = Object.keys(state.decks.decks).filter((d) => {
+    if ( d === id ) {
+      return d
     }
   })
   return {
-    deck: deck,
-    decks: state.decks.decks,
-    cards: state.cards.cards
+    deck: state.decks.decks[deck],
+    decks: state.decks.decks
   }
 }
 

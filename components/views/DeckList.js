@@ -4,16 +4,18 @@ import CalendarStrip from 'react-native-calendar-strip'
 import { StyleSheet } from 'react-native'
 import { Container, Content, List, ListItem, Icon, Fab } from 'native-base'
 import DeckItem from '../shared/DeckItem'
-import FloatingActionButton from '../shared/FloatingActionButton'
+import Loader from '../shared/Loader'
 import { handleInitialData } from '../../actions/shared'
 import { pink500 } from '../../utils/colors'
 
-// Lodash business? (npm install, rebuild)
-// import _ from 'lodash'
-
 class DeckList extends Component {
-  componentWillMount() {
-    // this.props.dispatch(handleInitialData())
+  state = {
+    dataLoaded: false
+  }
+
+  async componentWillMount() {
+    await this.props.handleInitialData()
+    // this.setState({ dataLoaded: true })
   }
 
   _addDeck = (navigation) => {
@@ -26,17 +28,29 @@ class DeckList extends Component {
 
   render() {
     const { decks, cards, navigation } = this.props
+
+    if (decks === undefined || decks === 'undefined' || decks === null || cards === undefined || cards === 'undefined' || cards === null) {
+      return <Loader />
+    }
+
     console.log("State of decks now:", decks)
 
-    let sortedDecks = decks.map((deck) => {
-      return cards.filter((card) => {
+    const deckArray = Object.keys(decks).map(i => decks[i])
+    const cardArray = Object.keys(cards).map(i => cards[i])
+
+    console.log( "Deck array: ", deckArray )
+
+    let sortedDecks = deckArray.map((deck) => {
+      return cardArray.filter((card) => {
         if (deck.level === card.level) {
           return card.id
         }
       })
     })
 
-    decks.map((deck, i) => {
+    console.log( "Sorted Decks: ", sortedDecks )
+
+    deckArray.map((deck, i) => {
       deck.cards = sortedDecks[i]
     })
 
@@ -53,13 +67,6 @@ class DeckList extends Component {
           </List>
         </Content>
 
-        {/* <FloatingActionButton 
-          navigation={navigation}
-          iconOne={'apps'}
-          iconTwo={'albums'}
-          destOne={'AddDeck'}
-          destTwo={'AddCard'}
-        /> */}
         <Fab
           containerStyle={{ }}
           style={{ backgroundColor: pink500 }}
@@ -67,6 +74,7 @@ class DeckList extends Component {
           onPress={() => navigation.navigate('AddDeck')}>
           <Icon name="add" />
         </Fab>
+
       </Container>
     )
   }
@@ -78,15 +86,10 @@ const styles = StyleSheet.create({
   }
 })
 
-function mapStateToProps(state) {
-  // Lodash supposed to be used to convert Firebase's Objects to an Array for <List />
-  // const decks = _.map(state.decks, (val, uid) => {
-  //   return { ...val, uid }
-  // })
+function mapStateToProps({decks, cards}) {
   return {
-    // decks, // after Lodash - remove line beneath this one 
-    decks: state.decks.decks,
-    cards: state.cards.cards
+    decks,
+    cards
   }
 }
 

@@ -5,14 +5,13 @@ const initialState = {
   cards,
 }
 
-export default (state = initialState, action) => {
+export default (state = {}, action) => {
   switch ( action.type ) {
-    // case INITIAL_DATA:
-    //   return {
-    //     ...state,
-    //     cards: action.payload,
-    //     // cards: action.payload
-    //   }
+    case FETCH_CARDS:
+      return {
+        ...state,
+        ...action.cards
+      }
     
     case NEW_CARD:
       return {

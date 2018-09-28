@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { View, Text, StyleSheet } from 'react-native'
 import { connect } from 'react-redux'
 import { ListItem, Body, Left, Right, Button, Badge, Icon, H3, Card, CardItem } from 'native-base'
+import { addCardToDeck } from '../../actions/decks'
 import { getPartOfSpeech } from '../../utils/helpers'
 import { teal500, pink300 } from '../../utils/colors'
 
@@ -10,10 +11,24 @@ class FlashcardItem extends Component {
     once: true
   }
 
+  _addCardToDeck = (deckId, card) => {
+    const { dispatch } = this.props
+    console.log( "Adding card: ", card )
+    console.log( "to deck: ", deckId )
+    try {
+      // Update Redux
+      dispatch(addCardToDeck(deckId, card))
+      // Save to 'DB'
+      // addDeckToStorage({ key, deck }) -> refactor like AddEntry in Udacifitness
+    } catch (e) {
+      console.log('Error adding Card to your Deck.', e.message)
+    }
+  }
+
   _handleCardPress = () => {
-    const { card, addCards, navigation } = this.props
+    const { card, addCards, navigation, deck } = this.props
     if ( addCards ) {
-      alert( 'Adding card id: ', card.item.id )
+      this._addCardToDeck(deck.id, card.item)
     } else {
       navigation.navigate( 'CardSingle', { id: card.item.id } )
     }

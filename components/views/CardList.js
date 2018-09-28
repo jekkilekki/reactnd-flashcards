@@ -28,7 +28,8 @@ class CardList extends Component {
   }
 
   _renderCardItem = (card, deck) => {
-    const { navigation, addCards } = this.props
+    const { navigation, view } = this.props
+    const addCards = view === 'addCards' ? true : false
     // console.log( "Found in deck: ", deck.cards.find((c) => c.id === card.item.id))
     // console.log( "Deckie: " + deck + " Cardie: " + card)
     return (
@@ -39,7 +40,7 @@ class CardList extends Component {
   render() {
     const { navigation, cards, view, deck, cardSet } = this.props
     // console.log(cards)
-    const addCards = view === 'addCards' ? true : false
+    
     // console.log("State of cards now:", cards)
 
     const theCards = cardSet ? cardSet : cards
@@ -92,10 +93,10 @@ const styles = StyleSheet.create({
 
 function mapStateToProps(state, {deck}) {
   return { 
-    cards: state.cards.cards
-      .sort((a,b) => {
-        return (a.korean < b.korean) ? -1 : (a.korean > b.korean) ? 1 : 0
-      })
+    cards: state.cards
+      // .sort((a,b) => {
+      //   return (a.korean < b.korean) ? -1 : (a.korean > b.korean) ? 1 : 0
+      // })
   }
 }
 

@@ -3,8 +3,10 @@ import authedUser from './authedUser'
 import decks from './decks'
 import cards from './cards'
 
-export default combineReducers({
+const reducer = combineReducers({
   authedUser,
-  decks,
-  cards
+  decks: decks,
+  cards: cards,
 })
+
+export default reducer

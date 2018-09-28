@@ -5,10 +5,13 @@ import { AsyncStorage } from 'react-native'
 import { decks, cards, _getDecks, _getCards, _saveDeck, _saveToDeck } from './_DATA.js'
 
 export function getInitialData() {
-  return {
-    decks,
+  return Promise.all([
+    _getDecks(),
+    _getCards(),
+  ]).then(([decks, cards]) => ({
+    decks, 
     cards
-  }
+  }))
 }
 
 /* UdaciFitness API */

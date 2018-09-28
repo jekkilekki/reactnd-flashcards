@@ -1,15 +1,24 @@
-import { decks } from '../utils/_DATA'
+// import { decks } from '../utils/_DATA'
 
 export const FETCH_DECKS = 'FETCH_DECKS'
+export const SORT_CARDS = 'SORT_CARDS'
 export const NEW_DECK = 'NEW_DECK'
 export const ADD_CARD_TO_DECK = 'ADD_CARD_TO_DECK'
 export const EDIT_DECK = 'EDIT_DECK'
 export const DELETE_DECK = 'DELETE_DECK'
 
 // Fetch decks
-export function fetchDecks() {
+export function fetchDecks( decks ) {
   return {
     type: FETCH_DECKS,
+    decks
+  }
+}
+
+// Sort Cards into Decks
+export function sortCards( cards, decks ) {
+  return {
+    type: SORT_CARDS,
     decks
   }
 }
@@ -40,11 +49,11 @@ function formatDeck({ id, name, description, image }) {
 }
 
 // Add card to deck
-export function addCardToDeck( cardId, deckId ) {
+export function addCardToDeck( deckId, card ) {
   return {
     type: ADD_CARD_TO_DECK,
-    cardId,
-    deckId
+    deckId,
+    card
   }
 }
 

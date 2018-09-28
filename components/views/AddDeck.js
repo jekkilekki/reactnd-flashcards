@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { Text, View, StyleSheet, Image } from 'react-native'
 import { Container, Content, H1, H2, H3, Form, Item, Label, Input, Textarea, Button } from 'native-base'
 import { handleNewDeck } from '../../actions/decks'
-import { generateUID } from '../../utils/helpers'
+import { generateUID, timeToString } from '../../utils/helpers'
 import { addDeckToStorage, removeDeckFromStorage } from '../../utils/api'
 import { tealA700, purple700, pink300, white } from '../../utils/colors'
 
