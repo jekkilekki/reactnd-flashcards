@@ -16,6 +16,7 @@ class DeckList extends Component {
       return <Loader />
     }
 
+    // Convert Object to Array for List
     const deckArray = Object.keys(decks).map(i => decks[i])
 
     return (

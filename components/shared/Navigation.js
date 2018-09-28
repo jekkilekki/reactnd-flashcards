@@ -94,7 +94,7 @@ const MainNav = createStackNavigator({
         >
           { Platform === 'ios'
             ? <Icon name="ios-person" style={{color: 'white'}}/>
-            : <Icon name="md-person" style={{color: 'white', marginTop: 10}}/>
+            : <Icon name="md-person" style={{color: 'white'}}/>
           }
         </Button>
       )

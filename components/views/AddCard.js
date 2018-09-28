@@ -56,11 +56,6 @@ class AddCard extends Component {
   }
 
   render() {
-    // const { decks, navigation } = this.props
-    // const deckName = navigation.state.params.deckName
-    //   ? navigation.state.params.deckName
-    //   : ''
-
     return (
       <Container>
         <Content>
@@ -98,8 +93,6 @@ class AddCard extends Component {
               style={[styles.button]}
               onPress={() => {
                 this._submitForm()
-                // alert('Adding your card:\n' + this.state.cardImg.toString() + '\n' + this.state.cardKor + '\n' + this.state.cardEng + '\n' + this.state.cardDeck + '\n' + this.state.cardSent)
-                // console.log('Adding your card:\n' + this.state.cardImg.toString() + '\n' + this.state.cardKor + '\n' + this.state.cardEng + '\n' + this.state.cardDeck + '\n' + this.state.cardSent)
               }}
             >
               <Text style={styles.buttonText}>
@@ -131,9 +124,9 @@ const styles = StyleSheet.create({
   },
 })
 
-function mapStateToProps(state) {
+function mapStateToProps({ decks }) {
   return {
-    decks: state.decks.decks
+    decks
   }
 }
 

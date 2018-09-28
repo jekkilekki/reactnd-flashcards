@@ -74,7 +74,6 @@ class AddDeck extends Component {
             <Button block 
               style={[styles.button]}
               onPress={() => {
-                // alert('Adding your deck')
                 this._submitForm()
               }}
             >
@@ -107,15 +106,9 @@ const styles = StyleSheet.create({
   },
 })
 
-function mapStateToProps(state) {
-  // Maybe can map this to props this way? Instead of state in this Component?
-  // const { deckImg, deckName, deckDesc, deckCards } = this.props
+function mapStateToProps({ decks }) {
   return {
-    // deckImg,
-    // deckName,
-    // deckDesc,
-    // deckCards
-    decks: state.decks.decks
+    decks
   }
 }
 

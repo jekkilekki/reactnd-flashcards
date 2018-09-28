@@ -38,12 +38,10 @@ class CardList extends Component {
   }
 
   render() {
-    const { navigation, cards, view, deck, cardSet } = this.props
-    // console.log(cards)
+    const { navigation, cards, deck, cardSet } = this.props
     
-    // console.log("State of cards now:", cards)
-
-    const theCards = cardSet ? cardSet : cards
+    // Use passed Array or convert Object to Array for FlatList
+    const theCards = cardSet ? cardSet : Object.keys(cards).map(i => cards[i])
 
     return (
       <Container>
@@ -67,11 +65,7 @@ class CardList extends Component {
           </FlatList>
         </Content>
 
-        {/* <FloatingActionButton /> */}
         <Fab
-          // active={this.state.active}
-          // direction={this.props.direction || "up"}
-          // containerStyle={{ }}
           style={{ backgroundColor: pink500 }}
           position={'bottomRight'}
           onPress={() => {
@@ -91,9 +85,9 @@ const styles = StyleSheet.create({
   }
 })
 
-function mapStateToProps(state, {deck}) {
+function mapStateToProps({ cards }) {
   return { 
-    cards: state.cards
+    cards
       // .sort((a,b) => {
       //   return (a.korean < b.korean) ? -1 : (a.korean > b.korean) ? 1 : 0
       // })

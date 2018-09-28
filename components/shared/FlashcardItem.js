@@ -79,10 +79,10 @@ class FlashcardItem extends Component {
   }
 }
 
-function mapStateToProps(state, {card}) {
+function mapStateToProps({ decks, cards }) {
   return {
-    cardsInDeck: state.decks.decks.cards,
-    allCards: state.cards.cards
+    cardsInDeck: decks.cards,
+    allCards: cards
   }
 }
 

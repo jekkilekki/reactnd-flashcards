@@ -1,16 +1,14 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { View, Text, ImageBackground, StyleSheet, Keyboar } from 'react-native'
-import { Container, Content, Tabs, Tab, Fab, H3, Left, Right, ListItem, Body, Card, Icon } from 'native-base'
+import { View, Text, ImageBackground, StyleSheet } from 'react-native'
+import { Container, Content, Tabs, Tab, Fab, H3, Left, ListItem, Body, Card, Icon } from 'native-base'
 import CardList from './CardList'
 import CardSets from '../shared/CardSets'
 import { tealA700, gray100, gray900, pink500 } from '../../utils/colors'
-import * as actions from '../../actions'
 
 class DeckSingle extends Component {
   static navigationOptions = ({ navigation }) => {
     const { name } = navigation.state.params
-    // let deckId = id.charAt(0).toUpperCase() + id.substr(1);
     return {
       title: `${name} Deck`
     }
@@ -27,17 +25,9 @@ class DeckSingle extends Component {
   }
 
   render() {
-    const { navigation, deck, decks } = this.props
+    const { navigation, deck } = this.props
     const theDeck = deck
     const theCards = theDeck.cards
-    console.log( "Hi deck!", deck )
-    // const splitSubsets = (givenArray, size) => 
-    //   givenArray.reduce((acc, val, index, array) => {
-    //     ! ( index % size ) 
-    //       ? acc.concat([ array.slice(index, index + size)])
-    //       : acc
-    //     }, []
-    //   )
 
     const splitSubsets = (givenArray, size) => {
       let results = []
@@ -135,13 +125,9 @@ class DeckSingle extends Component {
               </Tab>
             </Tabs>
           </View>
-          </Content>
-        {/* <FloatingActionButton position={"topRight"} direction={"down"} /> */}
+        </Content>
 
         <Fab
-          // active={this.state.active}
-          // direction={this.props.direction || "up"}
-          // containerStyle={{ }}
           style={{ backgroundColor: pink500 }}
           position={'topRight'}
           onPress={() => {
@@ -199,24 +185,16 @@ const styles = StyleSheet.create({
   }
 })
 
-// function mapStateToProps({ decks, cards, navigation }) {
-//   return {
-//     // deck: navigation.state.params,
-//     decks,
-//     cards
-//   }
-// }
-
-function mapStateToProps(state, { navigation }) {
+function mapStateToProps({ decks }, { navigation }) {
   const { id } = navigation.state.params
-  const deck = Object.keys(state.decks.decks).filter((d) => {
+  const deck = Object.keys(decks).filter((d) => {
     if ( d === id ) {
       return d
     }
   })
   return {
-    deck: state.decks.decks[deck],
-    decks: state.decks.decks
+    deck: decks[deck],
+    decks
   }
 }
 

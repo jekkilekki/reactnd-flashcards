@@ -1,15 +1,13 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { View, Text, ImageBackground, StyleSheet } from 'react-native'
-import { Container, Content, Tabs, Tab, Fab, H3, Left, Right, ListItem, Body, Card, Icon } from 'native-base'
+import { Container, Content, Fab, H3, Left, ListItem, Body, Card, Icon } from 'native-base'
 import CardList from './CardList'
 import { tealA700, gray100, pink500 } from '../../utils/colors'
-import * as actions from '../../actions'
 
 class AddCardsToDeck extends Component {
   static navigationOptions = ({ navigation }) => {
     const { name } = navigation.state.params
-    // let deckId = id.charAt(0).toUpperCase() + id.substr(1);
     return {
       title: `Add Cards to ${name}`,
       // header: ({ state, setParams }) => ({
@@ -31,28 +29,10 @@ class AddCardsToDeck extends Component {
     editing: false
   }
 
-  // componentWillMount() {
-  //   this.props.navigation.setParams({
-  //     onBackPress: this._handleBackPress
-  //   })
-  // }
-
-  // _handleBackPress = () => {
-  //   this.props.navigation.navigate('DeckList')
-  // }
-
-  // toggleEditing = () => {
-  //   this.setState((prevState) => {
-  //     editing: !prevState.editing
-  //   })
-  // }
-
   render() {
-    const { navigation, deck, decks, cards } = this.props
+    const { navigation, deck, cards } = this.props
     const theDeck = deck
     const theCards = cards
-
-    console.log("Deck that we found: ", deck)
 
     return (
       <Container>
@@ -92,6 +72,7 @@ class AddCardsToDeck extends Component {
             view={'addCards'}
           />
         </Content>
+
         <Fab
           style={{ backgroundColor: pink500 }}
           position={'topRight'}
@@ -136,7 +117,6 @@ const styles = StyleSheet.create({
   },
   icon: {
     fontSize: 16,
-    // float: 'left',
     color: '#555555'
   },
   boxRow: {
@@ -150,24 +130,16 @@ const styles = StyleSheet.create({
   }
 })
 
-// function mapStateToProps({ decks, cards, navigation }) {
-//   return {
-//     // deck: navigation.state.params,
-//     decks,
-//     cards
-//   }
-// }
-
-function mapStateToProps(state, { navigation }) {
+function mapStateToProps({ decks }, { navigation }) {
   const { id } = navigation.state.params
-  const deck = Object.keys(state.decks.decks).filter((d) => {
+  const deck = Object.keys(decks).filter((d) => {
     if ( d === id ) {
       return d
     }
   })
   return {
-    deck: state.decks.decks[deck],
-    decks: state.decks.decks
+    deck: decks[deck],
+    decks
   }
 }
 
