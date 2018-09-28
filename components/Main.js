@@ -1,34 +1,26 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import { View, Platform } from 'react-native'
 import { Asset, AppLoading, SplashScreen } from 'expo'
 import firebase from 'firebase'
-import { apiKey, authDomain, databaseURL, projectId, storageBucket, messagingSenderId } from './utils/_config'
-import { createStore, applyMiddleware } from 'redux'
-import { composeWithDevTools } from 'remote-redux-devtools'
+import { apiKey, authDomain, databaseURL, projectId, storageBucket, messagingSenderId } from '../utils/_config'
+// import { createStore, applyMiddleware } from 'redux'
+// import { composeWithDevTools } from 'remote-redux-devtools'
 import { Provider } from 'react-redux'
 import Thunk from 'redux-thunk'
 
-import { Navigation } from './components/shared/Navigation'
-import Loader from './components/shared/Loader'
-import Login from './components/views/Login'
-import Splash from './components/views/Splash'
-import middleware from './middleware'
-import reducer from './reducers'
+import { Navigation } from './shared/Navigation'
+import Loader from './shared/Loader'
+import Login from './views/Login'
+import { handleInitialData } from '../actions/shared'
+// import Splash from './components/views/Splash'
+// import middleware from './middleware'
+// import reducer from './reducers'
 
-const store = createStore(
-  reducer, 
-  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(), 
-  composeWithDevTools( middleware )
-  // middleware
-)
-// const store = createStore(reducer)
-
-class App extends Component {
+class Main extends Component {
   state = {
     fontLoaded: false,
-    authedUser: null,
-    loggedIn: true,
-    nightMode: false,
+    dataLoaded: false,
   }
   
   async componentWillMount() {
@@ -62,6 +54,13 @@ class App extends Component {
       'Roboto_medium': require('native-base/Fonts/Roboto_medium.ttf'),
     })
     this.setState({ fontLoaded: true })
+
+    let data = new Promise((res, rej) => {
+      this.props.handleInitialData()
+    })
+    data.then(() => {
+      this.setState({ dataLoaded: true })
+    })
   }
 
   componentDidMount() {
@@ -81,18 +80,31 @@ class App extends Component {
   }
 
   render() {
+    const { decks, cards } = this.props
+
     if ( ! this.state.fontLoaded ) {
       return null;
     }
 
+    if (decks === undefined || decks === 'undefined' || decks === null || cards === undefined || cards === 'undefined' || cards === null) {
+      return <Loader />
+    }
+
     return (
-      <Provider store={store}>
+      // <Provider store={store}>
         <View style={{flex: 1}}>
           {this.renderInitialView()}
         </View>
-      </Provider>
+      // </Provider>
     )
   }
 }
 
-export default App
+function mapStateToProps({decks, cards}) {
+  return {
+    decks,
+    cards
+  }
+}
+
+export default connect(mapStateToProps, {handleInitialData})(Main)

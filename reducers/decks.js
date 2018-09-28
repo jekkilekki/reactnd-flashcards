@@ -1,14 +1,20 @@
 import { decks } from '../utils/_DATA'
-import { FETCH_DECKS, NEW_DECK, ADD_CARD_TO_DECK, EDIT_DECK, DELETE_DECK } from '../actions/decks'
+import { FETCH_DECKS, SORT_DECKS, NEW_DECK, ADD_CARD_TO_DECK, EDIT_DECK, DELETE_DECK } from '../actions/decks'
 import { AsyncStorage } from 'react-native'
 
 const initialState = {
   decks,
 }
 
-export default (state = initialState, action) => {
+export default (state = {}, action) => {
   switch ( action.type ) {
     case FETCH_DECKS:
+      return {
+        ...state,
+        ...action.decks
+      }
+
+    case SORT_DECKS:
       return {
         ...state,
         ...action.decks
@@ -22,10 +28,7 @@ export default (state = initialState, action) => {
       const { deck } = action
       return {
         ...state,
-        [decks]: {
-          ...state.decks,
-          [deck.id]: deck
-        }
+        [deck.id]: deck
       }
 
     case ADD_CARD_TO_DECK:
