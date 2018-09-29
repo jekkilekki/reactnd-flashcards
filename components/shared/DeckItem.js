@@ -4,6 +4,7 @@ import { ListItem, Body, Left, Right, Button, Icon, H3, Card, CardItem } from 'n
 import { selectDeck } from '../../actions'
 
 const DeckItem = (props) => {
+  console.log( "DeckItem" )
   const { deck, navigation } = props
   return (
     <ListItem 

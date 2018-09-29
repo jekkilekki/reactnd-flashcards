@@ -83,6 +83,7 @@ class Main extends Component {
       return <Loader />
     }
 
+    console.log( "Main" )
     return (
       <View style={{flex: 1}}>
         {this.renderInitialView()}

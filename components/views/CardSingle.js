@@ -18,9 +18,13 @@ class CardSingle extends Component {
   }
 
   render() {
+    console.log( "CardSingle" )
+
     const { card } = this.props
     const { editing } = this.state
-    const theCard = card[0]
+    const theCard = card
+
+    console.log( "Card here: ", card )
 
     return (
       <Container>
@@ -112,28 +116,24 @@ const styles = StyleSheet.create({
 })
 
 function mapStateToProps({ cards }, { navigation }) {
-  const { id } = navigation.state.params
-  const card = state.cards.cards.filter((card) => {
-    if ( card.id === id ) {
-      return card
-    }
-  })
+  const { index } = navigation.state.params
+  const cardArray = Object.keys(cards).map(i => cards[i])
   return {
-    card: card,
+    card: cardArray[index],
     cards
   }
 }
 
-function mapDispatchToProps(dispatch, { navigation }) {
-  const { cardId } = navigation.state.params
-  return {
-    remove: () => dispatch(addEntry({
-      [cardId]: timeToString() === cardId
-        ? getDailyReminderValue()
-        : null
-    })),
-    goBack: () => navigation.goBack(),
-  }
-}
+// function mapDispatchToProps(dispatch, { navigation }) {
+//   const { cardId } = navigation.state.params
+//   return {
+//     remove: () => dispatch(addEntry({
+//       [cardId]: timeToString() === cardId
+//         ? getDailyReminderValue()
+//         : null
+//     })),
+//     goBack: () => navigation.goBack(),
+//   }
+// }
 
-export default connect(mapStateToProps, mapDispatchToProps)(CardSingle)
+export default connect(mapStateToProps)(CardSingle)

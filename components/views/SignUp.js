@@ -59,8 +59,7 @@ class SignUp extends Component {
   }
 
   render() {
-    // const { fieldStyles, loginButtonArea, errorMessage } = this.styles
-    const { navigation } = this.props
+    console.log( "SignUp" )
 
     return (
       <Container style={styles.container}>
@@ -90,14 +89,6 @@ class SignUp extends Component {
             tintColor={tealA700}
             password={true}
           />
-          {/* <Button block 
-            style={[styles.button, styles.buttonOutline]}
-            onPress={() => navigation.navigate('Login')}
-          >
-            <Text style={styles.buttonOutlineText}>
-              Login
-            </Text>
-          </Button> */}
           <Button block 
             style={[styles.button]}
             onPress={this._onSignUp}

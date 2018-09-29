@@ -25,6 +25,8 @@ class DeckSingle extends Component {
   }
 
   render() {
+    console.log( "DeckSingle" )
+
     const { navigation, deck } = this.props
     const theDeck = deck
     const theCards = theDeck.cards

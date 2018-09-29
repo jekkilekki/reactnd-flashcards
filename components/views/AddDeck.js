@@ -45,6 +45,8 @@ class AddDeck extends Component {
   }
 
   render() {
+    console.log( "AddDeck" )
+
     return (
       <Container>
         <Content>

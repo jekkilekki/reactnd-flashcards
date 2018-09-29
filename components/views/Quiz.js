@@ -71,14 +71,12 @@ class Quiz extends Component {
   }
 
   render() {
+    console.log( "Quiz" )
+
     const { navigation } = this.props
     const { cards, set, name, view } = navigation.state.params
     const { index } = this.state
-
-    console.log('Index:', index)
-
     const theCards = Object.values(cards)
-    // const title = view === 'quiz' ? 'Quizzing' : 'Learning'
 
     return (
       <Container style={{backgroundColor: 'white'}}>
@@ -91,8 +89,8 @@ class Quiz extends Component {
             <DeckSwiper
               ref={(c) => this._deckSwiper = c}
               dataSource={theCards}
-              renderItem={(item) => this._renderItem(item)}
-              renderEmpty={() => this._completed}
+              renderItem={this._renderItem(item)}
+              renderEmpty={this._completed}
               looping={false}
             />
           </View>

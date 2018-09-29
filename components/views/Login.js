@@ -70,7 +70,8 @@ class Login extends Component {
   }
 
   render() {
-    // const { fieldStyles, loginButtonArea, errorMessage } = this.styles
+    console.log( "Login" )
+
     const { navigation } = this.props
 
     return (

@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { StyleSheet, FlatList, Text } from 'react-native'
+import { OptimizedFlatList } from 'react-native-optimized-flatlist'
 import { Container, Content, Fab, Icon } from 'native-base'
 import { SearchBar } from 'react-native-elements'
 import FlashcardItem from '../shared/FlashcardItem'
@@ -27,8 +28,8 @@ class CardList extends Component {
     })
   }
 
-  _renderCardItem = (card, deck) => {
-    const { navigation, view } = this.props
+  _renderCardItem = (card) => {
+    const { navigation, view, deck } = this.props
     const addCards = view === 'addCards' ? true : false
     return (
       <FlashcardItem card={card} navigation={navigation} addCards={addCards} deck={deck} />
@@ -36,10 +37,16 @@ class CardList extends Component {
   }
 
   render() {
+    console.log( "CardList" )
+
     const { navigation, cards, deck, cardSet } = this.props
     
     // Use passed Array or convert Object to Array for FlatList
     const theCards = cardSet ? cardSet : cards
+  
+    const _getItemLayout = (data, index) => (
+      { length: 80, offset: 80 * index, index }
+    )
 
     return (
       <Container>
@@ -47,7 +54,7 @@ class CardList extends Component {
           lightTheme 
           // showLoading
           placeholder='Search for card'
-          containerStyle={{backgroundColor: gray100, paddingRight: 100}}
+          containerStyle={{backgroundColor: gray100, paddingRight: 100, height: 48}}
           inputStyle={{backgroundColor: gray200, fontSize: 14}}
           onChangeText={(text) => this._filterCards(text)}
           autoCorrect={false}
@@ -55,12 +62,15 @@ class CardList extends Component {
         />
         <Text style={{position: 'absolute', right: 10, top: 15}}>{theCards.length} Results</Text>
         <Content padder>
-          <FlatList
-            keyExtractor={(item, i) => {return i.toString()}}
+          <OptimizedFlatList
+            keyExtractor={(item, i) => (i.toString())}
             data={theCards}
-            renderItem={(card) => this._renderCardItem(card, deck)}
-          >
-          </FlatList>
+            renderItem={(card) => this._renderCardItem(card)}
+            initialNumToRender={15}
+            removeClippedSubviews={true} // performance issues?
+            windowSize={7}
+            getItemLayout={_getItemLayout}
+          />
         </Content>
 
         <Fab

@@ -35,6 +35,8 @@ class AddCardsToDeck extends Component {
   }
 
   render() {
+    console.log( "AddCardsToDeck" )
+
     const { navigation, deck, cards } = this.props
     const theDeck = deck
     const theCards = cards

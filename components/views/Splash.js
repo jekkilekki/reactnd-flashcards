@@ -4,6 +4,7 @@ import { teal500, white } from '../../utils/colors'
 import Login from './Login'
 
 const Splash = () => {
+  console.log( "Splash" )
   return (
     <View style={styles.container}>
       <ImageBackground 

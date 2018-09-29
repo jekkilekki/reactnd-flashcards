@@ -23,6 +23,8 @@ class CardSets extends Component {
   }
 
   render() {
+    console.log( "CardSets" )
+
     const { cardSet } = this.props
 
     return (

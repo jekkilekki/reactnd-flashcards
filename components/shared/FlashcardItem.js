@@ -11,6 +11,10 @@ class FlashcardItem extends Component {
     once: true
   }
 
+  shouldComponentUpdate() {
+    return false
+  }
+
   _addCardToDeck = (deckId, card) => {
     const { dispatch } = this.props
     try {
@@ -28,33 +32,19 @@ class FlashcardItem extends Component {
     if ( addCards ) {
       this._addCardToDeck(deck.id, card.item)
     } else {
-      navigation.navigate( 'CardSingle', { id: card.item.id } )
+      navigation.navigate( 'CardSingle', { id: card.item.id, index: card.index } )
+      console.log( 'Card Pressed: ', card )
     }
   }
 
   render() {
-    const { allCards, cardsInDeck, card, navigation, cardInDeck, addCards, deck } = this.props
-
-    console.log("flashcard item")
-    // if ( this.state.once ) {
-    //   console.log("This one card: ", card)
-    //   console.log( "Found card: ", foundCard[0] )
-    //   this.setState({ once: false })
-    // }
-    // console.log( "All cards: ", Object.keys(allCards[0]) )
-    // const foundCard = allCards
-    //   .filter((card) => Object.keys(card).id === card.item.id)
+    console.log("FlashcardItem", this.props.card )
+    const { card, cardInDeck } = this.props
 
     return (
       <ListItem noIndent
-        onPress={() => this._handleCardPress()}
+        onPress={this._handleCardPress}
       >
-        {/* <Card transparent>
-        <CardItem
-          button
-          style={[{backgroundColor: 'white'}]}
-          onPress={() => alert("Pressed the card!")}
-        > */}
         <Left style={{flex: 1, marginLeft: -5}}>
           {getPartOfSpeech(card.item.partOfSpeech)}
           <Text>{card.item.korean}</Text>
@@ -63,16 +53,11 @@ class FlashcardItem extends Component {
           <Text>{card.item.english}</Text>
         </Body>
         <Right style={{flex: 1}}>
-          {/* <Badge>
-            <Text>{card.item.partOfSpeech}</Text>
-          </Badge> */}
           { cardInDeck
-            ? <Icon name="checkmark-circle" style={{color: teal500}} onPress={() => this._handleCardPress()} />
-            : <Icon name="arrow-forward" onPress={() => this._handleCardPress()} />
+            ? <Icon name="checkmark-circle" style={{color: teal500}} onPress={this._handleCardPress} />
+            : <Icon name="arrow-forward" onPress={this._handleCardPress} />
           }
         </Right>
-        {/* </CardItem>
-        </Card> */}
       </ListItem>
     )
   }

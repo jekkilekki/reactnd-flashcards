@@ -7,6 +7,7 @@ import { tealA700 } from '../../utils/colors'
 
 class About extends Component {
   render() {
+    console.log( "About" )
     return (
       <Container>
         <Content padder>

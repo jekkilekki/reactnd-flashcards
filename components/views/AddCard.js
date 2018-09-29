@@ -56,6 +56,7 @@ class AddCard extends Component {
   }
 
   render() {
+    console.log( "AddCard" )
     return (
       <Container>
         <Content>
