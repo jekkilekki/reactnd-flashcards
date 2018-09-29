@@ -29,10 +29,10 @@ export default (state = {}, action) => {
     case ADD_CARD_TO_DECK:
       const { deckId, card } = action
       return {
-        ...state.decks,
+        ...state,
         [deckId]: {
-          ...state[decks.deckId],
-          cards: [...state.cards, card]
+          ...state[deckId],
+          cards: state[deckId].cards.concat([card])
         }
       }
 

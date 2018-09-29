@@ -13,11 +13,9 @@ class FlashcardItem extends Component {
 
   _addCardToDeck = (deckId, card) => {
     const { dispatch } = this.props
-    console.log( "Adding card: ", card )
-    console.log( "to deck: ", deckId )
     try {
       // Update Redux
-      dispatch(addCardToDeck(deckId, card))
+      dispatch( addCardToDeck(deckId, card) )
       // Save to 'DB'
       // addDeckToStorage({ key, deck }) -> refactor like AddEntry in Udacifitness
     } catch (e) {
@@ -37,6 +35,7 @@ class FlashcardItem extends Component {
   render() {
     const { allCards, cardsInDeck, card, navigation, cardInDeck, addCards, deck } = this.props
 
+    console.log("flashcard item")
     // if ( this.state.once ) {
     //   console.log("This one card: ", card)
     //   console.log( "Found card: ", foundCard[0] )

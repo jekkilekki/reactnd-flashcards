@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { View, Text, ImageBackground, StyleSheet } from 'react-native'
-import { Container, Content, Fab, H3, Left, ListItem, Body, Card, Icon } from 'native-base'
+import { Container, Header, Content, Fab, H3, Left, Right, ListItem, Body, Button, Title, Card, Icon } from 'native-base'
 import CardList from './CardList'
-import { tealA700, gray100, pink500 } from '../../utils/colors'
+import { tealA700, gray100, pink500, teal500 } from '../../utils/colors'
 
 class AddCardsToDeck extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -18,7 +18,7 @@ class AddCardsToDeck extends Component {
       //           state.params.onBackPress()
       //         }
       //       }}
-      //       title={'Back'}
+      //       title={'Home'}
       //     />
       //   )
       // })
@@ -29,6 +29,11 @@ class AddCardsToDeck extends Component {
     editing: false
   }
 
+  _backToHome = () => {
+    const { navigation } = this.props
+    navigation.navigate('DeckList')
+  }
+
   render() {
     const { navigation, deck, cards } = this.props
     const theDeck = deck
@@ -36,6 +41,19 @@ class AddCardsToDeck extends Component {
 
     return (
       <Container>
+        
+        <Header style={{backgroundColor: 'white'}}>
+          <Body>
+            <Title>Add Cards to Deck</Title>
+          </Body>
+          <Right>
+            <Button transparent>
+              <Text>Cancel</Text>
+              <Icon name="close" onPress={this._backToHome} />
+            </Button>
+          </Right>
+        </Header>
+
         <Content>
           <View style={styles.padder}>
             <H3>{theDeck.name}</H3>
@@ -75,7 +93,7 @@ class AddCardsToDeck extends Component {
 
         <Fab
           style={{ backgroundColor: pink500 }}
-          position={'topRight'}
+          position={'bottomRight'}
           onPress={() => {
             navigation.navigate('AddCard', {deckName: theDeck.name})
           }}
@@ -143,16 +161,16 @@ function mapStateToProps({ decks }, { navigation }) {
   }
 }
 
-function mapDispatchToProps(dispatch, { navigation }) {
-  const { deckId } = navigation.state.params
-  return {
-    remove: () => dispatch(addEntry({
-      [deckId]: timeToString() === deckId
-        ? getDailyReminderValue()
-        : null
-    })),
-    goBack: () => navigation.navigate('DeckList'),
-  }
-}
+// function mapDispatchToProps(dispatch, { navigation }) {
+//   const { deckId } = navigation.state.params
+//   return {
+//     remove: () => dispatch(addEntry({
+//       [deckId]: timeToString() === deckId
+//         ? getDailyReminderValue()
+//         : null
+//     })),
+//     goBack: () => navigation.navigate('DeckList'),
+//   }
+// }
 
-export default connect(mapStateToProps, mapDispatchToProps)(AddCardsToDeck)
+export default connect(mapStateToProps)(AddCardsToDeck)
