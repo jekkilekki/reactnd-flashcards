@@ -36,7 +36,7 @@ class AddDeck extends Component {
         deckCards: []
       })
       // Navigate to Next screen
-      navigation.navigate('AddCardsToDeck', { id: deckId, name: deckName })
+      navigation.navigate('AddCardsModal', { id: deckId, name: deckName })
       // Save to 'DB'
       // addDeckToStorage({ key, deck }) -> refactor like AddEntry in Udacifitness
     } catch (e) {

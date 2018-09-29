@@ -4,18 +4,11 @@ import { View, Platform } from 'react-native'
 import { Asset, AppLoading, SplashScreen } from 'expo'
 import firebase from 'firebase'
 import { apiKey, authDomain, databaseURL, projectId, storageBucket, messagingSenderId } from '../utils/_config'
-// import { createStore, applyMiddleware } from 'redux'
-// import { composeWithDevTools } from 'remote-redux-devtools'
-import { Provider } from 'react-redux'
-import Thunk from 'redux-thunk'
 
 import { Navigation } from './shared/Navigation'
 import Loader from './shared/Loader'
 import Login from './views/Login'
 import { handleInitialData } from '../actions/shared'
-// import Splash from './components/views/Splash'
-// import middleware from './middleware'
-// import reducer from './reducers'
 
 class Main extends Component {
   state = {
@@ -54,16 +47,15 @@ class Main extends Component {
       'Roboto_medium': require('native-base/Fonts/Roboto_medium.ttf'),
     })
     this.setState({ fontLoaded: true })
+  }
 
+  componentDidMount() {
     let data = new Promise((res, rej) => {
       this.props.handleInitialData()
     })
     data.then(() => {
       this.setState({ dataLoaded: true })
     })
-  }
-
-  componentDidMount() {
     // setLocalNotification()
   }
 
@@ -86,16 +78,15 @@ class Main extends Component {
       return null;
     }
 
-    if (decks === undefined || decks === 'undefined' || decks === null || cards === undefined || cards === 'undefined' || cards === null) {
+    if ( decks === undefined || decks === 'undefined' || decks === null 
+      || cards === undefined || cards === 'undefined' || cards === null ) {
       return <Loader />
     }
 
     return (
-      // <Provider store={store}>
-        <View style={{flex: 1}}>
-          {this.renderInitialView()}
-        </View>
-      // </Provider>
+      <View style={{flex: 1}}>
+        {this.renderInitialView()}
+      </View>
     )
   }
 }

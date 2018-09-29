@@ -30,8 +30,6 @@ class CardList extends Component {
   _renderCardItem = (card, deck) => {
     const { navigation, view } = this.props
     const addCards = view === 'addCards' ? true : false
-    // console.log( "Found in deck: ", deck.cards.find((c) => c.id === card.item.id))
-    // console.log( "Deckie: " + deck + " Cardie: " + card)
     return (
       <FlashcardItem card={card} navigation={navigation} addCards={addCards} deck={deck} />
     )
@@ -41,7 +39,7 @@ class CardList extends Component {
     const { navigation, cards, deck, cardSet } = this.props
     
     // Use passed Array or convert Object to Array for FlatList
-    const theCards = cardSet ? cardSet : Object.keys(cards).map(i => cards[i])
+    const theCards = cardSet ? cardSet : cards
 
     return (
       <Container>
@@ -86,11 +84,12 @@ const styles = StyleSheet.create({
 })
 
 function mapStateToProps({ cards }) {
+  const cardArray = Object.keys(cards).map(i => cards[i])
   return { 
-    cards
-      // .sort((a,b) => {
-      //   return (a.korean < b.korean) ? -1 : (a.korean > b.korean) ? 1 : 0
-      // })
+    cards: cardArray
+      .sort((a,b) => {
+        return (a.korean < b.korean) ? -1 : (a.korean > b.korean) ? 1 : 0
+      })
   }
 }
 

@@ -1,10 +1,5 @@
-import { decks } from '../utils/_DATA'
 import { FETCH_DECKS, SORT_DECKS, NEW_DECK, ADD_CARD_TO_DECK, EDIT_DECK, DELETE_DECK } from '../actions/decks'
 import { AsyncStorage } from 'react-native'
-
-const initialState = {
-  decks,
-}
 
 export default (state = {}, action) => {
   switch ( action.type ) {

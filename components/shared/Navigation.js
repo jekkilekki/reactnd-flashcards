@@ -2,7 +2,6 @@ import React from 'react'
 import { Platform, View, Text, Image } from 'react-native'
 import { createSwitchNavigator, createStackNavigator, createBottomTabNavigator, createMaterialTopTabNavigator } from 'react-navigation'
 import { Tabs, Button, Icon } from 'native-base'
-import Loader from '../shared/Loader'
 import About from '../views/About'
 import AddCard from '../views/AddCard'
 import AddDeck from '../views/AddDeck'
@@ -75,7 +74,6 @@ const MainNav = createStackNavigator({
   DeckSingle: DeckSingle,
   CardSingle: CardSingle,
   AddDeck: AddDeck,
-  AddCardsToDeck: AddCardsToDeck,
   AddCard: AddCard,
   Quiz: Quiz
 }, {
@@ -102,10 +100,18 @@ const MainNav = createStackNavigator({
   }
 })
 
+const RootNav = createStackNavigator({
+  Main: MainNav,
+  AddCardsModal: AddCardsToDeck
+}, {
+  mode: 'modal',
+  headerMode: 'none'
+})
+
 export const Navigation = createSwitchNavigator(
   {
     // AuthLoading: Loader,
-    App: MainNav,
+    App: RootNav,
     Auth: AuthNav
   }, 
   {

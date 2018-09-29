@@ -131,7 +131,7 @@ class DeckSingle extends Component {
           style={{ backgroundColor: pink500 }}
           position={'topRight'}
           onPress={() => {
-            navigation.navigate('AddCardsToDeck', {id: theDeck.id, name: theDeck.name})
+            navigation.navigate('AddCardsModal', {id: theDeck.id, name: theDeck.name})
           }}
         >
           <Icon name="add" />
@@ -198,16 +198,16 @@ function mapStateToProps({ decks }, { navigation }) {
   }
 }
 
-function mapDispatchToProps(dispatch, { navigation }) {
-  const { deckId } = navigation.state.params
-  return {
-    remove: () => dispatch(addEntry({
-      [deckId]: timeToString() === deckId
-        ? getDailyReminderValue()
-        : null
-    })),
-    goBack: () => navigation.goBack(),
-  }
-}
+// function mapDispatchToProps(dispatch, { navigation }) {
+//   const { deckId } = navigation.state.params
+//   return {
+//     remove: () => dispatch(addEntry({
+//       [deckId]: timeToString() === deckId
+//         ? getDailyReminderValue()
+//         : null
+//     })),
+//     goBack: () => navigation.goBack(),
+//   }
+// }
 
-export default connect(mapStateToProps, mapDispatchToProps)(DeckSingle)
+export default connect(mapStateToProps)(DeckSingle)

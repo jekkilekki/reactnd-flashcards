@@ -11,20 +11,12 @@ class DeckList extends Component {
   render() {
     const { decks, navigation } = this.props
 
-    // Show Loader if loading data
-    if (decks === undefined || decks === 'undefined' || decks === null) {
-      return <Loader />
-    }
-
-    // Convert Object to Array for List
-    const deckArray = Object.keys(decks).map(i => decks[i])
-
     return (
       <Container style={{backgroundColor: 'white'}}>
         <Content>
           <CalendarStrip showMonth={false}/>
           <List
-            dataArray={deckArray}
+            dataArray={decks}
             renderRow={(deck, id) =>
               <DeckItem deck={deck} navigation={navigation} />
             }
@@ -53,7 +45,7 @@ const styles = StyleSheet.create({
 
 function mapStateToProps({decks}) {
   return {
-    decks
+    decks: Object.keys(decks).map(i => decks[i])
   }
 }
 
