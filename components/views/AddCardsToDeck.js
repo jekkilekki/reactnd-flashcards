@@ -10,18 +10,6 @@ class AddCardsToDeck extends Component {
     const { name } = navigation.state.params
     return {
       title: `Add Cards to ${name}`,
-      // header: ({ state, setParams }) => ({
-      //   left: (
-      //     <HeaderBackArrow
-      //       onPress={() => {
-      //         if (state.params && state.params.onBackPress) {
-      //           state.params.onBackPress()
-      //         }
-      //       }}
-      //       title={'Home'}
-      //     />
-      //   )
-      // })
     }
   }
 
@@ -30,16 +18,15 @@ class AddCardsToDeck extends Component {
   }
 
   _backToHome = () => {
-    const { navigation } = this.props
-    navigation.navigate('DeckList')
+    const { navigation, id, name } = this.props
+    navigation.navigate('DeckSingle', { id: id, name: name })
   }
 
   render() {
     console.log( "AddCardsToDeck" )
 
-    const { navigation, deck, cards } = this.props
+    const { navigation, deck } = this.props
     const theDeck = deck
-    const theCards = cards
 
     return (
       <Container>
@@ -51,7 +38,7 @@ class AddCardsToDeck extends Component {
           <Right>
             <Button transparent onPress={this._backToHome}>
               <Text>Cancel</Text>
-              <Icon name="close"/>
+              <Icon name="close" style={{marginLeft: 5}}/>
             </Button>
           </Right>
         </Header>
@@ -162,17 +149,5 @@ function mapStateToProps({ decks }, { navigation }) {
     decks
   }
 }
-
-// function mapDispatchToProps(dispatch, { navigation }) {
-//   const { deckId } = navigation.state.params
-//   return {
-//     remove: () => dispatch(addEntry({
-//       [deckId]: timeToString() === deckId
-//         ? getDailyReminderValue()
-//         : null
-//     })),
-//     goBack: () => navigation.navigate('DeckList'),
-//   }
-// }
 
 export default connect(mapStateToProps)(AddCardsToDeck)

@@ -1,11 +1,11 @@
 import React from 'react'
 import { View, Text, ImageBackground, StyleSheet } from 'react-native'
 import { ListItem, Body, Left, Right, Button, Icon, H3, Card, CardItem } from 'native-base'
-import { selectDeck } from '../../actions'
 
 const DeckItem = (props) => {
-  console.log( "DeckItem" )
+  
   const { deck, navigation } = props
+  
   return (
     <ListItem 
       icon noIndent button

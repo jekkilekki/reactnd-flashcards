@@ -22,7 +22,7 @@ export function handleSortDecks( decks, cards ) {
     const cardArray = Object.keys(cards).map(i => cards[i])
 
     // Sort cards into a new array of arrays
-    let sortedDecks = deckArray.map((deck) => {
+    const sortedDecks = deckArray.map((deck) => {
       return cardArray.filter((card) => {
         if (deck.level === card.level) {
           return card.id
@@ -32,7 +32,8 @@ export function handleSortDecks( decks, cards ) {
 
     // Place the sorted cards into their respective decks
     Object.keys(decks).forEach((key, i) => {
-      return decks[key].cards = sortedDecks[i]
+      // return decks[key].cards = sortedDecks[i] // This returns the whole card object
+      return decks[key].cards = sortedDecks[i].map((card) => card.id) // Just store the card IDs, not the whole object
     })
 
     // Dispatch the sort function to save to Redux state 

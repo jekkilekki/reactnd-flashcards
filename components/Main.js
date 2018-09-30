@@ -56,7 +56,7 @@ class Main extends Component {
     const cards = await AsyncStorage.getItem( 'KBH:Cards' ).then((results) => JSON.parse(results))
     
     // Should probably handle some conditional checks here - just in case decks OR cards are missing
-    if ( decks && cards ) {
+    if ( ! decks ) {
       console.log( "Setting up our decks...", decks )
       this.props.setDecks( decks )
       console.log( "Setting up our cards...", cards )

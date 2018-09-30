@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import { View, Text, StyleSheet } from 'react-native'
 import { connect } from 'react-redux'
 import { ListItem, Body, Left, Right, Button, Badge, Icon, H3, Card, CardItem } from 'native-base'
@@ -6,14 +6,7 @@ import { addCardToDeck } from '../../actions/decks'
 import { getPartOfSpeech } from '../../utils/helpers'
 import { teal500, pink300 } from '../../utils/colors'
 
-class FlashcardItem extends Component {
-  state = {
-    once: true
-  }
-
-  shouldComponentUpdate() {
-    return false
-  }
+class FlashcardItem extends PureComponent {
 
   _addCardToDeck = (deckId, card) => {
     const { dispatch } = this.props
@@ -63,11 +56,4 @@ class FlashcardItem extends Component {
   }
 }
 
-function mapStateToProps({ decks, cards }) {
-  return {
-    cardsInDeck: decks.cards,
-    allCards: cards
-  }
-}
-
-export default connect(mapStateToProps)(FlashcardItem)
+export default FlashcardItem
