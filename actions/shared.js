@@ -1,6 +1,6 @@
 import { getInitialData } from '../utils/api'
-import { fetchDecks, sortCards, handleSortDecks } from '../actions/decks'
-import { fetchCards } from '../actions/cards'
+import { setDecks, handleSortDecks } from '../actions/decks'
+import { setCards } from '../actions/cards'
 import { setAuthUser } from '../actions/authedUser'
 // import { showLoading, hideLoading } from 'react-redux-loading'
 
@@ -10,8 +10,8 @@ export function handleInitialData() {
   return dispatch => {
     return getInitialData()
       .then(({ decks, cards }) => {
-        dispatch( fetchDecks(decks) )
-        dispatch( fetchCards(cards) )
+        dispatch( setDecks(decks) )
+        dispatch( setCards(cards) )
         // dispatch( setAuthUser(AUTHED_ID) )
         dispatch( handleSortDecks( decks, cards ))
       })

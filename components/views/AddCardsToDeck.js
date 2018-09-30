@@ -49,9 +49,9 @@ class AddCardsToDeck extends Component {
             <Title>Add Cards to Deck</Title>
           </Body>
           <Right>
-            <Button transparent>
+            <Button transparent onPress={this._backToHome}>
               <Text>Cancel</Text>
-              <Icon name="close" onPress={this._backToHome} />
+              <Icon name="close"/>
             </Button>
           </Right>
         </Header>

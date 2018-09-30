@@ -38,7 +38,7 @@ class FlashcardItem extends Component {
   }
 
   render() {
-    console.log("FlashcardItem", this.props.card )
+    // console.log("FlashcardItem", this.props.card )
     const { card, cardInDeck } = this.props
 
     return (

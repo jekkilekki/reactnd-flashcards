@@ -36,7 +36,7 @@ class AddCard extends Component {
     const key = timeToString()
 
     try {
-      // Update Redux
+      // Update Redux -> Saves new state of cards to AsyncStorage as well
       dispatch( handleNewCard( cardId, cardKor, cardEng, cardImg, cardPOS ))
       this.setState({
         cardId: '',
@@ -48,8 +48,6 @@ class AddCard extends Component {
       })
       // Navigate back to CardList
       navigation.navigate('CardList')
-      // Update 'DB'
-      // addCardToStorage({ key, card }) -> refactor as AddEntry in Udacifitness
     } catch (e) {
       console.log('Error adding Card.', e.message)
     }

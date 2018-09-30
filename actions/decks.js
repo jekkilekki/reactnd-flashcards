@@ -1,24 +1,13 @@
-// import { decks } from '../utils/_DATA'
-
-export const FETCH_DECKS = 'FETCH_DECKS'
-export const SORT_DECKS = 'SORT_DECKS'
+export const SET_DECKS = 'SET_DECKS'
 export const NEW_DECK = 'NEW_DECK'
 export const ADD_CARD_TO_DECK = 'ADD_CARD_TO_DECK'
 export const EDIT_DECK = 'EDIT_DECK'
 export const DELETE_DECK = 'DELETE_DECK'
 
-// Fetch decks
-export function fetchDecks( decks ) {
+// Set Decks function - after fetching, after sorting, after Asyncing
+export function setDecks( decks ) {
   return {
-    type: FETCH_DECKS,
-    decks
-  }
-}
-
-// Sort Cards into Decks
-function sortDecks( decks ) {
-  return {
-    type: SORT_DECKS,
+    type: SET_DECKS,
     decks
   }
 }
@@ -47,7 +36,7 @@ export function handleSortDecks( decks, cards ) {
     })
 
     // Dispatch the sort function to save to Redux state 
-    dispatch( sortDecks(decks) )
+    dispatch( setDecks(decks) )
   }
 }
 
@@ -60,9 +49,10 @@ function newDeck( deck ) {
 }
 
 export function handleNewDeck( id, name, description, image ) {
-  return ( dispatch ) => {
+  return async ( dispatch, getState ) => {
     const formattedDeck = formatDeck({ id, name, description, image })
-    dispatch( newDeck( formattedDeck ))
+    await dispatch( newDeck( formattedDeck ))
+    await dispatch( setDecks( getState().decks ))
   }
 }
 

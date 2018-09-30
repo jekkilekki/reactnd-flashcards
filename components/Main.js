@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { View, Platform } from 'react-native'
+import { View, Platform, AsyncStorage } from 'react-native'
 import { Asset, AppLoading, SplashScreen } from 'expo'
 import firebase from 'firebase'
 import { apiKey, authDomain, databaseURL, projectId, storageBucket, messagingSenderId } from '../utils/_config'
@@ -9,6 +9,8 @@ import { Navigation } from './shared/Navigation'
 import Loader from './shared/Loader'
 import Login from './views/Login'
 import { handleInitialData } from '../actions/shared'
+import { setDecks } from '../actions/decks'
+import { setCards } from '../actions/cards'
 
 class Main extends Component {
   state = {
@@ -42,20 +44,35 @@ class Main extends Component {
 
     // SplashScreen.preventAutoHide();
 
+    // Make sure Expo fonts are loaded
     await Expo.Font.loadAsync({
       'Roboto': require('native-base/Fonts/Roboto.ttf'),
       'Roboto_medium': require('native-base/Fonts/Roboto_medium.ttf'),
     })
     this.setState({ fontLoaded: true })
+
+    // Need to deal with Cards here also
+    const decks = await AsyncStorage.getItem( 'KBH:Decks' ).then((results) => JSON.parse(results))
+    const cards = await AsyncStorage.getItem( 'KBH:Cards' ).then((results) => JSON.parse(results))
+    
+    // Should probably handle some conditional checks here - just in case decks OR cards are missing
+    if ( decks && cards ) {
+      console.log( "Setting up our decks...", decks )
+      this.props.setDecks( decks )
+      console.log( "Setting up our cards...", cards )
+      this.props.setCards( cards )
+      this.setState({ dataLoaded: true })
+    } else {
+      let data = new Promise((res, rej) => {
+        this.props.handleInitialData()
+      })
+      data.then(() => {
+        this.setState({ dataLoaded: true })
+      })
+    }
   }
 
   componentDidMount() {
-    let data = new Promise((res, rej) => {
-      this.props.handleInitialData()
-    })
-    data.then(() => {
-      this.setState({ dataLoaded: true })
-    })
     // setLocalNotification()
   }
 
@@ -99,4 +116,4 @@ function mapStateToProps({decks, cards}) {
   }
 }
 
-export default connect(mapStateToProps, {handleInitialData})(Main)
+export default connect(mapStateToProps, {handleInitialData, setDecks, setCards})(Main)

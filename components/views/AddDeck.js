@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Text, View, StyleSheet, Image } from 'react-native'
 import { Container, Content, H1, H2, H3, Form, Item, Label, Input, Textarea, Button } from 'native-base'
-import { handleNewDeck } from '../../actions/decks'
+import { handleNewDeck, setDecks } from '../../actions/decks'
 import { generateUID, timeToString } from '../../utils/helpers'
 import { addDeckToStorage, removeDeckFromStorage } from '../../utils/api'
 import { tealA700, purple700, pink300, white } from '../../utils/colors'
@@ -26,7 +26,7 @@ class AddDeck extends Component {
     const key = timeToString()
     
     try {
-      // Update Redux
+      // Update Redux -> Saves new state of decks to AsyncStorage as well
       dispatch( handleNewDeck( deckId, deckName, deckDesc, deckImg ))
       this.setState({
         deckId: '',
@@ -37,8 +37,6 @@ class AddDeck extends Component {
       })
       // Navigate to Next screen
       navigation.navigate('AddCardsModal', { id: deckId, name: deckName })
-      // Save to 'DB'
-      // addDeckToStorage({ key, deck }) -> refactor like AddEntry in Udacifitness
     } catch (e) {
       console.log('Error adding Deck.', e.message)
     }

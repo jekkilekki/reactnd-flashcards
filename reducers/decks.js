@@ -1,15 +1,15 @@
-import { FETCH_DECKS, SORT_DECKS, NEW_DECK, ADD_CARD_TO_DECK, EDIT_DECK, DELETE_DECK } from '../actions/decks'
+import { SET_DECKS, NEW_DECK, ADD_CARD_TO_DECK, EDIT_DECK, DELETE_DECK } from '../actions/decks'
 import { AsyncStorage } from 'react-native'
 
 export default (state = {}, action) => {
   switch ( action.type ) {
-    case FETCH_DECKS:
-      return {
-        ...state,
-        ...action.decks
-      }
 
-    case SORT_DECKS:
+    case SET_DECKS:
+      // save sortedDecks in AsyncStorage
+      if ( action.decks ) {
+        AsyncStorage.setItem( 'KBH:Decks', JSON.stringify(action.decks) )
+          console.log('Sorted decks saved to storage.', action.decks)
+      }
       return {
         ...state,
         ...action.decks
