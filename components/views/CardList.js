@@ -31,14 +31,18 @@ class CardList extends Component {
   // More help: https://aboutreact.com/react-native-flatlist-pagination-to-load-more-data-dynamically-infinite-list/
   // Using: https://medium.com/react-native-development/how-to-use-the-flatlist-component-react-native-basics-92c482816fe6
   state = {
-    loading: false,
-    refreshing: false,
+    refreshing: true,
     searchValue: '',
     numResults: '',
-    cardData: this.props.cardSet ? this.props.cardSet : this.props.cardIds,
-    page: 1,
-    offset: 30,
+    cardIds: this.props.cardSet ? this.props.cardSet : this.props.cardIds,
+    cardData: [],
+    page: 0,
+    offset: 10,
     error: null
+  }
+
+  componentWillMount() {
+    this._handleLoadMore()
   }
 
   _filterCards = (text) => {
@@ -55,31 +59,27 @@ class CardList extends Component {
     })
   }
 
-  // _handleLoadMore = () => {
-  //   this.setState({
-  //     page: this.state.page + 1
-  //   }, () => {
-  //     this._refreshList()
-  //   })
-  // }
+  _handleLoadMore = () => {
+    console.log( "Loading more..." )
+    this.setState({ refreshing: true })
 
-  // _refreshList = () => {
-  //   const { page, offset } = this.state 
-  //   this.setState({ loading: true })
-  //   await AsyncStorage.getItem( 'KBH:Cards' )
-  //     .then((res) => JSON.parse(res))
-  //     .then((res) => {
-  //       this.setState({
-  //         cardData: [...this.state.data, ...res.results],
-  //         error: res.error || null,
-  //         loading: false,
-  //         refreshing: false
-  //       })
-  //     })
-  //     .catch((error) => {
-  //       this.setState({ error, loading: false, refreshing: false })
-  //     })
-  // }
+    const { cardIds, cardData, offset, page } = this.state
+    const { cards } = this.props
+    let subArr = []
+    // offset should not change (the number of items we're finding)
+    // but the starting index should change based on page number (page 1 = 0, page 2 = offset(1), page3 = offset(2))
+    
+    // offset(10) * page(0) = 0, page(1) = 10, page(2) = 20, page(3) = 30, etc
+    const startIndex = page * offset
+    for ( let i = startIndex; i < startIndex + offset; i ++ ) {
+      subArr.push( cards.find(card => { return card.id === cardIds[i] }) )
+    }
+    this.setState({
+      cardData: cardData.concat(subArr),
+      page: page + 1,
+      refreshing: false
+    })
+  }
 
   _renderCardItem = (card) => {
     const { navigation, view, deck } = this.props
@@ -92,13 +92,13 @@ class CardList extends Component {
   }
 
   _renderListFooter = () => {
-    if ( !this.state.loading ) return null
+    if ( ! this.state.refreshing ) return null
     return <Loader />
   }
 
   render() {
-    console.log( "CardList", this.props.cards )
-    console.log( "Card Data (IDs): ", this.state.cardData)
+    // console.log( "CardList", this.props.cards )
+    // console.log( "Card Data: ", this.state.cardData)
 
     const { navigation, cards, cardIds, deck, cardSet } = this.props
     const { cardData } = this.state
@@ -106,9 +106,9 @@ class CardList extends Component {
     // Use passed Array (cardSet) or full list as Array (stateToProps => cards) for FlatList
     const theCards = cardSet ? cardSet : cards
   
-    const _getItemLayout = (data, index) => (
-      { length: 80, offset: 80 * index, index }
-    )
+    // const _getItemLayout = (data, index) => (
+    //   { length: 80, offset: 80 * index, index }
+    // )
 
     return (
       <Container>
@@ -124,18 +124,17 @@ class CardList extends Component {
         <Text style={{position: 'absolute', right: 10, top: 15}}>{theCards.length} Results</Text>
         <Content padder>
           <FlatList
-            data={theCards} // now just an array of numbers (cardIds)
+            data={cardData}
             renderItem={(card) => this._renderCardItem(card)}
-            keyExtractor={(item) => (item.id.toString())}
+            keyExtractor={(item, i) => (i.toString())}
             ListFooterComponent={this._renderListFooter}
             initialNumToRender={15}
-            // removeClippedSubviews={true} // performance issues?
             windowSize={7}
             getItemLayout={(data, index) => (
-              { length: 80, offset: 80 * index, index }
+              { length: 80, offset: 80 * index, index } // better way to handle this outside?
             )}
-            // onEndReached={this._handleLoadMore}
-            // onEndReachedThreshold={0}
+            onEndReached={this._handleLoadMore}
+            onEndReachedThreshold={5}
           />
         </Content>
 
