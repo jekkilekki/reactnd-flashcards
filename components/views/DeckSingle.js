@@ -29,7 +29,7 @@ class DeckSingle extends Component {
 
     const { navigation, deck } = this.props
     const theDeck = deck
-    const theCards = theDeck.cards
+    const theCards = theDeck.cards ? theDeck.cards : []
 
     const splitSubsets = (givenArray, size) => {
       let results = []
@@ -90,7 +90,10 @@ class DeckSingle extends Component {
                 activeTabStyle={{backgroundColor: gray100}} 
                 activeTextStyle={{color: gray900, fontWeight: 'bold'}}  
               >
-                <Text style={[{textAlign: 'center', paddingTop: 20}]}>Select a subset to study. (No score)</Text>
+                { theCards.length < 1
+                  ? <Text style={[{textAlign: 'left', paddingTop: 20}]}>No cards in this data set yet. Click the "Plus" button in the upper-left to add some.</Text>
+                  : <Text style={[{textAlign: 'center', paddingTop: 20}]}>Select a subset to study. (No score)</Text>
+                }
                 <CardSets 
                   cardSet={subsets} 
                   view={'sets'} 
@@ -117,7 +120,10 @@ class DeckSingle extends Component {
                 activeTabStyle={{backgroundColor: gray100}}  
                 activeTextStyle={{color: gray900, fontWeight: 'bold'}}   
               >
-                <Text style={[{textAlign: 'center', paddingTop: 20}]}>Please select a subset to quiz. (Score recorded)</Text>
+                { theCards.length < 1
+                  ? <Text style={[{textAlign: 'left', paddingTop: 20}]}>No cards in this data set yet. Click the "Plus" button in the upper-left to add some.</Text>
+                  : <Text style={[{textAlign: 'center', paddingTop: 20}]}>Please select a subset to quiz. (Score recorded)</Text>
+                }
                 <CardSets 
                   cardSet={subsets}
                   view={'quiz'} 

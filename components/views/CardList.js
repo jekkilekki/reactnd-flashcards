@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { StyleSheet, FlatList, Text } from 'react-native'
+import { StyleSheet, FlatList, Text, Platform } from 'react-native'
 import { OptimizedFlatList } from 'react-native-optimized-flatlist'
 import { Container, Content, Fab, Icon } from 'native-base'
 import { SearchBar } from 'react-native-elements'
@@ -109,20 +109,21 @@ class CardList extends Component {
     // const _getItemLayout = (data, index) => (
     //   { length: 80, offset: 80 * index, index }
     // )
+    // const searchBarHeight = Platform.OS === 'ios' ? 48 : 56
 
     return (
       <Container>
         <SearchBar
           lightTheme 
           placeholder='Search for card'
-          containerStyle={{backgroundColor: gray100, paddingRight: 100, height: 48}}
-          inputStyle={{backgroundColor: gray200, fontSize: 14}}
+          containerStyle={{backgroundColor: gray100, paddingRight: 100, height: 50}}
+          inputStyle={{backgroundColor: gray200, fontSize: 14, height: 46}}
           onChangeText={(text) => this._filterCards(text)}
           autoCorrect={false}
           autoCapitalize='none'
         />
         <Text style={{position: 'absolute', right: 10, top: 15}}>{theCards.length} Results</Text>
-        <Content padder>
+        {/* <Content padder> */}
           <FlatList
             data={cardData}
             renderItem={(card) => this._renderCardItem(card)}
@@ -136,7 +137,7 @@ class CardList extends Component {
             onEndReached={this._handleLoadMore}
             onEndReachedThreshold={5}
           />
-        </Content>
+        {/* </Content> */}
 
         <Fab
           style={{ backgroundColor: pink500 }}

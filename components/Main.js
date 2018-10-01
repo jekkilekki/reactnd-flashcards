@@ -91,14 +91,19 @@ class Main extends Component {
   render() {
     const { decks, cards } = this.props
 
-    if ( ! this.state.fontLoaded ) {
-      return null;
+    // If the data isn't yet loaded, show nothing
+    if ( !this.state.fontLoaded ) {
+      return null
     }
 
-    if ( decks === undefined || decks === 'undefined' || decks === null 
-      || cards === undefined || cards === 'undefined' || cards === null ) {
+    if ( !this.state.dataLoaded ) {
       return <Loader />
     }
+
+    // if ( decks === undefined || decks === 'undefined' || decks === null 
+    //   || cards === undefined || cards === 'undefined' || cards === null ) {
+    //   return <Loader />
+    // }
 
     console.log( "Main" )
     return (
