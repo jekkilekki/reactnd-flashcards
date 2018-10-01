@@ -116,10 +116,10 @@ const styles = StyleSheet.create({
 })
 
 function mapStateToProps({ cards }, { navigation }) {
-  const { index } = navigation.state.params
+  const { id } = navigation.state.params
   const cardArray = Object.keys(cards).map(i => cards[i])
   return {
-    card: cardArray[index],
+    card: cardArray.find(c => c.id === id),
     cards
   }
 }

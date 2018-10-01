@@ -26,6 +26,7 @@ class CardSets extends Component {
     console.log( "CardSets" )
 
     const { cardSet } = this.props
+    console.log( "Card set here: ", cardSet )
 
     return (
       <View style={{flex: 1, alignItems: 'center'}}>

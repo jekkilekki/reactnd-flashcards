@@ -19,7 +19,7 @@ class DeckList extends Component {
           <CalendarStrip showMonth={false}/>
           <List
             dataArray={decks}
-            renderRow={(deck, id) =>
+            renderRow={(deck) =>
               <DeckItem deck={deck} navigation={navigation} />
             }
           >

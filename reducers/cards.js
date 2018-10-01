@@ -8,7 +8,6 @@ export default (state = {}, action) => {
       // save cards in AsyncStorage
       if ( action.cards ) {
         AsyncStorage.setItem( 'KBH:Cards', JSON.stringify(action.cards) )
-          console.log('Sorted cards saved to storage.', action.cards)
       }
       return {
         ...state,

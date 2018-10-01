@@ -5,10 +5,9 @@ export default (state = {}, action) => {
   switch ( action.type ) {
 
     case SET_DECKS:
-      // save sortedDecks in AsyncStorage
+      // save sortedDecks in AsyncStorage - also runs on NEW_DECK
       if ( action.decks ) {
         AsyncStorage.setItem( 'KBH:Decks', JSON.stringify(action.decks) )
-          console.log('Sorted decks saved to storage.', action.decks)
       }
       return {
         ...state,
@@ -16,10 +15,6 @@ export default (state = {}, action) => {
       }
 
     case NEW_DECK:
-      // save new deck in AsyncStorage
-      // if ( action.deck ) {
-      //   AsyncStorage.setItem('decks', [...state.decks, action.deck])
-      // }
       const { deck } = action
       return {
         ...state,

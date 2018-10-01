@@ -43,16 +43,29 @@ class CardList extends Component {
 
   componentWillMount() {
     this._handleLoadMore()
+
+    const { cardIds, cardData } = this.state
+    // If we have cardIds, but no cardData, then map ids to props
+    if ( cardIds !== [] && cardData === [] ) {
+      const { cards } = this.props
+      const cardsInThisDeck = cardIds.map(id => {
+        return cards.find(card => { return card.id === cardIds[id] })
+      })
+      this.setState({
+        cardData: cardsInThisDeck
+      })
+    }
   }
 
   _filterCards = (text) => {
-    const newResults = this.state.cardData.filter((card) => {
+    const { cards } = this.props
+    const newResults = cards.filter((card) => {
       const cardData = `${card.english.toString().toLowerCase()}
                         ${card.korean.toString().toLowerCase()}`
 
       const searchData = text.toLowerCase()
 
-      return cardData.indexOf(searchData) > -1
+      return cards.indexOf(searchData) > -1
     })
     this.setState({
       cardData: newResults
@@ -82,8 +95,11 @@ class CardList extends Component {
   }
 
   _renderCardItem = (card) => {
-    const { navigation, view, deck } = this.props
+    const { navigation, view, deck, cards } = this.props
     const addCards = view === 'addCards' ? true : false
+
+    const found = Object.keys(cards).includes(card.id)
+    if ( addCards && found ) console.log( "Found your card in this deck!", card.id )
     return (
       // console.log("Hello card ", card)
       // <Text>Card: {card.toString()}</Text>
@@ -92,19 +108,16 @@ class CardList extends Component {
   }
 
   _renderListFooter = () => {
-    if ( ! this.state.refreshing ) return null
-    return <Loader />
+    if ( this.state.refreshing ) return <Loader />
+    else return null
   }
 
   render() {
-    // console.log( "CardList", this.props.cards )
-    // console.log( "Card Data: ", this.state.cardData)
-
     const { navigation, cards, cardIds, deck, cardSet } = this.props
     const { cardData } = this.state
     
     // Use passed Array (cardSet) or full list as Array (stateToProps => cards) for FlatList
-    const theCards = cardSet ? cardSet : cards
+    const theCards = deck ? deck.cards : cards
   
     // const _getItemLayout = (data, index) => (
     //   { length: 80, offset: 80 * index, index }
@@ -117,14 +130,15 @@ class CardList extends Component {
           lightTheme 
           placeholder='Search for card'
           containerStyle={{backgroundColor: gray100, paddingRight: 100, height: 50}}
-          inputStyle={{backgroundColor: gray200, fontSize: 14, height: 46}}
+          inputStyle={{backgroundColor: gray200, fontSize: 14, height: 32}}
           onChangeText={(text) => this._filterCards(text)}
           autoCorrect={false}
           autoCapitalize='none'
         />
-        <Text style={{position: 'absolute', right: 10, top: 15}}>{theCards.length} Results</Text>
+        <Text style={{position: 'absolute', right: 10, top: 15}}>{theCards.length || 0} Results</Text>
         {/* <Content padder> */}
           <FlatList
+            style={{marginLeft: 10, marginRight: 10}}
             data={cardData}
             renderItem={(card) => this._renderCardItem(card)}
             keyExtractor={(item, i) => (i.toString())}

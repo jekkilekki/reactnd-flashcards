@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import { Text, View, StyleSheet } from 'react-native'
 import { Container, Content, H1, H2, H3, DeckSwiper, Card, CardItem, Thumbnail, Button, Icon, Footer, FooterTab } from 'native-base'
 import { white, pink300, red300, amber300, green300, teal300 } from '../../utils/colors'
@@ -73,8 +74,9 @@ class Quiz extends Component {
   render() {
     console.log( "Quiz" )
 
-    const { navigation } = this.props
-    const { cards, set, name, view } = navigation.state.params
+    const { navigation, cards } = this.props
+    const { set, name, view } = navigation.state.params
+    console.log( "Quiz", cards )
     const { index } = this.state
     const theCards = Object.values(cards)
 
@@ -88,8 +90,8 @@ class Quiz extends Component {
           <View>
             <DeckSwiper
               ref={(c) => this._deckSwiper = c}
-              dataSource={theCards}
-              renderItem={this._renderItem(item)}
+              dataSource={cards}
+              renderItem={(item) => this._renderItem(item)}
               renderEmpty={this._completed}
               looping={false}
             />
@@ -154,4 +156,11 @@ const styles = StyleSheet.create({
   }
 })
 
-export default Quiz
+function mapStateToProps({cards}) {
+  const cardsInThisDeck = navigation.state.params.cards 
+  return {
+    cards: cardsInThisDeck.map(id => cards.find(c => c.id === id))
+  }
+}
+
+export default connect(mapStateToProps)(Quiz)

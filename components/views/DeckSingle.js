@@ -29,8 +29,9 @@ class DeckSingle extends Component {
 
     const { navigation, deck } = this.props
     const theDeck = deck
+    console.log( "Deck: ", deck )
     const theCards = theDeck.cards ? theDeck.cards : []
-
+    console.log( "Cards: ", theCards )
     const splitSubsets = (givenArray, size) => {
       let results = []
       for (var i = 0; i < givenArray.length; i += size) {
@@ -91,7 +92,7 @@ class DeckSingle extends Component {
                 activeTextStyle={{color: gray900, fontWeight: 'bold'}}  
               >
                 { theCards.length < 1
-                  ? <Text style={[{textAlign: 'left', paddingTop: 20}]}>No cards in this data set yet. Click the "Plus" button in the upper-left to add some.</Text>
+                  ? <Text style={[{textAlign: 'left', paddingTop: 20, marginLeft: 10, marginRight: 10}]}>No cards in this data set yet. Click the "Plus" button in the upper-left to add some.</Text>
                   : <Text style={[{textAlign: 'center', paddingTop: 20}]}>Select a subset to study. (No score)</Text>
                 }
                 <CardSets 
@@ -109,7 +110,7 @@ class DeckSingle extends Component {
                 activeTextStyle={{color: gray900, fontWeight: 'bold'}}   
               >
                 <CardList 
-                  cardSet={theCards} 
+                  deck={theDeck} 
                   navigation={navigation}
                 />
               </Tab>
@@ -121,7 +122,7 @@ class DeckSingle extends Component {
                 activeTextStyle={{color: gray900, fontWeight: 'bold'}}   
               >
                 { theCards.length < 1
-                  ? <Text style={[{textAlign: 'left', paddingTop: 20}]}>No cards in this data set yet. Click the "Plus" button in the upper-left to add some.</Text>
+                  ? <Text style={[{textAlign: 'left', paddingTop: 20, marginLeft: 10, marginRight: 10}]}>No cards in this data set yet. Click the "Plus" button in the upper-left to add some.</Text>
                   : <Text style={[{textAlign: 'center', paddingTop: 20}]}>Please select a subset to quiz. (Score recorded)</Text>
                 }
                 <CardSets 
@@ -202,7 +203,7 @@ function mapStateToProps({ decks }, { navigation }) {
   })
   return {
     deck: decks[deck],
-    decks
+    decks, 
   }
 }
 

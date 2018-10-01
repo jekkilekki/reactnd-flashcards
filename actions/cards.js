@@ -11,6 +11,13 @@ export function setCards( cards ) {
   }
 }
 
+export function handleSetCards( cards ) {
+  // Do we need to pull out the card ID for object key on each element of cards array here?
+  return (dispatch) => {
+    dispatch( setCards(cards))
+  }
+}
+
 // Add card
 function newCard( card ) {
   return {
