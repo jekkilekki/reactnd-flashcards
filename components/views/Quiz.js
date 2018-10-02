@@ -156,10 +156,13 @@ const styles = StyleSheet.create({
   }
 })
 
-function mapStateToProps({cards}) {
-  const cardsInThisDeck = navigation.state.params.cards 
+function mapStateToProps({cards}, {navigation}) {
+  let cardObj = navigation.state.params.cards
+  const cardArray = Object.keys(cards).map(i => cards[i])
+  const cardsInThisDeck = Object.keys(cardObj).map(i => cardObj[i])
+  console.log( "Navigation:", navigation )
   return {
-    cards: cardsInThisDeck.map(id => cards.find(c => c.id === id))
+    cards: cardsInThisDeck.map(id => cardArray.find(c => c.id === id))
   }
 }
 
