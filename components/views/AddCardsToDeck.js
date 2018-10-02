@@ -75,7 +75,6 @@ class AddCardsToDeck extends Component {
           </View>
           <CardList 
             navigation={navigation}
-            deck={theDeck}
             view={'addCards'}
           />
         </Content>

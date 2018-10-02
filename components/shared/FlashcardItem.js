@@ -11,11 +11,8 @@ class FlashcardItem extends PureComponent {
   _addCardToDeck = (deckId, card) => {
     const { dispatch } = this.props
     try {
-      // Update Redux
-      console.log( 'Adding card ', card, ' to deck ', deckId )
+      // Update Redux & save to AsyncStorage (chained calls to dispatch)
       dispatch( handleAddCardToDeck(deckId, card) )
-      // Save to 'DB'
-      // addDeckToStorage({ key, deck }) -> refactor like AddEntry in Udacifitness
     } catch (e) {
       console.log('Error adding Card to your Deck.', e.message)
     }
@@ -27,13 +24,11 @@ class FlashcardItem extends PureComponent {
       this._addCardToDeck(deck.id, card.item.id)
     } else {
       navigation.navigate( 'CardSingle', { id: card.item.id, index: card.index } )
-      console.log( 'Card Pressed: ', card )
     }
   }
 
   render() {
-    // console.log("FlashcardItem", this.props.card )
-    const { card, cardInDeck } = this.props
+    const { card, addCards, cardInDeck } = this.props
 
     return (
       <ListItem noIndent

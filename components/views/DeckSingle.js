@@ -29,11 +29,8 @@ class DeckSingle extends Component {
 
     const { navigation, deck } = this.props
     const theDeck = deck
-    console.log( "Deck id: ", navigation.state.params.id )
-    console.log( "Deck name: ", navigation.state.params.name )
-    console.log( "Deck: ", deck )
     const theCards = theDeck.cards ? theDeck.cards : []
-    console.log( "Cards: ", theCards )
+
     const splitSubsets = (givenArray, size) => {
       let results = []
       for (var i = 0; i < givenArray.length; i += size) {
@@ -112,7 +109,7 @@ class DeckSingle extends Component {
                 activeTextStyle={{color: gray900, fontWeight: 'bold'}}   
               >
                 <CardList 
-                  deck={theDeck} 
+                  deck={theCards} 
                   navigation={navigation}
                 />
               </Tab>
@@ -182,7 +179,6 @@ const styles = StyleSheet.create({
   },
   icon: {
     fontSize: 16,
-    // float: 'left',
     color: '#555555'
   },
   boxRow: {
@@ -208,17 +204,5 @@ function mapStateToProps({ decks }, { navigation }) {
     decks, 
   }
 }
-
-// function mapDispatchToProps(dispatch, { navigation }) {
-//   const { deckId } = navigation.state.params
-//   return {
-//     remove: () => dispatch(addEntry({
-//       [deckId]: timeToString() === deckId
-//         ? getDailyReminderValue()
-//         : null
-//     })),
-//     goBack: () => navigation.goBack(),
-//   }
-// }
 
 export default connect(mapStateToProps)(DeckSingle)

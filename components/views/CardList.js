@@ -60,12 +60,12 @@ class CardList extends Component {
   _filterCards = (text) => {
     const { cards } = this.props
     const newResults = cards.filter((card) => {
-      const cardData = `${card.english.toString().toLowerCase()}
+      const cardsData = `${card.english.toString().toLowerCase()}
                         ${card.korean.toString().toLowerCase()}`
 
       const searchData = text.toLowerCase()
 
-      return cards.indexOf(searchData) > -1
+      return cardsData.indexOf(searchData) > -1
     })
     this.setState({
       cardData: newResults
@@ -77,7 +77,7 @@ class CardList extends Component {
     this.setState({ refreshing: true })
 
     const { cardIds, cardData, offset, page } = this.state
-    const { cards } = this.props
+    const { cards, deck } = this.props
     let subArr = []
     // offset should not change (the number of items we're finding)
     // but the starting index should change based on page number (page 1 = 0, page 2 = offset(1), page3 = offset(2))
@@ -85,7 +85,10 @@ class CardList extends Component {
     // offset(10) * page(0) = 0, page(1) = 10, page(2) = 20, page(3) = 30, etc
     const startIndex = page * offset
     for ( let i = startIndex; i < startIndex + offset; i ++ ) {
-      subArr.push( cards.find(card => { return card.id === cardIds[i] }) )
+      // Make sure we don't exceed our bounds
+      if ( i < cardIds.length ) {
+        subArr.push( cards.find(card => { return card.id === cardIds[i] }) )
+      }
     }
     this.setState({
       cardData: cardData.concat(subArr),
@@ -117,7 +120,7 @@ class CardList extends Component {
     const { cardData } = this.state
     
     // Use passed Array (cardSet) or full list as Array (stateToProps => cards) for FlatList
-    const theCards = deck ? deck.cards : cards
+    const theCards = deck ? deck : cards
   
     // const _getItemLayout = (data, index) => (
     //   { length: 80, offset: 80 * index, index }
@@ -173,14 +176,23 @@ const styles = StyleSheet.create({
   }
 })
 
-function mapStateToProps({ cards }) {
+function mapStateToProps({ cards }, { deck }) {
   const cardArray = Object.keys(cards).map(i => cards[i])
+  let theCards = []
+  if ( deck ) {
+    theCards = deck.map(id => {
+      return cardArray.find(c => c.id === id)
+    })
+  } else {
+    theCards = cardArray
+  }
+
   return { 
-    cards: cardArray
+    cards: theCards
       .sort((a,b) => {
         return (a.korean < b.korean) ? -1 : (a.korean > b.korean) ? 1 : 0
       }),
-    cardIds: cardArray
+    cardIds: theCards
       .sort((a,b) => {
         return (a.korean < b.korean) ? -1 : (a.korean > b.korean) ? 1 : 0
       })
