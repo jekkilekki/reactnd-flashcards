@@ -1,42 +1,48 @@
-import React from 'react'
+import React, { Component } from 'react'
 import { View, Text, ImageBackground, StyleSheet } from 'react-native'
 import { ListItem, Body, Left, Right, Button, Icon, H3, Card, CardItem } from 'native-base'
 
-const DeckItem = (props) => {
+class DeckItem extends Component {
+  _goToDeck = () => {
+    const { deck, navigation } = this.props
+    navigation.navigate( 'DeckSingle', { id: deck.id, name: deck.name } )
+  }
   
-  const { deck, navigation } = props
-  
-  return (
-    <ListItem 
-      icon noIndent button
-      style={[{backgroundColor: 'white'}, styles.deck]}
-      onPress={() => navigation.navigate( 'DeckSingle', { id: deck.id, name: deck.name } )}
-    >
-      <Left>
-        <Card style={styles.cardImage}>
-          <ImageBackground source={{uri: deck.image}} style={[styles.cardImage, {width: '100%', height: '100%'}]}>
-            <Icon name="heart" style={styles.icon}/>
-          </ImageBackground>
-        </Card>
-      </Left>
-      <Body style={styles.deck}>
-        <H3 style={styles.title}>{deck.name}</H3>
-        <Text style={styles.info}>{deck.description}</Text>
-        <Text style={styles.info}>
-          <Icon 
-            name="copy" 
-            style={styles.icon} 
-          /> {deck.cards.length} Cards | <Icon 
-            name="albums" 
-            style={styles.icon} 
-          /> {Math.ceil(deck.cards.length / 30)} Subsets
-        </Text>
-      </Body>
-      <Right style={styles.deckArrow}>
-        <Icon name="arrow-forward" onPress={() => navigation.navigate( 'DeckSingle', { id: deck.id } )} />
-      </Right>
-    </ListItem>
-  )
+  render() {
+    const { deck } = this.props
+
+    return (
+      <ListItem 
+        icon noIndent button
+        style={[{backgroundColor: 'white'}, styles.deck]}
+        onPress={this._goToDeck}
+      >
+        <Left>
+          <Card style={styles.cardImage}>
+            <ImageBackground source={{uri: deck.image}} style={[styles.cardImage, {width: '100%', height: '100%'}]}>
+              <Icon name="heart" style={styles.icon}/>
+            </ImageBackground>
+          </Card>
+        </Left>
+        <Body style={styles.deck}>
+          <H3 style={styles.title}>{deck.name}</H3>
+          <Text style={styles.info}>{deck.description}</Text>
+          <Text style={styles.info}>
+            <Icon 
+              name="copy" 
+              style={styles.icon} 
+            /> {deck.cards.length} Cards | <Icon 
+              name="albums" 
+              style={styles.icon} 
+            /> {Math.ceil(deck.cards.length / 30)} Subsets
+          </Text>
+        </Body>
+        <Right style={styles.deckArrow}>
+          <Icon name="arrow-forward" onPress={this._goToDeck} />
+        </Right>
+      </ListItem>
+    )
+  }
 }
 
 const styles = StyleSheet.create({

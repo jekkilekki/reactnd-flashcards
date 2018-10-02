@@ -47,7 +47,7 @@ class AddCard extends Component {
         cardSents: []
       })
       // Navigate back to CardList
-      navigation.navigate('CardList')
+      navigation.navigate('CardList', {refresh: true})
     } catch (e) {
       console.log('Error adding Card.', e.message)
     }
@@ -99,7 +99,6 @@ class AddCard extends Component {
               </Text>
             </Button>
           </Form>
-          {/* <CardList addCards={true} deck={deckName}/> */}
         </Content>
       </Container>
     )

@@ -18,8 +18,8 @@ class AddCardsToDeck extends Component {
   }
 
   _backToHome = () => {
-    const { navigation, id, name } = this.props
-    navigation.navigate('DeckSingle', { id: id, name: name })
+    const { navigation, deck } = this.props
+    navigation.navigate('DeckSingle', { id: deck.id, name: deck.name })
   }
 
   render() {

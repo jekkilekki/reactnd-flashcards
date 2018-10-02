@@ -29,6 +29,8 @@ class DeckSingle extends Component {
 
     const { navigation, deck } = this.props
     const theDeck = deck
+    console.log( "Deck id: ", navigation.state.params.id )
+    console.log( "Deck name: ", navigation.state.params.name )
     console.log( "Deck: ", deck )
     const theCards = theDeck.cards ? theDeck.cards : []
     console.log( "Cards: ", theCards )

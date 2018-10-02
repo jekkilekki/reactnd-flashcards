@@ -9,10 +9,11 @@ import { teal500, pink300 } from '../../utils/colors'
 class FlashcardItem extends PureComponent {
 
   _addCardToDeck = (deckId, card) => {
+    const { dispatch } = this.props
     try {
       // Update Redux
       console.log( 'Adding card ', card, ' to deck ', deckId )
-      handleAddCardToDeck(deckId, card)
+      dispatch( handleAddCardToDeck(deckId, card) )
       // Save to 'DB'
       // addDeckToStorage({ key, deck }) -> refactor like AddEntry in Udacifitness
     } catch (e) {
@@ -56,4 +57,4 @@ class FlashcardItem extends PureComponent {
   }
 }
 
-export default FlashcardItem
+export default connect()(FlashcardItem)

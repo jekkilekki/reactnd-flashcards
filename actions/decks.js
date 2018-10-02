@@ -69,7 +69,6 @@ function formatDeck({ id, name, description, image }) {
 
 // Add card to deck
 export function handleAddCardToDeck( deckId, card ) {
-  console.log( "Made it to the action man." )
   return async ( dispatch, getState ) => {
     await dispatch( addCardToDeck( deckId, card ) )
     await dispatch( setDecks( getState().decks ))
