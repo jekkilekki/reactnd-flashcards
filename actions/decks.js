@@ -1,6 +1,9 @@
+import { generateUID } from "../utils/helpers";
+
 export const SET_DECKS = 'SET_DECKS'
 export const NEW_DECK = 'NEW_DECK'
 export const ADD_CARD_TO_DECK = 'ADD_CARD_TO_DECK'
+export const RECORD_SESSION = 'RECORD_SESSION'
 export const STUDY_TIME = 'STUDY_TIME'
 export const EDIT_DECK = 'EDIT_DECK'
 export const DELETE_DECK = 'DELETE_DECK'
@@ -85,11 +88,41 @@ function addCardToDeck( deckId, card ) {
 }
 
 // Increase study time for either studying cards or doing the quiz
-export function studyTime( studiedDeckId, time ) {
+function studyTime( studiedDeckId, time ) {
   return {
     type: STUDY_TIME,
     studiedDeckId,
     time
+  }
+}
+
+// Study / Quizzing Session
+function recordSession( sessionDeckId, sessionType, session ) {
+  return {
+    type: RECORD_SESSION,
+    sessionDeckId,
+    sessionType,
+    session
+  }
+}
+
+export function handleRecordSession(  studiedDeckId, sessionType, timeElapsed, dateTime, known, unknown, reviewing, score ) {
+  // const session = {
+  //   // "id": generateUID(),
+  //   // "dateTime": dateTime,
+  //   "timeElapsed": timeElapsed,
+  //   "known": known,
+  //   "unknown": unknown,
+  //   "reviewing": reviewing,
+  //   "score": score
+  // }
+  
+  return async ( dispatch, getState ) => {
+    await dispatch( studyTime( studiedDeckId, timeElapsed ))
+    await dispatch( recordSession( studiedDeckId, sessionType,
+      { dateTime, timeElapsed, known, unknown, reviewing, score }
+    ))
+    await dispatch( setDecks( getState().decks ))
   }
 }
 

@@ -94,7 +94,7 @@ class DeckSingle extends Component {
                 }
                 <CardSets 
                   cardSet={subsets} 
-                  view={'sets'} 
+                  view={'study'} 
                   name={theDeck.name}
                   deckId={theDeck.id}
                   navigation={navigation}
@@ -126,7 +126,7 @@ class DeckSingle extends Component {
                 <CardSets 
                   cardSet={subsets}
                   view={'quiz'} 
-                  id={theDeck.id}
+                  deckId={theDeck.id}
                   name={theDeck.name}
                   navigation={navigation}
                 />

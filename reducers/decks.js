@@ -1,4 +1,4 @@
-import { SET_DECKS, NEW_DECK, ADD_CARD_TO_DECK, STUDY_TIME, EDIT_DECK, DELETE_DECK } from '../actions/decks'
+import { SET_DECKS, NEW_DECK, ADD_CARD_TO_DECK, RECORD_SESSION, STUDY_TIME, EDIT_DECK, DELETE_DECK } from '../actions/decks'
 import { AsyncStorage } from 'react-native'
 
 export default (state = {}, action) => {
@@ -28,6 +28,19 @@ export default (state = {}, action) => {
         [deckId]: {
           ...state[deckId],
           cards: state[deckId].cards.concat([card])
+        }
+      }
+
+    case RECORD_SESSION:
+      const { sessionDeckId, sessionType, session } = action
+      return {
+        ...state,
+        [sessionDeckId]: {
+          ...state[sessionDeckId],
+          [sessionType]: {
+            ...state[sessionDeckId][sessionType], 
+            [session.dateTime]: session
+          }
         }
       }
 

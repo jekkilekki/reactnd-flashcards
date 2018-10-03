@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { View, Text, StyleSheet } from 'react-native'
 import { Container, Header, Body, Title, Right, Left, Button, Icon, Content, H1, H2, H3 } from 'native-base'
 import { ProgressCircle } from 'react-native-svg-charts' 
-import { studyTime } from '../../actions/decks'
+import { handleRecordSession } from '../../actions/decks'
 import { teal500, tealA700, pink500, amber500, white } from '../../utils/colors'
 
 class QuizResults extends Component {
@@ -14,25 +14,48 @@ class QuizResults extends Component {
   //   }
   // }
   state = {
-    timeElapsed: 0
+    timeElapsed: 0,
+    totalScore: 0
   }
 
   componentDidMount() {
     const { navigation } = this.props
-    const { id, time } = navigation.state.params
+    const { id, time, view, know, dontKnow, reviewing, cards } = navigation.state.params
 
-    console.log( "Time Start: ", time )
-    const totalTime = Date.now() - time
-    console.log( "Total Time: ", totalTime )
-    this.setState({ timeElapsed: totalTime })
+    const sessionType = view === 'quiz' ? 'quizResults' : 'studyResults'
+    const timeEnded = Date.now()
+    const totalTime = timeEnded - time
+    const totalScore = ((know + reviewing / 2) / cards.length) * 100
+    this.setState({
+      timeElapsed: totalTime,
+      totalScore: totalScore
+    })
 
-    this.props.dispatch( studyTime( id, parseInt(totalTime) ) )
+    // handleRecordSession(  studiedDeckId, sessionType, timeElapsed, dateTime, known, unknown, reviewing, score )
+    this.props.dispatch( handleRecordSession( 
+      id,                 // studiedDeckId
+      sessionType,        // sessionType
+      parseInt(totalTime),// timeElapsed
+      timeEnded,          // dateTime
+      know,               // known
+      dontKnow,           // unknown
+      reviewing,          // reviewing
+      totalScore,         // score
+    ))
   }
 
   _restart = () => {
     const { navigation } = this.props
-    const { id, name, set, know, cards, cardObj, view } = navigation.state.params
-    navigation.goBack()
+    const { id, name, set, cards, cardObj, view } = navigation.state.params
+    // navigation.goBack()
+    navigation.navigate('Quiz', { 
+      id: id,
+      name: name,
+      set: set,
+      cards: cardObj,
+      view: view,
+      refresh: true
+    })
   }
 
   _backToHome = () => {
@@ -54,13 +77,12 @@ class QuizResults extends Component {
   render() {
     console.log( "QuizResults" )
 
-    const { timeElapsed } = this.state
+    const { timeElapsed, totalScore } = this.state
     const { navigation, deck } = this.props
     const { set, name, view, cards, cardObj, know, dontKnow, reviewing, time, id } = navigation.state.params
     console.log( "Card Obj in Results: ", cardObj )
 
     const title = view === 'quiz' ? 'Quiz' : 'Study Session'
-    const totalScore = ((know + reviewing / 2) / cards.length) * 100
 
     return (
       <Container>
@@ -149,7 +171,7 @@ class QuizResults extends Component {
               </View>
             </View>
 
-            {this._getMessage}
+            {/* {this._getMessage} */}
 
             <View>
               <Button block
@@ -192,7 +214,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
     borderTopWidth: 1,
-    paddingTop: 10,
+    paddingTop: 20,
     marginTop: 10,
     marginBottom: 10
   },

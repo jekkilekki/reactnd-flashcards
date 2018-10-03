@@ -21,7 +21,8 @@ class Quiz extends Component {
     dontKnow: 0,
     reviewing: 0,
     // score: this.props.navigation.state.params.score || 0,
-    index: 0
+    index: 0,
+    needsRefresh: false
   }
 
   componentWillMount() {
@@ -31,6 +32,14 @@ class Quiz extends Component {
     //     this.forceUpdate()
     //   }
     // }
+    console.log( "Mounting Deck State: ", this._swiper)
+    if ( this.props.navigation.state.params.refresh ) {
+      this.setState({ needsRefresh: true })
+    }
+    if ( this.state.needsRefresh ) {
+      this.setState({ needsRefresh: false })
+      this.forceUpdate()
+    }
   }
 
   _rewindBox = () => {
@@ -113,9 +122,13 @@ class Quiz extends Component {
               cards={cards}
               renderCard={(item) => this._renderItem(item)}
               keyExtractor={(card)=> card.id}
-              infinite={false}
+              infinite={true}
               cardIndex={index} // begin with first card
-              onSwiped={() => this.setState({ index: index + 1 })} // +1 to account for 0 as beginning of array
+              onSwiped={(cardIndex) => {
+                console.log("Card Index now: ", cardIndex)
+                console.log("Swiper State now: ", this._swiper)
+                this.setState({ index: index + 1 })}
+              } // +1 to account for 0 as beginning of array
               onSwipedAll={() => this._completed()}
               onSwipedLeft={this._rewindBox}
               onSwipedRight={this._advanceBox}
