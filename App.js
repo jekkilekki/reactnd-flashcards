@@ -22,7 +22,6 @@ class App extends Component {
   }
 
   render() {
-    console.log( "App" )
     return (
       <Provider store={store}>
         <Main />

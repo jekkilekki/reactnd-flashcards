@@ -100,12 +100,6 @@ class Main extends Component {
       return <Loader />
     }
 
-    // if ( decks === undefined || decks === 'undefined' || decks === null 
-    //   || cards === undefined || cards === 'undefined' || cards === null ) {
-    //   return <Loader />
-    // }
-
-    console.log( "Main" )
     return (
       <View style={{flex: 1}}>
         {this.renderInitialView()}

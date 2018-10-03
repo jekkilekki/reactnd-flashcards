@@ -19,29 +19,18 @@ class Quiz extends Component {
     timeBegan: Date.now(),
     know: 0,
     dontKnow: 0,
-    score: 0,
+    // score: this.props.navigation.state.params.score || 0,
     index: 0
   }
 
-  // _nextCard = (swipe) => {
-  //   // this.setState({ index: this.state.index === this.props.cards.length ? 1 : this.state.index + 1 })
-  //   switch (swipe) {
-  //     case 'left':
-  //       this._swiper.swipeLeft(true)
-  //       this.setState({ dontKnow: this.state.dontKnow + 1 })
-  //       break;
-  //     case 'right':
-  //       this._swiper.swipeRight(true)
-  //       this.setState({ know: this.state.dontKnow + 1 })
-  //       break;
-  //     default:
-  //       this._swiper.swipeTop(true)
-
-  //   }
-  // }
+  componentWillMount() {
+    if ( this.props.navigation.state.params.refresh ) {
+      this._swiper.jumpToCardIndex(0)
+    }
+  }
 
   _rewindBox = () => {
-
+    this.setState({ dontKnow: this.state.dontKnow + 0.5 }) // method seems to run twice...
   }
 
   _markForReview = () => {
@@ -49,7 +38,7 @@ class Quiz extends Component {
   }
 
   _advanceBox = () => {
-    
+    this.setState({ know: this.state.know + 0.5 }) // method seems to run twice...
   }
 
   _renderItem = (item) => {
@@ -76,15 +65,17 @@ class Quiz extends Component {
   }
 
   _completed = () => {
-    const { set, name, view, id } = this.props.navigation.state.params
-    this.props.navigation.navigate('QuizModal', { id: id, name: name, set: set, view: view })
+    const { set, name, view, id, cards } = this.props.navigation.state.params
+    const { know, dontKnow, timeBegan } = this.state
+    this.props.navigation.navigate('QuizModal', { id: id, name: name, set: set, cardObj: cards, cards: this.props.cards, view: view, know: know, dontKnow: dontKnow, time: timeBegan })
   }
 
   render() {
-    console.log( "Quiz" )
+    // console.log( "Quiz" )
+    // console.log( "Do we have a score? ", this.props.navigation.state.params.refresh )
 
     const { navigation, cards } = this.props
-    const { set, name, view } = navigation.state.params
+    const { set, name, view, refresh } = navigation.state.params
 
     const { index } = this.state
     const theCards = Object.values(cards)
@@ -266,6 +257,7 @@ const overlayLabels = {
 
 function mapStateToProps({cards}, {navigation}) {
   let cardObj = navigation.state.params.cards
+  console.log( "Navigation cards: ", cardObj )
   const cardsInThisSet = Object.keys(cardObj).map(i => cardObj[i])
   const cardArray = Object.keys(cards).map(i => cards[i])
 

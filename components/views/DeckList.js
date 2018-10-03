@@ -9,8 +9,6 @@ import { pink500 } from '../../utils/colors'
 
 class DeckList extends Component {
   render() {
-    console.log( "DeckList" )
-
     const { decks, navigation } = this.props
 
     return (
