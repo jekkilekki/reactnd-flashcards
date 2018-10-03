@@ -19,14 +19,18 @@ class Quiz extends Component {
     timeBegan: Date.now(),
     know: 0,
     dontKnow: 0,
+    reviewing: 0,
     // score: this.props.navigation.state.params.score || 0,
     index: 0
   }
 
   componentWillMount() {
-    if ( this.props.navigation.state.params.refresh ) {
-      this._swiper.jumpToCardIndex(0)
-    }
+    // if ( this.props.navigation.state.params.refresh ) {
+    //   if ( this.state.index !== 0 ) {
+    //     this.setState({ index: 0 })
+    //     this.forceUpdate()
+    //   }
+    // }
   }
 
   _rewindBox = () => {
@@ -34,11 +38,31 @@ class Quiz extends Component {
   }
 
   _markForReview = () => {
-    
+    this.setState({ reviewing: this.state.reviewing + 0.5 })
   }
 
   _advanceBox = () => {
     this.setState({ know: this.state.know + 0.5 }) // method seems to run twice...
+  }
+
+  _completed = () => {
+    const { set, name, view, id, cards } = this.props.navigation.state.params
+    const { know, dontKnow, reviewing, timeBegan } = this.state
+
+    // Somehow we need to RESTART the Quiz somewhere if exiting the Modal
+    this._swiper.jumpToCardIndex(0)
+    this.props.navigation.navigate('QuizModal', { 
+      id: id, 
+      name: name, 
+      set: set, 
+      cardObj: cards, 
+      cards: this.props.cards, 
+      view: view, 
+      know: know, 
+      dontKnow: dontKnow, 
+      reviewing: reviewing,
+      time: timeBegan 
+    })
   }
 
   _renderItem = (item) => {
@@ -62,12 +86,6 @@ class Quiz extends Component {
         </Card>
       </View>
     )
-  }
-
-  _completed = () => {
-    const { set, name, view, id, cards } = this.props.navigation.state.params
-    const { know, dontKnow, timeBegan } = this.state
-    this.props.navigation.navigate('QuizModal', { id: id, name: name, set: set, cardObj: cards, cards: this.props.cards, view: view, know: know, dontKnow: dontKnow, time: timeBegan })
   }
 
   render() {

@@ -1,6 +1,7 @@
 export const SET_DECKS = 'SET_DECKS'
 export const NEW_DECK = 'NEW_DECK'
 export const ADD_CARD_TO_DECK = 'ADD_CARD_TO_DECK'
+export const STUDY_TIME = 'STUDY_TIME'
 export const EDIT_DECK = 'EDIT_DECK'
 export const DELETE_DECK = 'DELETE_DECK'
 
@@ -80,6 +81,15 @@ function addCardToDeck( deckId, card ) {
     type: ADD_CARD_TO_DECK,
     deckId,
     card
+  }
+}
+
+// Increase study time for either studying cards or doing the quiz
+export function studyTime( studiedDeckId, time ) {
+  return {
+    type: STUDY_TIME,
+    studiedDeckId,
+    time
   }
 }
 

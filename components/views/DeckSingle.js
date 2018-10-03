@@ -96,6 +96,7 @@ class DeckSingle extends Component {
                   cardSet={subsets} 
                   view={'sets'} 
                   name={theDeck.name}
+                  deckId={theDeck.id}
                   navigation={navigation}
                 />
               </Tab>

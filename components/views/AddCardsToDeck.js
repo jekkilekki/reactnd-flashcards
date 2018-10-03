@@ -32,9 +32,9 @@ class AddCardsToDeck extends Component {
       <Container>
         
         <Header style={{backgroundColor: 'white'}}>
-          <Body>
+          <Left>
             <Title>Add Cards to Deck</Title>
-          </Body>
+          </Left>
           <Right>
             <Button transparent onPress={this._backToHome}>
               <Text>Cancel</Text>

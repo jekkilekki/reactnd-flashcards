@@ -32,6 +32,7 @@
     "react-native-hyperlink": "0.0.14",
     "react-native-material-kit": "^0.5.1",
     "react-native-optimized-flatlist": "^1.0.4",
+    "react-native-svg-charts": "^5.2.0",
     "react-navigation": "^2.13.0",
     "react-redux": "^5.0.7",
     "redux": "^4.0.0",
