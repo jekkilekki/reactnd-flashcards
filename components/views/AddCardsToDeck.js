@@ -6,12 +6,12 @@ import CardList from './CardList'
 import { tealA700, gray100, pink500, teal500 } from '../../utils/colors'
 
 class AddCardsToDeck extends Component {
-  static navigationOptions = ({ navigation }) => {
-    const { name } = navigation.state.params
-    return {
-      title: `Add Cards to ${name}`,
-    }
-  }
+  // static navigationOptions = ({ navigation }) => {
+  //   const { name } = navigation.state.params
+  //   return {
+  //     title: `Add Cards to ${name}`,
+  //   }
+  // }
 
   state = {
     editing: false
@@ -75,6 +75,7 @@ class AddCardsToDeck extends Component {
           </View>
           <CardList 
             navigation={navigation}
+            deck={deck}
             view={'addCards'}
           />
         </Content>

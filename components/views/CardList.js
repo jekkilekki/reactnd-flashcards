@@ -138,7 +138,7 @@ class CardList extends Component {
           autoCorrect={false}
           autoCapitalize='none'
         />
-        <Text style={{position: 'absolute', right: 10, top: 15}}>{theCards.length || 0} Results</Text>
+        <Text style={{position: 'absolute', right: 10, top: 15}}>{theCards.length} Results</Text>
         {/* <Content padder> */}
           <FlatList
             style={{marginLeft: 10, marginRight: 10}}
@@ -179,7 +179,7 @@ const styles = StyleSheet.create({
 function mapStateToProps({ cards }, { deck }) {
   const cardArray = Object.keys(cards).map(i => cards[i])
   let theCards = []
-  if ( deck ) {
+  if ( deck && deck.length > 0 ) {
     theCards = deck.map(id => {
       return cardArray.find(c => c.id === id)
     })

@@ -21,6 +21,8 @@ class FlashcardItem extends PureComponent {
   _handleCardPress = () => {
     const { card, addCards, navigation, deck } = this.props
     if ( addCards ) {
+      console.log( "Card ID: ", card.item.id )
+      console.log( "Deck: ", deck )
       this._addCardToDeck(deck.id, card.item.id)
     } else {
       navigation.navigate( 'CardSingle', { id: card.item.id, index: card.index } )

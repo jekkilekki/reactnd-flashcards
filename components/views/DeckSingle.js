@@ -127,6 +127,7 @@ class DeckSingle extends Component {
                 <CardSets 
                   cardSet={subsets}
                   view={'quiz'} 
+                  id={theDeck.id}
                   name={theDeck.name}
                   navigation={navigation}
                 />

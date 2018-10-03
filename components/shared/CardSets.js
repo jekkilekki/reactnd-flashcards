@@ -5,13 +5,13 @@ import { gray300 } from '../../utils/colors'
 
 class CardSets extends Component {
   _renderItem = (set, i) => {
-    const { view, name, navigation } = this.props
+    const { view, name, navigation, id } = this.props
     return (
     <Card style={styles.cardImage}>
       <CardItem 
         button
         style={styles.cardImage}
-        onPress={() => navigation.navigate('Quiz', {cards: set, set: i+1, name: name, view: view})}
+        onPress={() => navigation.navigate('Quiz', {cards: set, set: i+1, id: id, name: name, view: view})}
       >
         <ImageBackground style={[styles.cardImage, {width: '100%', height: '100%'}]}>
           <H1>{i+1}</H1>
@@ -26,7 +26,7 @@ class CardSets extends Component {
     console.log( "CardSets" )
 
     const { cardSet } = this.props
-    console.log( "Card set here: ", cardSet )
+    // console.log( "Card set here: ", cardSet )
 
     return (
       <View style={{flex: 1, alignItems: 'center'}}>

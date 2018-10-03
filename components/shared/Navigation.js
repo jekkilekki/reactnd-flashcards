@@ -13,6 +13,7 @@ import CardSingle from '../views/CardSingle'
 import Login from '../views/Login'
 import SignUp from '../views/SignUp'
 import Quiz from '../views/Quiz'
+import QuizResults from '../views/QuizResults'
 import { tealA700, tealA400, white } from '../../utils/colors'
 
 const appTabs = {
@@ -102,7 +103,8 @@ const MainNav = createStackNavigator({
 
 const RootNav = createStackNavigator({
   Main: MainNav,
-  AddCardsModal: AddCardsToDeck
+  AddCardsModal: AddCardsToDeck,
+  QuizModal: QuizResults
 }, {
   mode: 'modal',
   headerMode: 'none'

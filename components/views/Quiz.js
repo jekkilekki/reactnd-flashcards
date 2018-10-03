@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import Swiper from 'react-native-deck-swiper'
 import { Text, View, StyleSheet } from 'react-native'
 import { Container, Content, H1, H2, H3, DeckSwiper, Card, CardItem, Thumbnail, Button, Icon, Footer, FooterTab } from 'native-base'
 import { white, pink300, red300, amber300, green300, teal300 } from '../../utils/colors'
@@ -15,31 +16,40 @@ class Quiz extends Component {
 
   state = {
     toReview: [],
+    timeBegan: Date.now(),
+    know: 0,
+    dontKnow: 0,
     score: 0,
-    index: 1
+    index: 0
   }
 
-  _nextCard = () => {
-    this.setState((prevState) => {
-      index: prevState.index++
-    })
-    console.log(this.state.index)
-  }
+  // _nextCard = (swipe) => {
+  //   // this.setState({ index: this.state.index === this.props.cards.length ? 1 : this.state.index + 1 })
+  //   switch (swipe) {
+  //     case 'left':
+  //       this._swiper.swipeLeft(true)
+  //       this.setState({ dontKnow: this.state.dontKnow + 1 })
+  //       break;
+  //     case 'right':
+  //       this._swiper.swipeRight(true)
+  //       this.setState({ know: this.state.dontKnow + 1 })
+  //       break;
+  //     default:
+  //       this._swiper.swipeTop(true)
+
+  //   }
+  // }
 
   _rewindBox = () => {
 
   }
 
   _markForReview = () => {
-    // this.setState({
-
-    // })
+    
   }
 
   _advanceBox = () => {
-    this.setState((prevState) => {
-      score: prevState.score++
-    })
+    
   }
 
   _renderItem = (item) => {
@@ -66,9 +76,8 @@ class Quiz extends Component {
   }
 
   _completed = () => {
-    return (
-      <Text>Set Complete</Text>
-    )
+    const { set, name, view, id } = this.props.navigation.state.params
+    this.props.navigation.navigate('QuizModal', { id: id, name: name, set: set, view: view })
   }
 
   render() {
@@ -76,24 +85,37 @@ class Quiz extends Component {
 
     const { navigation, cards } = this.props
     const { set, name, view } = navigation.state.params
-    console.log( "Quiz", cards )
+
     const { index } = this.state
     const theCards = Object.values(cards)
 
     return (
       <Container style={{backgroundColor: 'white'}}>
-        <Content padder
+        <Content style={styles.container}
           contentContainerStyle={{ flex: 1 }}
         >
           <H3>{`${name} Deck: Set #${set}`}</H3>
-          <Text>Card {index} of {theCards.length}</Text>
+          <Text>Card {(index + 1) > theCards.length
+            ? 1
+            : index + 1} of {theCards.length}</Text>
           <View>
-            <DeckSwiper
-              ref={(c) => this._deckSwiper = c}
-              dataSource={cards}
-              renderItem={(item) => this._renderItem(item)}
-              renderEmpty={this._completed}
-              looping={false}
+            <Swiper
+              ref={(swiper) => this._swiper = swiper}
+              cards={cards}
+              renderCard={(item) => this._renderItem(item)}
+              keyExtractor={(card)=> card.id}
+              infinite={false}
+              cardIndex={index} // begin with first card
+              onSwiped={() => this.setState({ index: index + 1 })} // +1 to account for 0 as beginning of array
+              onSwipedAll={() => this._completed()}
+              onSwipedLeft={this._rewindBox}
+              onSwipedRight={this._advanceBox}
+              onSwipedTop={this._markForReview}
+              // onSwipedBottom={this._discard}
+              // onTapCard={this._flip}
+              overlayLabels={this.overlayLabels}
+              cardVerticalMargin={10}
+              cardHorizontalMargin={10}
             />
           </View>
         </Content>
@@ -103,8 +125,9 @@ class Quiz extends Component {
             <Button vertical 
               style={{backgroundColor: pink300}}
               onPress={() => {
-                this.setState((prev) => { index: prev.index+1 })
-                this._deckSwiper._root.swipeLeft()
+                // this._nextCard('left')
+                // this.setState((prev) => { index: prev.index+1 })
+                this._swiper.swipeLeft()
                 this._rewindBox()
               }}
             >
@@ -114,8 +137,10 @@ class Quiz extends Component {
             <Button vertical
               style={{backgroundColor: amber300}}
               onPress={() => {
-                this.setState((prev) => { index: prev.index+1 })
+                // this._nextCard('top')
+                // this.setState((prev) => { index: prev.index+1 })
                 this._markForReview()
+                this._swiper.swipeTop()
               }}
             >
               <Icon style={{color: white}} name="bookmark" />
@@ -124,8 +149,9 @@ class Quiz extends Component {
             <Button vertical 
               style={{backgroundColor: teal300}}
               onPress={() => {
-                this.setState((prev) => { index: prev.index+1 })
-                this._deckSwiper._root.swipeRight()
+                // this._nextCard('right')
+                // this.setState((prev) => { index: prev.index+1 })
+                this._swiper.swipeRight()
                 this._advanceBox()
               }}
             >
@@ -140,10 +166,17 @@ class Quiz extends Component {
 }
 
 const styles = StyleSheet.create({
+  container: {
+    marginTop: 10,
+    marginRight: 10,
+    marginBottom: 10,
+    marginLeft: 10
+  },
   card: {
     height: 200,
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    marginRight: 20
   },
   cardButtons: {
     position: 'absolute',
@@ -156,13 +189,88 @@ const styles = StyleSheet.create({
   }
 })
 
+const overlayLabels = {
+  bottom: {
+	// element: <Text>BLEAH</Text> /* Optional */
+	title: 'BLEAH',
+    style: {
+      label: {
+        backgroundColor: 'black',
+        borderColor: 'black',
+        color: 'white',
+        borderWidth: 1
+      },
+      wrapper: {
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center'
+      }
+    }
+  },
+  left: {
+	// element: <Text>NOPE</Text> /* Optional */
+	title: 'NOPE',
+    style: {
+      label: {
+        backgroundColor: 'black',
+        borderColor: 'black',
+        color: 'white',
+        borderWidth: 1
+      },
+      wrapper: {
+        flexDirection: 'column',
+        alignItems: 'flex-end',
+        justifyContent: 'flex-start',
+        marginTop: 30,
+        marginLeft: -30
+      }
+    }
+  },
+  right: {
+	// element: <Text>LIKE</Text> /* Optional */
+	title: 'LIKE',
+    style: {
+      label: {
+        backgroundColor: 'black',
+        borderColor: 'black',
+        color: 'white',
+        borderWidth: 1
+      },
+      wrapper: {
+        flexDirection: 'column',
+        alignItems: 'flex-start',
+        justifyContent: 'flex-start',
+        marginTop: 30,
+        marginLeft: 30
+      }
+    }
+  },
+  top: {
+	// element: <Text>SUPER</Text> /* Optional */
+	title: 'SUPER LIKE',
+    style: {
+      label: {
+        backgroundColor: 'black',
+        borderColor: 'black',
+        color: 'white',
+        borderWidth: 1
+      },
+      wrapper: {
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center'
+      }
+    }
+  }
+}
+
 function mapStateToProps({cards}, {navigation}) {
   let cardObj = navigation.state.params.cards
+  const cardsInThisSet = Object.keys(cardObj).map(i => cardObj[i])
   const cardArray = Object.keys(cards).map(i => cards[i])
-  const cardsInThisDeck = Object.keys(cardObj).map(i => cardObj[i])
-  console.log( "Navigation:", navigation )
+
   return {
-    cards: cardsInThisDeck.map(id => cardArray.find(c => c.id === id))
+    cards: cardsInThisSet.map(id => cardArray.find(c => c.id === id))
   }
 }
 
