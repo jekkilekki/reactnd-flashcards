@@ -8,6 +8,7 @@ import { apiKey, authDomain, databaseURL, projectId, storageBucket, messagingSen
 import { Navigation } from './shared/Navigation'
 import Loader from './shared/Loader'
 import Login from './views/Login'
+import { setLocalNotification } from '../utils/helpers'
 import { handleInitialData } from '../actions/shared'
 import { setDecks } from '../actions/decks'
 import { setCards } from '../actions/cards'
@@ -73,7 +74,7 @@ class Main extends Component {
   }
 
   componentDidMount() {
-    // setLocalNotification()
+    setLocalNotification()
   }
 
   renderInitialView() {

@@ -3,6 +3,7 @@ import { apiKey, authDomain, databaseURL, projectId, storageBucket, messagingSen
 import { createStore, applyMiddleware } from 'redux'
 import { composeWithDevTools } from 'remote-redux-devtools'
 import { Provider } from 'react-redux'
+import { setLocalNotification } from './utils/helpers'
 
 import middleware from './middleware'
 import reducer from './reducers'
@@ -16,10 +17,6 @@ const store = createStore(
 )
 
 class App extends Component {
-
-  componentDidMount() {
-    // setLocalNotification()
-  }
 
   render() {
     return (

@@ -107,17 +107,7 @@ function recordSession( sessionDeckId, sessionType, session ) {
 }
 
 export function handleRecordSession(  studiedDeckId, sessionType, timeElapsed, dateTime, known, unknown, reviewing, score ) {
-  // const session = {
-  //   // "id": generateUID(),
-  //   // "dateTime": dateTime,
-  //   "timeElapsed": timeElapsed,
-  //   "known": known,
-  //   "unknown": unknown,
-  //   "reviewing": reviewing,
-  //   "score": score
-  // }
-  
-  return async ( dispatch, getState ) => {
+    return async ( dispatch, getState ) => {
     await dispatch( studyTime( studiedDeckId, timeElapsed ))
     await dispatch( recordSession( studiedDeckId, sessionType,
       { dateTime, timeElapsed, known, unknown, reviewing, score }

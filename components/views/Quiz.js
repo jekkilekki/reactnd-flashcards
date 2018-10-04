@@ -59,7 +59,7 @@ class Quiz extends Component {
     const { know, dontKnow, reviewing, timeBegan } = this.state
 
     // Somehow we need to RESTART the Quiz somewhere if exiting the Modal
-    this._swiper.jumpToCardIndex(0)
+    // this._swiper.jumpToCardIndex(0)
     this.props.navigation.navigate('QuizModal', { 
       id: id, 
       name: name, 

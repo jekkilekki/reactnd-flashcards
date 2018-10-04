@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { View, Text, StyleSheet } from 'react-native'
+import { View, Text, StyleSheet, Platform } from 'react-native'
 import { Container, Header, Body, Title, Right, Left, Button, Icon, Content, H1, H2, H3 } from 'native-base'
 import { ProgressCircle } from 'react-native-svg-charts' 
 import { handleRecordSession } from '../../actions/decks'
-import { teal500, tealA700, pink500, amber500, white } from '../../utils/colors'
+import { clearLocalNotification, setLocalNotification } from '../../utils/helpers'
+import { teal500, tealA700, pink500, amber500, gray500, gray900, white } from '../../utils/colors'
 
 class QuizResults extends Component {
   // static navigationOptions = ({ navigation }) => {
@@ -25,7 +26,7 @@ class QuizResults extends Component {
     const sessionType = view === 'quiz' ? 'quizResults' : 'studyResults'
     const timeEnded = Date.now()
     const totalTime = timeEnded - time
-    const totalScore = ((know + reviewing / 2) / cards.length) * 100
+    const totalScore = Math.round(((know + reviewing / 2) / cards.length) * 100)
     this.setState({
       timeElapsed: totalTime,
       totalScore: totalScore
@@ -42,6 +43,10 @@ class QuizResults extends Component {
       reviewing,          // reviewing
       totalScore,         // score
     ))
+
+    // Set a Local Notification to remind the user to study tomorrow too 
+    clearLocalNotification()
+      .then(setLocalNotification)
   }
 
   _restart = () => {
@@ -87,14 +92,14 @@ class QuizResults extends Component {
     return (
       <Container>
         
-        <Header style={{backgroundColor: 'white'}}>
+        <Header style={{backgroundColor: 'white', paddingTop: Platform.ios === 'ios' ? 0 : 20}}>
           <Left>
-            <Title>{title}</Title>
+            <Title style={{color: gray900, fontSize: 16}}>{title}</Title>
           </Left>
           <Right>
             <Button transparent onPress={this._backToHome}>
               <Text>Finished</Text>
-              <Icon name="close" style={{marginLeft: 5}}/>
+              <Icon name="close" style={{marginLeft: 5, color: gray500}}/>
             </Button>
           </Right>
         </Header>
@@ -117,7 +122,7 @@ class QuizResults extends Component {
             </View>
 
             <View style={styles.statsBox}>
-              <View style={[styles.thirds, {borderRightWidth: 1}]}>
+              <View style={[styles.thirds, {borderRightWidth: 1, borderColor: gray500}]}>
                 <H3 style={[styles.statHeader, {color: teal500}]}>Mastered</H3>
                 <View>
                   <ProgressCircle
@@ -145,7 +150,7 @@ class QuizResults extends Component {
                 </View>
               </View>
 
-              <View style={[styles.thirds, {borderLeftWidth: 1}]}>
+              <View style={[styles.thirds, {borderLeftWidth: 1, borderColor: gray500}]}>
                 <H3 style={[styles.statHeader, {color: pink500}]}>New</H3>
                 <View>
                   <ProgressCircle
@@ -161,7 +166,7 @@ class QuizResults extends Component {
             </View>
 
             <View style={[styles.statsBox]}>
-              <View style={[styles.doubles, {borderRightWidth: 1}]}>
+              <View style={[styles.doubles, {borderRightWidth: 1, borderColor: gray500}]}>
                 <H3 style={styles.statHeader}>Time Elapsed</H3>
                 <H1 style={{textAlign: 'center'}}>{timeElapsed}ms</H1>
               </View>
@@ -173,7 +178,7 @@ class QuizResults extends Component {
 
             {/* {this._getMessage} */}
 
-            <View>
+            <View style={{marginTop: 10}}>
               <Button block
                 onPress={this._restart} 
                 style={styles.button}
@@ -184,7 +189,7 @@ class QuizResults extends Component {
 
               <Button block
                 onPress={this._backToHome}
-                style={styles.buttonOutline}
+                style={[styles.button, styles.buttonOutline]}
               >
                 <Icon name="arrow-back" style={{color: tealA700, marginLeft: 0}}/>
                 <Text style={styles.buttonOutlineText}>Back to Deck</Text>
@@ -214,6 +219,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
     borderTopWidth: 1,
+    borderColor: gray500,
     paddingTop: 20,
     marginTop: 10,
     marginBottom: 10
@@ -238,8 +244,7 @@ const styles = StyleSheet.create({
     fontSize: 14
   },
   button: {
-    marginTop: 20,
-    marginBottom: 10,
+    marginTop: 10,
     borderRadius: 8,
     backgroundColor: tealA700,
   },

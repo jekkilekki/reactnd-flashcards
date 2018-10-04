@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { View, Text, ImageBackground, StyleSheet } from 'react-native'
+import { View, Text, ImageBackground, StyleSheet, Platform } from 'react-native'
 import { Container, Header, Content, Fab, H3, Left, Right, ListItem, Body, Button, Title, Card, Icon } from 'native-base'
 import CardList from './CardList'
-import { tealA700, gray100, pink500, teal500 } from '../../utils/colors'
+import { tealA700, gray100, gray500, gray900, pink500, teal500 } from '../../utils/colors'
 
 class AddCardsToDeck extends Component {
   // static navigationOptions = ({ navigation }) => {
@@ -31,14 +31,14 @@ class AddCardsToDeck extends Component {
     return (
       <Container>
         
-        <Header style={{backgroundColor: 'white'}}>
+        <Header style={{backgroundColor: 'white', paddingTop: Platform.ios === 'ios' ? 0 : 20}}>
           <Left>
-            <Title>Add Cards to Deck</Title>
+            <Title style={{color: gray900, fontSize: 16}}>Add Cards to Deck</Title>
           </Left>
           <Right>
             <Button transparent onPress={this._backToHome}>
               <Text>Cancel</Text>
-              <Icon name="close" style={{marginLeft: 5}}/>
+              <Icon name="close" style={{marginLeft: 5, color: gray500}}/>
             </Button>
           </Right>
         </Header>
