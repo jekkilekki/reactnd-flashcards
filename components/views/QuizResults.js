@@ -98,7 +98,7 @@ class QuizResults extends Component {
           </Left>
           <Right>
             <Button transparent onPress={this._backToHome}>
-              <Text>Finished</Text>
+              <Text>Close</Text>
               <Icon name="close" style={{marginLeft: 5, color: gray500}}/>
             </Button>
           </Right>
@@ -118,22 +118,24 @@ class QuizResults extends Component {
               />
               <View style={styles.statsScore}>
                 <H1 style={styles.totalScore}>{totalScore}%</H1>
+                <Text style={[styles.statNote, {marginTop: 50}]}>{know + (reviewing / 2)} pts / {cards.length} cards</Text>
               </View>
             </View>
 
             <View style={styles.statsBox}>
               <View style={[styles.thirds, {borderRightWidth: 1, borderColor: gray500}]}>
-                <H3 style={[styles.statHeader, {color: teal500}]}>Mastered</H3>
+                <H3 style={[styles.statHeader, {color: pink500}]}>New</H3>
                 <View>
                   <ProgressCircle
                     style={{height: 60}}
-                    progress={know / cards.length}
-                    progressColor={teal500}
+                    progress={dontKnow / cards.length}
+                    progressColor={pink500}
                   />
                   <View style={styles.statsScore}>
-                    <H3>{know}</H3>
+                    <H3>{dontKnow}</H3>
                   </View>
                 </View>
+                <Text style={[styles.statNote]}>+0pt each</Text>
               </View>
 
               <View style={styles.thirds}>
@@ -148,20 +150,22 @@ class QuizResults extends Component {
                     <H3>{reviewing}</H3>
                   </View>
                 </View>
+                <Text style={[styles.statNote]}>+0.5pt each</Text>
               </View>
 
               <View style={[styles.thirds, {borderLeftWidth: 1, borderColor: gray500}]}>
-                <H3 style={[styles.statHeader, {color: pink500}]}>New</H3>
+                <H3 style={[styles.statHeader, {color: teal500}]}>Mastered</H3>
                 <View>
                   <ProgressCircle
                     style={{height: 60}}
-                    progress={dontKnow / cards.length}
-                    progressColor={pink500}
+                    progress={know / cards.length}
+                    progressColor={teal500}
                   />
                   <View style={styles.statsScore}>
-                    <H3>{dontKnow}</H3>
+                    <H3>{know}</H3>
                   </View>
                 </View>
+                <Text style={[styles.statNote]}>+1pt each</Text>
               </View>
             </View>
 
@@ -242,6 +246,11 @@ const styles = StyleSheet.create({
   statHeader: {
     textAlign: 'center',
     fontSize: 14
+  },
+  statNote: {
+    textAlign: 'center',
+    fontSize: 12,
+    marginTop: 3
   },
   button: {
     marginTop: 10,

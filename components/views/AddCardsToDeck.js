@@ -37,7 +37,7 @@ class AddCardsToDeck extends Component {
           </Left>
           <Right>
             <Button transparent onPress={this._backToHome}>
-              <Text>Cancel</Text>
+              <Text>Close</Text>
               <Icon name="close" style={{marginLeft: 5, color: gray500}}/>
             </Button>
           </Right>

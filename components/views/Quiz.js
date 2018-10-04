@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import Swiper from 'react-native-deck-swiper'
-import { Text, View, StyleSheet } from 'react-native'
+import CardFlip from 'react-native-card-flip'
+import { Text, View, StyleSheet, Animated, TouchableOpacity } from 'react-native'
 import { Container, Content, H1, H2, H3, DeckSwiper, Card, CardItem, Thumbnail, Button, Icon, Footer, FooterTab } from 'native-base'
 import { white, pink300, red300, amber300, green300, teal300 } from '../../utils/colors'
 
@@ -22,10 +23,25 @@ class Quiz extends Component {
     reviewing: 0,
     // score: this.props.navigation.state.params.score || 0,
     index: 0,
-    needsRefresh: false
+    needsRefresh: false,
+    flipValue: 0,
+    hint: false,
+    reverse: false
   }
 
   componentWillMount() {
+    this.animatedValue = new Animated.Value(0)
+    this.animatedValue.addListener(({ value }) => {
+      this.setState({ flipValue: value })
+    })
+    this.frontInterpolate = this.animatedValue.interpolate({
+      inputRange: [0, 180],
+      outputRange: ['0deg', '180deg']
+    })
+    this.backInterpolate = this.animatedValue.interpolate({
+      inputRange: [0, 180],
+      outputRange: ['180deg', '360deg']
+    })
     // if ( this.props.navigation.state.params.refresh ) {
     //   if ( this.state.index !== 0 ) {
     //     this.setState({ index: 0 })
@@ -43,15 +59,15 @@ class Quiz extends Component {
   }
 
   _rewindBox = () => {
-    this.setState({ dontKnow: this.state.dontKnow + 0.5 }) // method seems to run twice...
+    this.setState({ dontKnow: this.state.dontKnow + 0.5, hint: false, show: false }) // method seems to run twice...
   }
 
   _markForReview = () => {
-    this.setState({ reviewing: this.state.reviewing + 0.5 })
+    this.setState({ reviewing: this.state.reviewing + 0.5, hint: false, show: false })
   }
 
   _advanceBox = () => {
-    this.setState({ know: this.state.know + 0.5 }) // method seems to run twice...
+    this.setState({ know: this.state.know + 0.5, hint: false, show: false }) // method seems to run twice...
   }
 
   _completed = () => {
@@ -74,25 +90,133 @@ class Quiz extends Component {
     })
   }
 
+  _hint = () => {
+    this.setState({ hint: ! this.state.hint })
+  }
+
+  _renderFlipCard = (item) => {
+    return (
+      <CardFlip 
+        style={[{flex: 1}]}  
+        duration={500}
+        flipZoom={0.05}
+        perspective={500}
+        ref={(card) => this.card = card}
+      >
+        <TouchableOpacity style={[styles.card]} onPress={() => this.card.flip()}>
+          <Card style={[styles.card]}>
+            <CardItem>
+              <H1>{item.korean}</H1>
+            </CardItem>
+            <View style={styles.cardButtons}>
+              <Button transparent onPress={() => this.card.jiggle()}>
+                <Icon style={{fontSize: 14}} name="help-circle"/>
+                <Text>Hint</Text>
+              </Button>
+              <Button transparent onPress={() => this.card.flip()}>
+                <Text>Reverse</Text>
+                <Icon style={{fontSize: 14}} name="sync"/>
+              </Button>
+            </View>
+          </Card>
+        </TouchableOpacity>
+
+        <TouchableOpacity style={[styles.card]} onPress={() => this.card.flip()}>
+          <Card style={[styles.card]}>
+            <CardItem>
+              <H1>{item.english}</H1>
+            </CardItem>
+            <View style={styles.cardButtons}>
+              <Button transparent onPress={() => this.card.jiggle()}>
+                <Icon style={{fontSize: 14}} name="help-circle"/>
+                <Text>Hint</Text>
+              </Button>
+              <Button transparent onPress={() => this.card.flip()}>
+                <Text>Reverse</Text>
+                <Icon style={{fontSize: 14}} name="sync"/>
+              </Button>
+            </View>
+          </Card>
+        </TouchableOpacity>
+      </CardFlip>
+    )
+  }
+
+  _flipCard = () => {
+    this.setState({ show: ! this.state.show })
+    console.log( "Flipping!" )
+    if ( this.state.flipValue <= 90 ) {
+      Animated.spring( this.animatedValue, {
+        toValue: 180,
+        friction: 8, 
+        tension: 10
+      })
+    } else {
+      Animated.spring( this.animatedValue, {
+        toValue: 0,
+        friction: 8, 
+        tension: 10
+      })
+    }
+  }
+
   _renderItem = (item) => {
     console.log("Item: ", item)
+    const frontAnimatedStyle = {
+      transform: [{ rotateY: this.frontInterpolate }]
+    }
+    const backAnimatedStyle = {
+      transform: [{ rotateY: this.backInterpolate }]
+    }
+
+    const englishHint = item.english.charAt(0)
+    const englishWord = item.english.substr(1)
+
     return (
       <View>
-        <Card style={[{elevation: 3}, styles.card]}>
-          <CardItem>
-            <H1>{item.korean}</H1>
-          </CardItem>
-          <View style={styles.cardButtons}>
-            <Button transparent>
-              <Icon style={{fontSize: 14}} name="help-circle"/>
-              <Text>Hint</Text>
-            </Button>
-            <Button transparent>
-              <Text>Reverse</Text>
-              <Icon style={{fontSize: 14}} name="sync"/>
-            </Button>
+        <Animated.View style={[frontAnimatedStyle, {backfaceVisibility: 'hidden'}]}>
+          <Card style={[styles.card]}>
+            <CardItem>
+              <H1>{item.korean}</H1>
+            </CardItem>
+            <View style={styles.cardButtons}>
+              <Button transparent onPress={this._hint}>
+                <Icon style={{fontSize: 14}} name="help-circle"/>
+                <Text>Hint</Text>
+              </Button>
+              <Button transparent onPress={this._flipCard}>
+                <Text>Reverse</Text>
+                <Icon style={{fontSize: 14}} name="sync"/>
+              </Button>
+            </View>
+          </Card>
+        </Animated.View>
+
+        <Animated.View style={[backAnimatedStyle, {backfaceVisibility: 'hidden', position: 'absolute', top: 0}]}>
+          <Card style={[styles.card]}>
+            <CardItem>
+              <H1>{item.english}</H1>
+            </CardItem>
+            <View style={styles.cardButtons}>
+              <Text>Hint: Create a Memory Palace</Text>
+              <Button transparent onPress={this._flipCard}>
+                <Text>Reverse</Text>
+                <Icon style={{fontSize: 14}} name="sync"/>
+              </Button>
+            </View>
+          </Card>
+        </Animated.View>
+
+        {this.state.hint &&
+          <View>
+            <Text>{englishHint}{this.state.show && englishWord}</Text>
           </View>
-        </Card>
+        }
+        {this.state.show &&
+          <View>
+            <Text>{item.english}</Text>
+          </View>
+        }
       </View>
     )
   }
@@ -108,8 +232,8 @@ class Quiz extends Component {
     const theCards = Object.values(cards)
 
     return (
-      <Container style={{backgroundColor: 'white'}}>
-        <Content style={styles.container}
+      <View style={{backgroundColor: 'transparent', flex: 1}}>
+        <View style={[styles.container, {flex: 1}]}
           contentContainerStyle={{ flex: 1 }}
         >
           <H3>{`${name} Deck: Set #${set}`}</H3>
@@ -120,7 +244,7 @@ class Quiz extends Component {
             <Swiper
               ref={(swiper) => this._swiper = swiper}
               cards={cards}
-              renderCard={(item) => this._renderItem(item)}
+              renderCard={(item) => this._renderFlipCard(item)}
               keyExtractor={(card)=> card.id}
               infinite={true}
               cardIndex={index} // begin with first card
@@ -134,15 +258,15 @@ class Quiz extends Component {
               onSwipedRight={this._advanceBox}
               onSwipedTop={this._markForReview}
               // onSwipedBottom={this._discard}
-              // onTapCard={this._flip}
+              onTapCard={this._flipCard}
               overlayLabels={this.overlayLabels}
               cardVerticalMargin={10}
               cardHorizontalMargin={10}
             />
           </View>
-        </Content>
+        </View>
         
-        <Footer>
+        <Footer style={{position: 'absolute', bottom: 0, backgroundColor: 'transparent'}}>
           <FooterTab>
             <Button vertical 
               style={{backgroundColor: pink300}}
@@ -182,7 +306,7 @@ class Quiz extends Component {
             </Button>
           </FooterTab>
         </Footer>
-      </Container>
+      </View>
     )
   }
 }
@@ -194,11 +318,17 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     marginLeft: 10
   },
-  card: {
-    height: 200,
+  cardContainer: {
+    flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    marginRight: 20
+    backgroundColor: 'blue'
+  },
+  card: {
+    height: 200,
+    width: 335,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   cardButtons: {
     position: 'absolute',
