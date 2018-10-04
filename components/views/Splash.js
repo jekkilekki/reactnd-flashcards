@@ -1,7 +1,8 @@
 import React from 'react'
 import { View, ImageBackground, Text, StyleSheet } from 'react-native'
+import { H1 } from 'native-base'
 import { teal500, white } from '../../utils/colors'
-import Login from './Login'
+import Loader from '../shared/Loader'
 
 const Splash = () => {
   console.log( "Splash" )
@@ -11,8 +12,8 @@ const Splash = () => {
         source={require('../../assets/img/app-screen-medium.jpg')} 
         style={{width: '100%', height: '100%'}}
       >
-        <Text style={styles.welcome}>Welcome to Key To Korean's Flashcards App!</Text>
-        <Login />
+        <H1 style={styles.welcome}>Welcome to Korean by Heart!</H1>
+        <Loader />
       </ImageBackground>
     </View>
   )
@@ -30,7 +31,6 @@ const styles = StyleSheet.create({
   },
   welcome: {
     textAlign: 'center',
-    fontSize: 20,
     color: white
   }
 })

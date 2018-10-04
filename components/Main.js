@@ -7,6 +7,7 @@ import { apiKey, authDomain, databaseURL, projectId, storageBucket, messagingSen
 
 import { Navigation } from './shared/Navigation'
 import Loader from './shared/Loader'
+import Splash from './views/Splash'
 import Login from './views/Login'
 import { setLocalNotification } from '../utils/helpers'
 import { handleInitialData } from '../actions/shared'
@@ -74,6 +75,14 @@ class Main extends Component {
   }
 
   componentDidMount() {
+    if (Platform.OS === 'android') {
+      Expo.Notifications.createChannelAndroidAsync('kbhNotifications', {
+        name: 'Korean by Heart',
+        priority: 'high',
+        sound: true,
+        vibrate: true
+      })
+    }
     setLocalNotification()
   }
 
@@ -85,7 +94,7 @@ class Main extends Component {
         // return <Login />
         return <Navigation />
       default: 
-        return <Loader />
+        return <Splash />
     }
   }
 
