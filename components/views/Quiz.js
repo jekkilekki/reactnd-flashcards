@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import Swiper from 'react-native-deck-swiper'
 import CardFlip from 'react-native-card-flip'
-import { Text, View, StyleSheet, Animated, TouchableOpacity } from 'react-native'
+import { Text, View, StyleSheet, Animated, TouchableOpacity, AsyncStorage } from 'react-native'
 import { Container, Content, H1, H2, H3, DeckSwiper, Card, CardItem, Thumbnail, Button, Icon, Footer, FooterTab } from 'native-base'
 import { white, pink300, red300, amber300, green300, teal300 } from '../../utils/colors'
 
@@ -18,6 +18,7 @@ class Quiz extends Component {
   state = {
     toReview: [],
     timeBegan: Date.now(),
+    totalTime: Date.now(),
     know: 0,
     dontKnow: 0,
     reviewing: 0,
@@ -29,33 +30,36 @@ class Quiz extends Component {
     reverse: false
   }
 
-  componentWillMount() {
-    this.animatedValue = new Animated.Value(0)
-    this.animatedValue.addListener(({ value }) => {
-      this.setState({ flipValue: value })
-    })
-    this.frontInterpolate = this.animatedValue.interpolate({
-      inputRange: [0, 180],
-      outputRange: ['0deg', '180deg']
-    })
-    this.backInterpolate = this.animatedValue.interpolate({
-      inputRange: [0, 180],
-      outputRange: ['180deg', '360deg']
-    })
-    // if ( this.props.navigation.state.params.refresh ) {
-    //   if ( this.state.index !== 0 ) {
-    //     this.setState({ index: 0 })
-    //     this.forceUpdate()
-    //   }
-    // }
-    console.log( "Mounting Deck State: ", this._swiper)
+  shouldComponentUpdate() {
     if ( this.props.navigation.state.params.refresh ) {
-      this.setState({ needsRefresh: true })
+      return true
+    } else {
+      return false
     }
-    if ( this.state.needsRefresh ) {
-      this.setState({ needsRefresh: false })
-      this.forceUpdate()
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if ( prevState.timeBegan !== this.state.timeBegan ) {
+      //Perform some operation here
+      this.setState({timeBegan: Date.now()});
     }
+  }
+
+  componentWillMount() {
+    // Want to get the TOTAL study time for this deck from AsyncStorage here
+    // const totalStudyTime = await AsyncStorage.getItem( 'KBH:Decks' )
+    //   .then((results) => JSON.parse(results)).find(deck => {
+    //     if ( deck.id === this.props.deckId ) {
+    //       if ( this.props.view === 'quiz' )
+    //         return deck.id.quizResults
+    //       else
+    //         return deck.id.studyTime
+    //     }
+    //   })
+  }
+
+  onRefresh = (data) => {
+    this.setState({data})
   }
 
   _rewindBox = () => {
@@ -72,10 +76,22 @@ class Quiz extends Component {
 
   _completed = () => {
     const { set, name, view, id, cards } = this.props.navigation.state.params
-    const { know, dontKnow, reviewing, timeBegan } = this.state
+    const { know, dontKnow, reviewing, timeBegan, totalTime } = this.state
 
+    const knowCount = know
+    const dontKnowCount = dontKnow
+    const reviewingCount = reviewing 
+    const time = timeBegan 
+
+    this.setState({
+      // timeBegan: Date.now(),
+      know: 0,
+      dontKnow: 0,
+      reviewing: 0,
+      index: 0,
+    })
     // Somehow we need to RESTART the Quiz somewhere if exiting the Modal
-    // this._swiper.jumpToCardIndex(0)
+    // 
     this.props.navigation.navigate('QuizModal', { 
       id: id, 
       name: name, 
@@ -83,11 +99,16 @@ class Quiz extends Component {
       cardObj: cards, 
       cards: this.props.cards, 
       view: view, 
-      know: know, 
-      dontKnow: dontKnow, 
-      reviewing: reviewing,
-      time: timeBegan 
+      know: knowCount, 
+      dontKnow: dontKnowCount, 
+      reviewing: reviewingCount,
+      time: time,
+      totalTime: totalTime,
+      onRefresh: this.onRefresh
     })
+    
+
+    // this._swiper.jumpToCardIndex(0)
   }
 
   _hint = () => {
@@ -233,9 +254,7 @@ class Quiz extends Component {
 
     return (
       <View style={{backgroundColor: 'transparent', flex: 1}}>
-        <View style={[styles.container, {flex: 1}]}
-          contentContainerStyle={{ flex: 1 }}
-        >
+        <View style={[styles.container, {flex: 1}]}>
           <H3>{`${name} Deck: Set #${set}`}</H3>
           <Text>Card {(index + 1) > theCards.length
             ? 1
@@ -418,7 +437,7 @@ const overlayLabels = {
 
 function mapStateToProps({cards}, {navigation}) {
   let cardObj = navigation.state.params.cards
-  console.log( "Navigation cards: ", cardObj )
+
   const cardsInThisSet = Object.keys(cardObj).map(i => cardObj[i])
   const cardArray = Object.keys(cards).map(i => cards[i])
 

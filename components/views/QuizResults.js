@@ -16,27 +16,29 @@ class QuizResults extends Component {
   // }
   state = {
     timeElapsed: 0,
+    totalTime: 0,
     totalScore: 0
   }
 
   componentDidMount() {
     const { navigation } = this.props
-    const { id, time, view, know, dontKnow, reviewing, cards } = navigation.state.params
+    const { id, time, totalTime, view, know, dontKnow, reviewing, cards } = navigation.state.params
 
     const sessionType = view === 'quiz' ? 'quizResults' : 'studyResults'
     const timeEnded = Date.now()
-    const totalTime = timeEnded - time
+    const timeThisRound = timeEnded - time
     const totalScore = Math.round(((know + reviewing / 2) / cards.length) * 100)
     this.setState({
-      timeElapsed: totalTime,
-      totalScore: totalScore
+      timeElapsed: timeThisRound,
+      totalTime,
+      totalScore
     })
 
     // handleRecordSession(  studiedDeckId, sessionType, timeElapsed, dateTime, known, unknown, reviewing, score )
     this.props.dispatch( handleRecordSession( 
       id,                 // studiedDeckId
       sessionType,        // sessionType
-      parseInt(totalTime),// timeElapsed
+      parseInt(timeThisRound),// timeElapsed
       timeEnded,          // dateTime
       know,               // known
       dontKnow,           // unknown
@@ -52,15 +54,16 @@ class QuizResults extends Component {
   _restart = () => {
     const { navigation } = this.props
     const { id, name, set, cards, cardObj, view } = navigation.state.params
-    // navigation.goBack()
-    navigation.navigate('Quiz', { 
-      id: id,
-      name: name,
-      set: set,
-      cards: cardObj,
-      view: view,
-      refresh: true
-    })
+    navigation.goBack()
+    navigation.state.params.onRefresh({ needsRefresh: true })
+    // navigation.navigate('Quiz', { 
+    //   id: id,
+    //   name: name,
+    //   set: set,
+    //   cards: cardObj,
+    //   view: view,
+    //   onGoBack: () => this.refresh()
+    // })
   }
 
   _backToHome = () => {
@@ -82,7 +85,7 @@ class QuizResults extends Component {
   render() {
     console.log( "QuizResults" )
 
-    const { timeElapsed, totalScore } = this.state
+    const { timeElapsed, totalTime, totalScore } = this.state
     const { navigation, deck } = this.props
     const { set, name, view, cards, cardObj, know, dontKnow, reviewing, time, id } = navigation.state.params
     console.log( "Card Obj in Results: ", cardObj )
@@ -135,7 +138,7 @@ class QuizResults extends Component {
                     <H3>{dontKnow}</H3>
                   </View>
                 </View>
-                <Text style={[styles.statNote]}>+0pt each</Text>
+                <Text style={[styles.statNote]}>+0 pts each</Text>
               </View>
 
               <View style={styles.thirds}>
@@ -150,7 +153,7 @@ class QuizResults extends Component {
                     <H3>{reviewing}</H3>
                   </View>
                 </View>
-                <Text style={[styles.statNote]}>+0.5pt each</Text>
+                <Text style={[styles.statNote]}>+0.5 pts each</Text>
               </View>
 
               <View style={[styles.thirds, {borderLeftWidth: 1, borderColor: gray500}]}>
@@ -165,7 +168,7 @@ class QuizResults extends Component {
                     <H3>{know}</H3>
                   </View>
                 </View>
-                <Text style={[styles.statNote]}>+1pt each</Text>
+                <Text style={[styles.statNote]}>+1 pt each</Text>
               </View>
             </View>
 
@@ -176,7 +179,7 @@ class QuizResults extends Component {
               </View>
               <View style={[styles.doubles]}>
                 <H3 style={styles.statHeader}>Total Study Time</H3>
-                <H1 style={{textAlign: 'center'}}>{timeElapsed}ms</H1>
+                <H1 style={{textAlign: 'center'}}>{timeElapsed}ms</H1> {/* Want to display TOTAL deck study time here */}
               </View>
             </View>
 

@@ -1,40 +1,256 @@
-This project was bootstrapped with [Create React Native App](https://github.com/react-community/create-react-native-app).
+# Korean By Heart Flashcards
+`(React Native Mobile App)`
 
-Below you'll find information about performing common tasks. The most recent version of this guide is available [here](https://github.com/react-community/create-react-native-app/blob/master/react-native-scripts/template/README.md).
+**Korean By Heart** is a [React Native](https://facebook.github.io/react-native/) mobile app built in [Expo](https://expo.io/). It utilizes:
+
+1. [Redux](https://redux.js.org/) to manage application state 
+2. [React Navigation](https://reactnavigation.org/) for Switch, Stacked, Tabbed, and Modal Navigation
+3. [AsyncStorage](https://facebook.github.io/react-native/docs/asyncstorage#docsNav) for maintaining app changes
+4. [Expo Notifications](https://docs.expo.io/versions/latest/sdk/notifications) to set reminders to use the app daily
+5. [Native Base](https://nativebase.io/) for styled components
+
+This project was bootstrapped with [Create React Native App](https://github.com/react-community/create-react-native-app).<br />It was built as part of Udacity's [React Nanodegree](https://www.udacity.com/course/react-nanodegree--nd019) program.
 
 ## Table of Contents
 
-* [Updating to New Releases](#updating-to-new-releases)
-* [Available Scripts](#available-scripts)
-  * [npm start](#npm-start)
-  * [npm test](#npm-test)
-  * [npm run ios](#npm-run-ios)
-  * [npm run android](#npm-run-android)
-  * [npm run eject](#npm-run-eject)
-* [Writing and Running Tests](#writing-and-running-tests)
-* [Environment Variables](#environment-variables)
-  * [Configuring Packager IP Address](#configuring-packager-ip-address)
-* [Customizing App Display Name and Icon](#customizing-app-display-name-and-icon)
-* [Sharing and Deployment](#sharing-and-deployment)
-  * [Publishing to Expo's React Native Community](#publishing-to-expos-react-native-community)
-  * [Building an Expo "standalone" app](#building-an-expo-standalone-app)
-  * [Ejecting from Create React Native App](#ejecting-from-create-react-native-app)
-    * [Build Dependencies (Xcode & Android Studio)](#build-dependencies-xcode-android-studio)
-    * [Should I Use ExpoKit?](#should-i-use-expokit)
+* [Overview](#overview)
+  * [iOS vs Android](#ios-vs-android)
+* [Installation](#installation)
+* [App Functionality](#writing-and-running-tests)
+  * [Deck List](#deck-list)
+  * [Card List](#card-list)
+  * [Add Deck](#add-deck)
+  * [Add Cards to Deck](#add-cards-to-deck)
+  * [Single Deck View](#single-deck-view)
+  * [Single Card View](#single-card-view)
+  * [Studying and Quizzing](#studying-and-quizzing)
+  * [Quiz Results](#quiz-results)
+  * [Login and Signup](#login-and-signup)
+* [Architecture](#architecture)
+  * [Data Structure](#data-structure)
+  * [Folder Structure](#folder-structure)
+* [Future Development](#future-development)
+  * [Upcoming Features](#upcoming-features)
+  * [Contributing](#contributing)
+* [License](#license)
 * [Troubleshooting](#troubleshooting)
-  * [Networking](#networking)
-  * [iOS Simulator won't open](#ios-simulator-wont-open)
-  * [QR Code does not scan](#qr-code-does-not-scan)
+* [Changelog](#changelog)
 
-## Updating to New Releases
+## Overview
 
-You should only need to update the global installation of `create-react-native-app` very rarely, ideally never.
+The primary purpose of this app is to provide a well-designed, comprehensive dictionary / flashcard app for learners of Korean. (_i.e. I built it for myself_) Therefore, some of the important features I needed in this app included:
 
-Updating the `react-native-scripts` dependency of your app should be as simple as bumping the version number in `package.json` and reinstalling your project's dependencies.
+#### A comprehensive data set 
 
-Upgrading to a new version of React Native requires updating the `react-native`, `react`, and `expo` package versions, and setting the correct `sdkVersion` in `app.json`. See the [versioning guide](https://github.com/react-community/create-react-native-app/blob/master/VERSIONS.md) for up-to-date information about package version compatibility.
+The data set in use is a list of nearly __6,000 Korean words__ I have stored in a Google Sheet spreadsheet with multiple pieces of meta-data (including the English translation, part of speech, origin, and so on). The list was exported as `.csv` and converted to a JSON object. Future iterations of the app will include:
 
-## Available Scripts
+1. (possibly) Access to a dictionary API to fetch data directly from a "real" dictionary rather than maintaining a hard copy
+2. The ability to add pictures and example sentences - or other hints - to each flashcard
+
+__** Note:__ This was one of the biggest challenges in the app because there was often __too much__ data being loaded at once in the `CardList` view. Therefore, I had to learn how to implement pagination and reloading of data at the end of my FlatList component.
+
+#### Pictures
+
+An app without pictures is boring. Therefore, each deck has its own uniquely identifying image. Future iterations of the app will include:
+
+1. Handling of local storage for pictures
+2. Access to the phone's camera and gallery for adding pictures
+3. Ability to add pictures (ideally at a reduced resolution) to every card
+
+#### Personalized data
+
+Currently, whatever changes to Decks and Cards that users make are saved (and retrieved) in AsyncStorage.
+
+However, I intend to make this app publicly available after completion and also wanted a way to allow users to sign up and login to access their data from cloud storage. Therefore, I've incorporated the beginnings of [Firebase](https://firebase.google.com/). With the proper `_config` file (_not included in this repo_), users would be able to sign up and login to access the Firebase database I've set up. Future iterations of the app will include:
+
+1. Profile information (possibly in a Drawer navigator, accessible by clicking the User icon in the upper-right corner of the app header)
+2. A personalized photo - replacing the User icon in the header
+3. Saving and retrieving data from Firebase (as opposed to - or in addition to? - AsyncStorage)
+4. Ability to login with additional services like Facebook, Twitter, and so on
+
+### iOS vs Android
+
+#### Devices tested
+
+* __iOS emulator__ (Xcode 9 + iOS 11.1)
+* __Android emulator__ (Android Studio + Nexus 5)
+* __LG G6__ (real device, network access)
+* (not yet tested, but accessible) __iPad 2__
+
+Through the development of this app, I noticed slight differences in the way the Xcode iOS emulator and Android Studio's emulator handle the code. Notably (upcoming fixes):
+
+1. Swiper Cards (via [`react-native-deck-swiper`](https://www.npmjs.com/package/react-native-deck-swiper)) are not rendered on Android (emulator, nor device) - I'm working to solve this issue now, but may need to resort to a different `<Component />`
+2. Various sizing, placement, and color issues are not consistent across devices. For example, the login User icon in the upper-right of the header looks perfect on iOS, but has the wrong vertical padding on Android
+
+__** Note:__ After completing the basic functionality of the app, I'll return to fix minor styling details. 
+
+## Installation
+
+The easiest way to install and run this app is on an actual device (rather than an emulator - which requires more setup). 
+
+At its most basic, clone this directory to your computer with: 
+
+```
+git clone https://github.com/jekkilekki/reactnd-flashcards
+```
+
+Then, navigate to the newly created directory in your Terminal and run:
+
+```
+npm install
+npm start
+```
+
+You may also replace `npm` with `yarn` if you have [Yarn](https://yarnpkg.com/en/) installed.
+
+Next, install the [Expo app](https://expo.io/) on your Android or iOS device.<br />
+Finally, open the Expo app and scan the QR code from your Terminal (after running `npm start`).
+
+More detailed instructions can be found in the official [Create React Native App](https://github.com/react-community/create-react-native-app/blob/master/README.md#quick-overview) GitHub repository or the [Expo Installation](https://docs.expo.io/versions/latest/introduction/installation) documentation.
+
+## App Functionality
+
+### Deck List
+
+### Card List
+
+### Add Deck
+
+### Add Cards To Deck
+
+### Single Deck View
+
+### Single Card View
+
+### Studying and Quizzing
+
+### Quiz Results
+
+### Login and Signup
+
+**Would You Rather?** is a React + Redux app that takes full advantage of the [Redux store](https://redux.js.org/basics/store) to maintain React's state throughout the application. 
+
+App updates are triggered by dispatching action creators to reducers which return updated  state information to the app. Components read the necessary state from the Redux store and there are no direct API calls in the components' lifecycle methods. State-based props are mapped from the store rather than stored as component state.
+
+### Folder Structure
+
+After cloning the GitHub repository, the project directory includes the following folders:
+
+```
+reactnd-would-you-rather/
+  node_modules/
+  public/
+  src/
+    actions/
+    components/
+    middleware/
+    reducers/
+    utils/
+```
+
+#### `/src/actions`
+
+From the [Redux.js](https://redux.js.org/basics/actions) site:
+
+> Actions are payloads of information that send data from your application to your store. They are the only source of information for the store. You send them to the store using `store.dispatch()`.<br><br>Actions are plain JavaScript objects. Actions must have a type property that indicates the type of action being performed. Types should typically be defined as string constants.
+
+This app's actions are contained within the following files and are self-explanatory:
+
+- `authedUser.js`
+  - `SET_AUTHED_USER`
+- `questions.js`
+  - `RECEIVE_QUESTIONS` (from the "fake" database `_DATA.js`)
+  - `ANSWER_QUESTION`
+  - `ADD_QUESTION`
+  - `DELETE_QUESTION` (work in progress)
+- `shared.js` (handles loading the initial app data)
+- `users.js`
+  - `RECEIVE_USERS` (from the "fake" database)
+
+#### `/src/components`
+
+All React components and component-specific CSS reside within the components folder. 
+
+#### `/src/middleware`
+
+From the [Redux.js](https://redux.js.org/advanced/middleware) site:
+
+> Middleware is some code you can put between the framework receiving a request, and the framework generating a response.
+
+The middleware applied in this app includes `thunk` and a `logger` which "logs" information on the state of the application to the browser console after Redux actions are dispatched.
+
+##### `thunk`
+
+From [Redux-thunk](https://github.com/reduxjs/redux-thunk) on GitHub:
+
+> Redux Thunk middleware allows you to write action creators that return a function instead of an action. The thunk can be used to delay the dispatch of an action, or to dispatch only if a certain condition is met. The inner function receives the store methods dispatch and getState as parameters.
+
+Applying `thunk` as a middleware in this app allows us to call `setTimeout()` on our dispatched actions in order to emulate the delayed response from a database controlled by a server. 
+
+Because this app uses a "fake" database, all the data is immediately available and application updates such as adding new questions would happen instantaneously if we didn't use `thunk`. 
+
+#### `/src/reducers`
+
+From the [Redux.js](https://redux.js.org/basics/reducers) site:
+
+> Reducers specify how the application's state changes in response to actions sent to the store. Remember that actions only describe what happened, but don't describe how the application's state changes.<br><br>In Redux, all the application state is stored as a single object. 
+
+There are two major "slices" of state that need to be maintained and updated by our reducers. These are the `users` and `questions` slices of state (`authedUser` is also maintained here but it has much less "work" to do as it only handles logging in or logging out).
+
+The following files contain the app's reducers which are combined in `index.js` with Redux's `combineReducers()` function:
+
+- `authedUser.js` (sets or resets the authenticated user id)
+- `index.js` (combines our reducers - including the React Redux Loading Bar)
+- `questions.js`
+- `users.js`
+
+Each of last two files, `questions.js` and `users.js` contain specific actions from their relevant `/actions` files (see above). 
+
+But `users.js` additionally includes the actions `ANSWER_QUESTION` and `ADD_QUESTION` from `/actions/questions.js` because `ANSWER_QUESTION` and `ADD_QUESTION` modify not only the `questions` slice of state, but also the `users` slice of state.
+
+#### `/src/utils`
+
+The following files are contained within the `/utils` folder:
+
+- `_DATA.js` (our "fake" database and default API calls)
+- `api.js` (API calls to get our initial data and save future data)
+- `helpers.js` (to properly format Questions and Date timestamps)
+
+## Future Development
+
+Although much of the following list has been mentioned or hinted at above, here it is again in full and brief:
+
+- Data
+  - Utilize dictionary site API
+  - Utilize WP REST API for Grammar
+- Personalization
+  - Utilize Firebase database for user login and personalized data
+  - Apply third-party login options (Facebook, Twitter, etc)
+  - Create personalized profile options & settings (Drawer Nav)
+- Device
+  - Allow Camera and Gallery access
+  - Use local storage (or Firebase DB) for images
+
+### Contributing
+
+The best way to Contribute to this app is to open an [Issue](https://github.com/jekkilekki/reactnd-flashcards/issues) on GitHub.
+
+Pull Requests are __welcome__ especially if they help fix an Issue or solve a Problem listed in the [Future Development](#future-development) section. I want to continue development on this project and make it a viable flashcard app for learning Korean. But I may not be very responsive due to other life obligations.
+
+## License
+
+The __Korean By Heart__ app is licensed under the [MIT open source license](https://opensource.org/licenses/MIT) and built with React Native, Expo, and Redux and uses the following third-party resources and `node` modules:
+
+- [Create React Native App]()
+- [Expo]()
+- [React Navigation]()
+- [Redux](https://redux.js.org/)
+- [Redux Thunk](https://www.npmjs.com/package/redux-thunk)
+- [Native Base]()
+
+## Troubleshooting
+
+### Available Scripts
 
 If Yarn was installed when the project was initialized, then dependencies will have been installed via Yarn, and you should probably use it to run these commands as well. Unlike dependency installation, command running syntax is identical for Yarn and NPM at the time of this writing.
 
@@ -81,79 +297,6 @@ This will start the process of "ejecting" from Create React Native App's build s
 
 **Warning:** Running eject is a permanent action (aside from whatever version control system you use). An ejected app will require you to have an [Xcode and/or Android Studio environment](https://facebook.github.io/react-native/docs/getting-started.html) set up.
 
-## Customizing App Display Name and Icon
-
-You can edit `app.json` to include [configuration keys](https://docs.expo.io/versions/latest/guides/configuration.html) under the `expo` key.
-
-To change your app's display name, set the `expo.name` key in `app.json` to an appropriate string.
-
-To set an app icon, set the `expo.icon` key in `app.json` to be either a local path or a URL. It's recommended that you use a 512x512 png file with transparency.
-
-## Writing and Running Tests
-
-This project is set up to use [jest](https://facebook.github.io/jest/) for tests. You can configure whatever testing strategy you like, but jest works out of the box. Create test files in directories called `__tests__` or with the `.test` extension to have the files loaded by jest. See the [the template project](https://github.com/react-community/create-react-native-app/blob/master/react-native-scripts/template/App.test.js) for an example test. The [jest documentation](https://facebook.github.io/jest/docs/en/getting-started.html) is also a wonderful resource, as is the [React Native testing tutorial](https://facebook.github.io/jest/docs/en/tutorial-react-native.html).
-
-## Environment Variables
-
-You can configure some of Create React Native App's behavior using environment variables.
-
-### Configuring Packager IP Address
-
-When starting your project, you'll see something like this for your project URL:
-
-```
-exp://192.168.0.2:19000
-```
-
-The "manifest" at that URL tells the Expo app how to retrieve and load your app's JavaScript bundle, so even if you load it in the app via a URL like `exp://localhost:19000`, the Expo client app will still try to retrieve your app at the IP address that the start script provides.
-
-In some cases, this is less than ideal. This might be the case if you need to run your project inside of a virtual machine and you have to access the packager via a different IP address than the one which prints by default. In order to override the IP address or hostname that is detected by Create React Native App, you can specify your own hostname via the `REACT_NATIVE_PACKAGER_HOSTNAME` environment variable:
-
-Mac and Linux:
-
-```
-REACT_NATIVE_PACKAGER_HOSTNAME='my-custom-ip-address-or-hostname' npm start
-```
-
-Windows:
-```
-set REACT_NATIVE_PACKAGER_HOSTNAME='my-custom-ip-address-or-hostname'
-npm start
-```
-
-The above example would cause the development server to listen on `exp://my-custom-ip-address-or-hostname:19000`.
-
-## Sharing and Deployment
-
-Create React Native App does a lot of work to make app setup and development simple and straightforward, but it's very difficult to do the same for deploying to Apple's App Store or Google's Play Store without relying on a hosted service.
-
-### Publishing to Expo's React Native Community
-
-Expo provides free hosting for the JS-only apps created by CRNA, allowing you to share your app through the Expo client app. This requires registration for an Expo account.
-
-Install the `exp` command-line tool, and run the publish command:
-
-```
-$ npm i -g exp
-$ exp publish
-```
-
-### Building an Expo "standalone" app
-
-You can also use a service like [Expo's standalone builds](https://docs.expo.io/versions/latest/guides/building-standalone-apps.html) if you want to get an IPA/APK for distribution without having to build the native code yourself.
-
-### Ejecting from Create React Native App
-
-If you want to build and deploy your app yourself, you'll need to eject from CRNA and use Xcode and Android Studio.
-
-This is usually as simple as running `npm run eject` in your project, which will walk you through the process. Make sure to install `react-native-cli` and follow the [native code getting started guide for React Native](https://facebook.github.io/react-native/docs/getting-started.html).
-
-#### Should I Use ExpoKit?
-
-If you have made use of Expo APIs while working on your project, then those API calls will stop working if you eject to a regular React Native project. If you want to continue using those APIs, you can eject to "React Native + ExpoKit" which will still allow you to build your own native code and continue using the Expo APIs. See the [ejecting guide](https://github.com/react-community/create-react-native-app/blob/master/EJECTING.md) for more details about this option.
-
-## Troubleshooting
-
 ### Networking
 
 If you're unable to load your app on your phone due to a network timeout or a refused connection, a good first step is to verify that your phone and computer are on the same network and that they can reach each other. Create React Native App needs access to ports 19000 and 19001 so ensure that your network and firewall settings allow access from your device to your computer on both of these ports.
@@ -199,3 +342,8 @@ There are a few steps you may want to take to troubleshoot these kinds of errors
 If you're not able to scan the QR code, make sure your phone's camera is focusing correctly, and also make sure that the contrast on the two colors in your terminal is high enough. For example, WebStorm's default themes may [not have enough contrast](https://github.com/react-community/create-react-native-app/issues/49) for terminal QR codes to be scannable with the system barcode scanners that the Expo app uses.
 
 If this causes problems for you, you may want to try changing your terminal's color theme to have more contrast, or running Create React Native App from a different terminal. You can also manually enter the URL printed by the packager script in the Expo app's search bar to load it manually.
+
+## Changelog
+
+### `1.0.0` - 2018.10.05 
+ - Initial release
