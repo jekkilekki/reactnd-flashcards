@@ -14,17 +14,17 @@ This project was bootstrapped with [Create React Native App](https://github.com/
 ## Table of Contents
 
 * [Overview](#overview)
-  * [iOS vs Android](#ios-vs-android)
+  * [iOS vs Android (Devices Tested)](#ios-vs-android)
 * [Installation](#installation)
 * [App Functionality](#writing-and-running-tests)
   * [Deck List](#deck-list)
+    * [Add Deck](#add-deck)
+    * [Single Deck View](#single-deck-view)
+    * [Add Cards to Deck](#add-cards-to-deck)
+    * [Studying and Quizzing](#studying-and-quizzing)
+    * [Quiz Results](#quiz-results)
   * [Card List](#card-list)
-  * [Add Deck](#add-deck)
-  * [Single Deck View](#single-deck-view)
-  * [Add Cards to Deck](#add-cards-to-deck)
-  * [Single Card View](#single-card-view)
-  * [Studying and Quizzing](#studying-and-quizzing)
-  * [Quiz Results](#quiz-results)
+    * [Single Card View](#single-card-view)
   * [Login and Signup](#login-and-signup)
 * [Architecture](#architecture)
   * [Data Structure](#data-structure)
@@ -123,30 +123,11 @@ The DeckList screen is the ❤ of the application. This is the first screen that
 5. [Upcoming]: Calendar that displays on which days the user studied
 6. [iOS]: A Permissions dialog appears to request permission to set LocalNotifications for the app. Android does not have this popup - permissions seems to be granted inherently
 
-#### Future work
+#### Future Development
 
 - Add Deck sliding ability (slide left to Delete, etc)
 - Add Deck editing and Deletion Redux functionality
 - Possibly add an additional (earlier) Home view - with access to different Series or Books of Flashcard Decks
-
-### Card List
-
-![cardlist](https://user-images.githubusercontent.com/6644259/46516112-c7f85d00-c8a2-11e8-8ac4-56e603e5227f.png)
-![cardlist-search](https://user-images.githubusercontent.com/6644259/46516113-c7f85d00-c8a2-11e8-976d-1e997b169f86.png)
-
-The CardList is sorted in Korean alphabetical order. One of the biggest struggles with this view was loading too many ListItems at once. Therefore, I had to develop a system of pagination and reloading as the end of the FlatList is reached. Users also are able to:
-
-1. Click a ListItem to view the Single Card - and all its meta data (including example sentences using the vocabulary word where available)
-2. Search for a Card [partially broken] - this functionality (due to the pagination feature) also loads the "next" page on each setState() call. This will be fixed in upcoming versions of the app
-3. Add a New Card (Floating Action Button)
-
-#### Future Development
-
-- Cause the Search functionality to `disallow` reloading the paginated card data
-- Add a FILTER system to allow
-  - Sorting by alphabetical English order
-  - Listing only certain Parts of Speech (Nouns, Verbs, etc)
-  - ListItems appearing in a certain Deck
 
 ### Add Deck
 
@@ -198,22 +179,88 @@ The AddCardsToDeck view displays like the Single Deck view, but includes ALL Car
 - When adding cards to the Deck, allow users to select multiple cards at once (like with an empty circle or radio button as described above) - and add them all at once.
   - This functionality should behave in a similar way as KakaoTalk's adding multiple friends to a chat
 
-### Single Card View
-
-![cardsingle](https://user-images.githubusercontent.com/6644259/46516114-c890f380-c8a2-11e8-96df-6d0222a52360.png)
-
 ### Studying and Quizzing
 
 ![quiz](https://user-images.githubusercontent.com/6644259/46516118-c9298a00-c8a2-11e8-9b1e-e53cbb7d6f3c.png)
+
+The Studying/Quizzing view is passed a prop telling the app which type of "Session" the user has initiated. In the future, this will be used to keep track of Quiz scores and Study sessions in different ways. The view includes:
+
+- A (flippable) Card at the top
+  - `Hint` currently just jiggles the Card - but in the future, it should reveal the FIRST letter of the English translation
+  - `Reverse` flips the card over to see the translation - and in the future, doing so should disable the "I know it" green button in the footer
+- Three "swipe" options at the bottom - from left to right:
+  - `I don't know it` (also can Swipe Left on the card) - adds 0 points to the score and is considered "New"
+  - `Mark for review` (also Swipe Top) - adds 0.5 points to the score and may be used if a Hint or Reverse button is pressed - this is considered "Learning"
+  - `I know it` (also Swipe Right) - adds 1 point to the score and is considered "Mastered" - this button should be disabled if `Hint` or `Reverse` is pressed
+  - Swipe Bottom on the card (future implemenation) should be used to remove the card from the Deck
+  
+#### Future Development
+
+- Disable `I know it` if `Hint` or `Reverse` are pressed
+- Reveal the FIRST letter of the English translation if `Hint` is pressed - also possibly reveal example sentences one-by-one as `Hint` is repeatedly pressed
+- Cards that are `Marked for Review` should be added to a new array that is iterated over after the initial Card array is completed - so they can be "reviewed" one final time before revealing the score (which will be adjusted after this functionality is implemented)
+- Possibly include a line of dots (or small icons) at the top indicating which card the using is viewing and/or reviewing
 
 ### Quiz Results
 
 ![quizresults](https://user-images.githubusercontent.com/6644259/46516119-c9298a00-c8a2-11e8-826a-bd5d3a93144f.png)
 
+The Quiz Results page is broken down into multiple "stats" areas:
+
+1. Total percentage correct ("Learning" cards are currently assigned 1/2 the point value of "Mastered" cards) - also represented by a Circle Graph
+2. A breakdown of the score is indicated under the Total percent, and the point values of each button are shown under their respective graphs
+3. The number of cards swiped Left (`I don't know it`), Top (`Mark for review`), and Right (`I know it`) are indicated in the second stat bar
+4. The Time elapsed for the Study/Quizzing section is indicated in the third line - this currently displays in milliseconds but will be adjusted to display a "human readable" time
+5. The TOTAL Time for Deck quizzing sessions (will be) displayed in the final stat box. Currently, each study session's elasped time is incremented and saved to AsyncStorage as `studyTime` in a Deck's JS object. This value needs to be retrieved from AsyncStorage and converted to a "human readable" String here
+6. The option to "Restart" the session or return "Back to Deck" are presented in buttons at the bottom of the screen
+
+#### Future Development
+
+- Make the Time strings into "human readable" times (including "Days", etc - similar to the Audible app)
+- Retrieve the total `studyTime` value from AsynStorage and display it here
+
+### Card List
+
+![cardlist](https://user-images.githubusercontent.com/6644259/46516112-c7f85d00-c8a2-11e8-8ac4-56e603e5227f.png)
+![cardlist-search](https://user-images.githubusercontent.com/6644259/46516113-c7f85d00-c8a2-11e8-976d-1e997b169f86.png)
+
+The CardList is sorted in Korean alphabetical order. One of the biggest struggles with this view was loading too many ListItems at once. Therefore, I had to develop a system of pagination and reloading as the end of the FlatList is reached. Users also are able to:
+
+1. Click a ListItem to view the Single Card - and all its meta data (including example sentences using the vocabulary word where available)
+2. Search for a Card [partially broken] - this functionality (due to the pagination feature) also loads the "next" page on each setState() call. This will be fixed in upcoming versions of the app
+3. Add a New Card (Floating Action Button)
+
+#### Future Development
+
+- Cause the Search functionality to `disallow` reloading the paginated card data
+- Add a FILTER system to allow
+  - Sorting by alphabetical English order
+  - Listing only certain Parts of Speech (Nouns, Verbs, etc)
+  - ListItems appearing in a certain Deck
+
+### Single Card View
+
+![cardsingle](https://user-images.githubusercontent.com/6644259/46516114-c890f380-c8a2-11e8-96df-6d0222a52360.png)
+
+The Single Card View displays a flashcard in the same manner as the Quiz component - but including the English translation as well as any example sentences below the card (this image does not show this). At the bottom of the screen, the Floating Action Button indicates that users should be able to "Edit" the current card - and as expected, pressing this button turns all the `<Text />` components into `<Input />` components with their respective current values. However, this functionality is not yet fully implemented as it doesn't "Save" any changes made to the card.
+
+#### Future Development
+
+- Create Redux actions for `Edit` and `Delete` - both in individual Cards, and individual Decks
+- These Redux `Edit` and `Delete` actions should also be present and available from the DeckList and CardList views (via swiping on a ListItem)
+- After Firebase authentication is implemented, the CRUD operations for Cards or Decks should be limited to logged in users
+
 ### Login and Signup
 
 ![login](https://user-images.githubusercontent.com/6644259/46516117-c890f380-c8a2-11e8-912f-50fa51d1a256.png)
 ![signup](https://user-images.githubusercontent.com/6644259/46516120-c9298a00-c8a2-11e8-8d4d-2688420c1ec2.png)
+
+Under the current implementation of the Login and Signup pages, a user IS ABLE to both `Signup` to Firebase, AND `Login` (if the `utils/_config.js` file is present and includes appropriate Firebase keys.
+
+#### Future Development
+
+- Possibly integrate the two views in a better (single screen) manner
+- Include the `<KeyboardAvoidingView>` component to be sure the device keyboard doesn't cover the Input components - this also needs to be implemented in CardList's Search field
 
 ## Architecture
 
