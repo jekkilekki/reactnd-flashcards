@@ -18,11 +18,11 @@ export function splitSubsets(givenArray, size) {
   return results
 }
 
-export function getDailyStudyReminder () {
-  return {
-    today: "👋 Don't forget to study today!"
-  }
-}
+// export function getDailyStudyReminder () {
+//   return {
+//     today: "👋 Don't forget to study today!"
+//   }
+// }
 
 export function timeToString (time = Date.now()) {
   const date = new Date(time)
