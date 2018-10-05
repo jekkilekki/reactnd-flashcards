@@ -7,7 +7,8 @@
 /node_modules
 
 # firebase
-/utils/_config.js
+# Safe to expose Firebase: https://github.com/zooniverse/vox/issues/32
+# /utils/_config.js
 
 # misc
 .env.local

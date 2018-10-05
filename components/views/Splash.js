@@ -1,7 +1,7 @@
 import React from 'react'
 import { View, ImageBackground, Text, StyleSheet } from 'react-native'
 import { H1 } from 'native-base'
-import { teal500, white } from '../../utils/colors'
+import { tealA700, white } from '../../utils/colors'
 import Loader from '../shared/Loader'
 
 const Splash = () => {
@@ -10,10 +10,12 @@ const Splash = () => {
     <View style={styles.container}>
       <ImageBackground 
         source={require('../../assets/img/app-screen-medium.jpg')} 
-        style={{width: '100%', height: '100%'}}
+        style={[{width: '100%', height: '100%'}, styles.container]}
       >
-        <H1 style={styles.welcome}>Welcome to Korean by Heart!</H1>
-        <Loader />
+        <View>
+          <H1 style={styles.welcome}>Welcome to Korean by ❤️!</H1>
+          <Loader />
+        </View>
       </ImageBackground>
     </View>
   )
@@ -24,12 +26,14 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: teal500
+    backgroundColor: tealA700
   },
   logo: {
 
   },
   welcome: {
+    paddingTop: '75%',
+    marginBottom: '-100%',
     textAlign: 'center',
     color: white
   }

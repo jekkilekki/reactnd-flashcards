@@ -3,6 +3,10 @@ import { View, Text, ImageBackground, StyleSheet } from 'react-native'
 import { ListItem, Body, Left, Right, Button, Icon, H3, Card, CardItem } from 'native-base'
 
 class DeckItem extends Component {
+  state = {
+    defaultDeckImg: 'https://i.pinimg.com/236x/c8/cd/6d/c8cd6dd4d7212c33a79f0ad4c33b02ee.jpg',
+  }
+
   _goToDeck = () => {
     const { deck, navigation } = this.props
     navigation.navigate( 'DeckSingle', { id: deck.id, name: deck.name } )
@@ -10,6 +14,7 @@ class DeckItem extends Component {
   
   render() {
     const { deck } = this.props
+    const { defaultDeckImg } = this.state
 
     return (
       <ListItem 
@@ -19,7 +24,7 @@ class DeckItem extends Component {
       >
         <Left>
           <Card style={styles.cardImage}>
-            <ImageBackground source={{uri: deck.image}} style={[styles.cardImage, {width: '100%', height: '100%'}]}>
+            <ImageBackground source={{uri: deck.image || defaultDeckImg}} style={[styles.cardImage, {width: '100%', height: '100%'}]}>
               <Icon name="heart" style={styles.icon}/>
             </ImageBackground>
           </Card>

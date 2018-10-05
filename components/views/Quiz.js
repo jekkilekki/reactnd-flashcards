@@ -22,7 +22,6 @@ class Quiz extends Component {
     know: 0,
     dontKnow: 0,
     reviewing: 0,
-    // score: this.props.navigation.state.params.score || 0,
     index: 0,
     needsRefresh: false,
     flipValue: 0,
@@ -40,38 +39,33 @@ class Quiz extends Component {
 
   componentDidUpdate(prevProps, prevState) {
     if ( prevState.timeBegan !== this.state.timeBegan ) {
-      //Perform some operation here
+      // Somewhere we need to reset the Quiz start time if retaking the quiz
       this.setState({timeBegan: Date.now()});
     }
   }
 
   componentWillMount() {
-    // Want to get the TOTAL study time for this deck from AsyncStorage here
-    // const totalStudyTime = await AsyncStorage.getItem( 'KBH:Decks' )
-    //   .then((results) => JSON.parse(results)).find(deck => {
-    //     if ( deck.id === this.props.deckId ) {
-    //       if ( this.props.view === 'quiz' )
-    //         return deck.id.quizResults
-    //       else
-    //         return deck.id.studyTime
-    //     }
-    //   })
+    // This is not fired if retaking the quiz it seems
   }
 
+  // Passed as props to Quiz Results - returns setState({ needsRefresh: true })
   onRefresh = (data) => {
     this.setState({data})
   }
 
   _rewindBox = () => {
-    this.setState({ dontKnow: this.state.dontKnow + 0.5, hint: false, show: false }) // method seems to run twice...
+    // method seems to run twice...because setState is called twice on each card - onSwiped() as well when updating card index
+    this.setState({ dontKnow: this.state.dontKnow + 0.5, hint: false, show: false }) 
   }
 
   _markForReview = () => {
+    // method seems to run twice...because setState is called twice on each card - onSwiped() as well when updating card index
     this.setState({ reviewing: this.state.reviewing + 0.5, hint: false, show: false })
   }
 
   _advanceBox = () => {
-    this.setState({ know: this.state.know + 0.5, hint: false, show: false }) // method seems to run twice...
+    // method seems to run twice...because setState is called twice on each card - onSwiped() as well when updating card index
+    this.setState({ know: this.state.know + 0.5, hint: false, show: false }) 
   }
 
   _completed = () => {
@@ -106,12 +100,10 @@ class Quiz extends Component {
       totalTime: totalTime,
       onRefresh: this.onRefresh
     })
-    
-
-    // this._swiper.jumpToCardIndex(0)
   }
 
   _hint = () => {
+    // Needs to reveal only the first letter of the English word somehow
     this.setState({ hint: ! this.state.hint })
   }
 
@@ -163,85 +155,6 @@ class Quiz extends Component {
     )
   }
 
-  _flipCard = () => {
-    this.setState({ show: ! this.state.show })
-    console.log( "Flipping!" )
-    if ( this.state.flipValue <= 90 ) {
-      Animated.spring( this.animatedValue, {
-        toValue: 180,
-        friction: 8, 
-        tension: 10
-      })
-    } else {
-      Animated.spring( this.animatedValue, {
-        toValue: 0,
-        friction: 8, 
-        tension: 10
-      })
-    }
-  }
-
-  _renderItem = (item) => {
-    console.log("Item: ", item)
-    const frontAnimatedStyle = {
-      transform: [{ rotateY: this.frontInterpolate }]
-    }
-    const backAnimatedStyle = {
-      transform: [{ rotateY: this.backInterpolate }]
-    }
-
-    const englishHint = item.english.charAt(0)
-    const englishWord = item.english.substr(1)
-
-    return (
-      <View>
-        <Animated.View style={[frontAnimatedStyle, {backfaceVisibility: 'hidden'}]}>
-          <Card style={[styles.card]}>
-            <CardItem>
-              <H1>{item.korean}</H1>
-            </CardItem>
-            <View style={styles.cardButtons}>
-              <Button transparent onPress={this._hint}>
-                <Icon style={{fontSize: 14}} name="help-circle"/>
-                <Text>Hint</Text>
-              </Button>
-              <Button transparent onPress={this._flipCard}>
-                <Text>Reverse</Text>
-                <Icon style={{fontSize: 14}} name="sync"/>
-              </Button>
-            </View>
-          </Card>
-        </Animated.View>
-
-        <Animated.View style={[backAnimatedStyle, {backfaceVisibility: 'hidden', position: 'absolute', top: 0}]}>
-          <Card style={[styles.card]}>
-            <CardItem>
-              <H1>{item.english}</H1>
-            </CardItem>
-            <View style={styles.cardButtons}>
-              <Text>Hint: Create a Memory Palace</Text>
-              <Button transparent onPress={this._flipCard}>
-                <Text>Reverse</Text>
-                <Icon style={{fontSize: 14}} name="sync"/>
-              </Button>
-            </View>
-          </Card>
-        </Animated.View>
-
-        {this.state.hint &&
-          <View>
-            <Text>{englishHint}{this.state.show && englishWord}</Text>
-          </View>
-        }
-        {this.state.show &&
-          <View>
-            <Text>{item.english}</Text>
-          </View>
-        }
-      </View>
-    )
-  }
-
   render() {
     // console.log( "Quiz" )
     // console.log( "Do we have a score? ", this.props.navigation.state.params.refresh )
@@ -251,6 +164,81 @@ class Quiz extends Component {
 
     const { index } = this.state
     const theCards = Object.values(cards)
+
+    const overlayLabels = {
+      bottom: {
+      // element: <Text>BLEAH</Text> /* Optional */
+        title: 'DELETE',
+        style: {
+          label: {
+            backgroundColor: 'black',
+            borderColor: 'black',
+            color: 'white',
+            borderWidth: 1
+          },
+          wrapper: {
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center'
+          }
+        }
+      },
+      left: {
+      // element: <Text>NOPE</Text> /* Optional */
+        title: 'HARD',
+        style: {
+          label: {
+            backgroundColor: 'black',
+            borderColor: 'black',
+            color: 'white',
+            borderWidth: 1
+          },
+          wrapper: {
+            flexDirection: 'column',
+            alignItems: 'flex-end',
+            justifyContent: 'flex-start',
+            marginTop: 30,
+            marginLeft: -30
+          }
+        }
+      },
+      right: {
+      // element: <Text>LIKE</Text> /* Optional */
+        title: 'EASY',
+        style: {
+          label: {
+            backgroundColor: 'black',
+            borderColor: 'black',
+            color: 'white',
+            borderWidth: 1
+          },
+          wrapper: {
+            flexDirection: 'column',
+            alignItems: 'flex-start',
+            justifyContent: 'flex-start',
+            marginTop: 30,
+            marginLeft: 30
+          }
+        }
+      },
+      top: {
+      // element: <Text>SUPER</Text> /* Optional */
+        title: 'REVIEW',
+        style: {
+          label: {
+            backgroundColor: 'black',
+            borderColor: 'black',
+            color: 'white',
+            borderWidth: 1
+          },
+          wrapper: {
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center'
+          }
+        }
+      }
+    }
 
     return (
       <View style={{backgroundColor: 'transparent', flex: 1}}>
@@ -268,8 +256,8 @@ class Quiz extends Component {
               infinite={true}
               cardIndex={index} // begin with first card
               onSwiped={(cardIndex) => {
-                console.log("Card Index now: ", cardIndex)
-                console.log("Swiper State now: ", this._swiper)
+                // console.log("Card Index now: ", cardIndex)
+                // console.log("Swiper State now: ", this._swiper)
                 this.setState({ index: index + 1 })}
               } // +1 to account for 0 as beginning of array
               onSwipedAll={() => this._completed()}
@@ -283,6 +271,17 @@ class Quiz extends Component {
               cardHorizontalMargin={10}
             />
           </View>
+
+          {/* {this.state.hint &&
+            <View>
+              <Text>{englishHint}{this.state.show && englishWord}</Text>
+            </View>
+          }
+          {this.state.show &&
+            <View>
+              <Text>{item.english}</Text>
+            </View>
+          } */}
         </View>
         
         <Footer style={{position: 'absolute', bottom: 0, backgroundColor: 'transparent'}}>
@@ -290,8 +289,6 @@ class Quiz extends Component {
             <Button vertical 
               style={{backgroundColor: pink300}}
               onPress={() => {
-                // this._nextCard('left')
-                // this.setState((prev) => { index: prev.index+1 })
                 this._swiper.swipeLeft()
                 this._rewindBox()
               }}
@@ -302,8 +299,6 @@ class Quiz extends Component {
             <Button vertical
               style={{backgroundColor: amber300}}
               onPress={() => {
-                // this._nextCard('top')
-                // this.setState((prev) => { index: prev.index+1 })
                 this._markForReview()
                 this._swiper.swipeTop()
               }}
@@ -314,8 +309,6 @@ class Quiz extends Component {
             <Button vertical 
               style={{backgroundColor: teal300}}
               onPress={() => {
-                // this._nextCard('right')
-                // this.setState((prev) => { index: prev.index+1 })
                 this._swiper.swipeRight()
                 this._advanceBox()
               }}
@@ -359,81 +352,6 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between'
   }
 })
-
-const overlayLabels = {
-  bottom: {
-	// element: <Text>BLEAH</Text> /* Optional */
-	title: 'BLEAH',
-    style: {
-      label: {
-        backgroundColor: 'black',
-        borderColor: 'black',
-        color: 'white',
-        borderWidth: 1
-      },
-      wrapper: {
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center'
-      }
-    }
-  },
-  left: {
-	// element: <Text>NOPE</Text> /* Optional */
-	title: 'NOPE',
-    style: {
-      label: {
-        backgroundColor: 'black',
-        borderColor: 'black',
-        color: 'white',
-        borderWidth: 1
-      },
-      wrapper: {
-        flexDirection: 'column',
-        alignItems: 'flex-end',
-        justifyContent: 'flex-start',
-        marginTop: 30,
-        marginLeft: -30
-      }
-    }
-  },
-  right: {
-	// element: <Text>LIKE</Text> /* Optional */
-	title: 'LIKE',
-    style: {
-      label: {
-        backgroundColor: 'black',
-        borderColor: 'black',
-        color: 'white',
-        borderWidth: 1
-      },
-      wrapper: {
-        flexDirection: 'column',
-        alignItems: 'flex-start',
-        justifyContent: 'flex-start',
-        marginTop: 30,
-        marginLeft: 30
-      }
-    }
-  },
-  top: {
-	// element: <Text>SUPER</Text> /* Optional */
-	title: 'SUPER LIKE',
-    style: {
-      label: {
-        backgroundColor: 'black',
-        borderColor: 'black',
-        color: 'white',
-        borderWidth: 1
-      },
-      wrapper: {
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center'
-      }
-    }
-  }
-}
 
 function mapStateToProps({cards}, {navigation}) {
   let cardObj = navigation.state.params.cards

@@ -1,0 +1,6 @@
+export const apiKey = "AIzaSyAQCcCzM1EfWGePzS4o4RhOjfPcZ8CmBGE"
+export const authDomain = "k2kflashcards.firebaseapp.com"
+export const databaseURL = "https://k2kflashcards.firebaseio.com"
+export const projectId = "k2kflashcards"
+export const storageBucket = "k2kflashcards.appspot.com"
+export const messagingSenderId = "175054501148"
