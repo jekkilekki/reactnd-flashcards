@@ -23,21 +23,38 @@ span.pink {
   color: #e91e63;
 }
 .top-bar {
-  padding: 2rem 0;
+  padding: 2rem;
   display: flex;
   justify-content: space-between;
 }
-.top-bar .title,
-label .title {
+.top-bar .title {
   font-size: 2rem;
-  line-height: 60px;
+  line-height: 1.4;
+  padding-top: 1rem;
+}
+@media screen and (max-width: 740px) {
+  .top-bar .title {
+    font-size: 1.6rem;
+    padding-top: 1.4rem;
+  }
 }
 .main-nav {
   margin-top: 2rem;
 }
+@media screen and (max-width: 540px) {
+  .top-bar {
+    display: block;
+  }
+  .main-nav {
+    margin-top: 1rem;
+  }
+}
 .main-nav li {
   display: inline;
   padding-left: 1rem;
+}
+.main-nav li:first-child {
+  padding-left: 0;
 }
 .main-nav li a {
   text-decoration: none;
@@ -50,6 +67,12 @@ label .title {
   font-weight: 900;
   font-size: 3rem;
   margin: 1.5rem 0;
+}
+@media screen and (max-width: 740px) {
+  .page-title {
+    font-size: 2.4rem;
+    padding: 0 2rem;
+  }
 }
 .app-stores {
   margin-top: 2rem;
@@ -69,6 +92,11 @@ label .title {
 
 .app-screen {
   width: 360px;
+}
+@media screen and (max-width: 360px) {
+  .app-screen {
+    width: 100%;
+  }
 }
 
 .features {
@@ -90,9 +118,15 @@ label .title {
   justify-content: space-between;
   max-width: 800px;
   margin: 0 auto;
+  padding: 0 2rem;
 }
 .text-right .article-content {
   flex-direction: row-reverse;
+}
+@media screen and (max-width: 740px) {
+  .article-content {
+    display: block;
+  }
 }
 .features article p {
   width: 300px;
@@ -111,6 +145,20 @@ label .title {
   margin-bottom: 2.5rem;
   position: relative;
   width: 300px;
+}
+@media screen and (max-width: 740px) {
+  .section-head {
+    padding-top: 2rem;
+    margin: 0 auto 2.5rem;
+  }
+  .features article p {
+    margin: 0 auto 2rem;
+  }
+  .app-screen {
+    margin: 0 auto;
+    display: block;
+    max-width: 100%;
+  }
 }
 .section-head:after {
   position: absolute;
@@ -142,13 +190,22 @@ label .title {
   padding-bottom: 3rem;
   padding-top: 1rem;
 }
+@media screen and (max-width: 740px) {
+  .testimonials {
+    padding: 2rem;
+  }
+  .quote {
+    font-size: 1.6rem;
+    padding-bottom: 1rem;
+  }
+}
 .name:before {
   content: "-";
   padding-right: 0.25rem;
 }
 
 .page-footer {
-  padding: 5rem 0;
+  padding: 5rem 2rem;
 }
 
 .page-footer .title {
@@ -156,9 +213,27 @@ label .title {
   font-weight: 900;
   margin-bottom: 2rem;
 }
+@media screen and (max-width: 440px) {
+  .page-footer .title {
+    font-size: 1.6rem;
+  }
+}
+@media screen and (max-width: 740px) {
+  .page-footer {
+    padding: 2rem;
+  }
+  .page-footer .title {
+    font-size: 2rem;
+  }
+}
 #updates-form {
   width: 360px;
   margin: 0 auto 3rem;
+}
+@media screen and (max-width: 440px) {
+  #updates-form {
+    width: 100%;
+  }
 }
 #updates-form input {
   width: 100%;
@@ -197,4 +272,9 @@ label .title {
 }
 .acknowledgements {
   text-transform: uppercase;
+}
+@media screen and (max-width: 740px) {
+  .credits {
+    margin-top: 3rem;
+  }
 }
